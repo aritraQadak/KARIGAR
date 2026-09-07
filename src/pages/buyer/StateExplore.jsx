@@ -108,7 +108,7 @@ export default function StateExplore() {
       <section className="w-full bg-surface-container-low py-space-sm px-space-md lg:px-space-xl shadow-xs border-b border-outline-variant/30">
         <div className="max-w-[1440px] mx-auto flex flex-wrap items-center justify-between gap-space-sm">
           <nav aria-label="Breadcrumb" className="flex items-center gap-space-xs font-label-sm text-label-sm uppercase tracking-[0.14em] text-outline">
-            <Link className="hover:text-secondary transition-colors" to="/">{t('buyer.stateExplore.homeNav', 'Home')}</Link>
+            <Link className="hover:text-secondary transition-colors" to="/patron">{t('buyer.stateExplore.homeNav', 'Home')}</Link>
             <span className="text-outline-variant">/</span>
             <span className="text-outline">{t('buyer.stateExplore.statesOfHeritage', 'States of Heritage')}</span>
             <span className="text-outline-variant">/</span>

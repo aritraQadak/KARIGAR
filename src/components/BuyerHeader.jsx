@@ -65,7 +65,7 @@ export default function BuyerHeader({ className = '' }) {
       <div className="h-16 sm:h-[68px] max-w-[1440px] mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between gap-4">
         {/* Left Brand Logo & Clean Divider */}
         <div className="flex items-center gap-3">
-          <Logo clickable linkTo="/" imgClassName="h-9 sm:h-10 w-auto object-contain" />
+          <Logo clickable linkTo="/patron" imgClassName="h-9 sm:h-10 w-auto object-contain" />
           <span className="h-4 w-[1px] bg-stone-300 dark:bg-stone-700 hidden sm:inline-block ml-1"></span>
         </div>
 

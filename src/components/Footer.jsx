@@ -186,7 +186,7 @@ export default function Footer({ className = '', variant = 'seller' }) {
           {/* Column 1: Brand, Tagline, Description, Socials */}
           <div className="sm:col-span-2 lg:col-span-1 flex flex-col justify-between">
             <div>
-              <Logo clickable linkTo="/" imgClassName="h-14 sm:h-16 w-auto" />
+              <Logo clickable linkTo={variant === 'seller' ? '/seller/dashboard' : '/patron'} imgClassName="h-14 sm:h-16 w-auto" />
               <h3 className="text-amber-300/90 font-serif font-semibold text-sm mt-3 tracking-wide">
                 {t('footer.tagline')}
               </h3>

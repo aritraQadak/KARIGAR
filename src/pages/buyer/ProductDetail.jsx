@@ -49,7 +49,7 @@ export default function ProductDetail() {
       <section className="w-full bg-surface-container-low px-space-md sm:px-space-xl py-space-sm border-b border-outline-variant/30">
         <div className="max-w-[1440px] mx-auto flex items-center justify-between">
           <nav className="flex flex-wrap items-center gap-space-xs font-label-sm text-label-sm uppercase tracking-[0.14em] text-on-surface-variant">
-            <Link className="hover:text-secondary transition-colors" to="/">{t('buyer.product.homeNav', 'Home')}</Link>
+            <Link className="hover:text-secondary transition-colors" to="/patron">{t('buyer.product.homeNav', 'Home')}</Link>
             <span className="text-outline-variant">/</span>
             <Link className="hover:text-secondary transition-colors" to={`/explore/${product.stateSlug}`}>
               {product.stateName}

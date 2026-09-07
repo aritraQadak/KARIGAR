@@ -18,7 +18,7 @@ export default function Saved() {
         <div className="border-b border-outline-variant/40 pb-space-lg flex flex-col md:flex-row md:items-end justify-between gap-space-md">
           <div>
             <div className="flex items-center gap-space-xs text-outline font-label-sm text-label-sm uppercase tracking-[0.14em] mb-1">
-              <Link to="/" className="hover:text-secondary transition-colors">
+              <Link to="/patron" className="hover:text-secondary transition-colors">
                 {t('buyer.saved.home', 'Home')}
               </Link>
               <span>/</span>

@@ -45,7 +45,7 @@ export default function Orders() {
         <div className="border-b border-stone-200 dark:border-stone-800 pb-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
           <div>
             <div className="flex items-center gap-2 text-stone-500 font-label-sm text-xs uppercase tracking-wider mb-1.5">
-              <Link to="/" className="hover:text-[#14532D] dark:hover:text-emerald-400 transition-colors">
+              <Link to="/patron" className="hover:text-[#14532D] dark:hover:text-emerald-400 transition-colors">
                 {t('buyer.orders.home', 'Home')}
               </Link>
               <span>/</span>

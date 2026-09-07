@@ -64,7 +64,7 @@ export default function ProtectedRoute({ children, requiredRole, allowedRoles })
               {t('auth.switchAccount', 'Switch Account')}
             </button>
             <Link
-              to={isArtisanTryingPatron ? '/seller/dashboard' : '/'}
+              to={isArtisanTryingPatron ? '/seller/dashboard' : '/patron'}
               className="flex-1 py-2.5 px-4 rounded-xl bg-secondary hover:bg-secondary/90 text-on-secondary text-sm font-semibold transition-colors flex items-center justify-center gap-1.5"
             >
               <span>{isArtisanTryingPatron ? t('nav.dashboard', 'Seller Dashboard') : t('buyer.nav.marketplace', 'Marketplace')}</span>

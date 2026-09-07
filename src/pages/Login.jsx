@@ -69,12 +69,7 @@ export default function Login() {
   const navigate = useNavigate();
   const location = useLocation();
 
-  // Redirect if already authenticated
-  React.useEffect(() => {
-    if (isAuthenticated && user) {
-      navigateByRole(navigate, user, location.state?.from);
-    }
-  }, [isAuthenticated, user, navigate, location]);
+  // Fresh site visits strictly display the Login page first without auto-bypassing
 
   // Active main tab: 'login' | 'signup'
   const [activeTab, setActiveTab] = useState('login');
@@ -362,7 +357,7 @@ export default function Login() {
 
     setLoading(true);
     try {
-      const user = await signup({
+      const createdUser = await signup({
         fullName: signupForm.fullName.trim(),
         email: signupForm.email.trim(),
         mobile: signupForm.mobile.trim(),
@@ -383,7 +378,7 @@ export default function Login() {
 
       // Auto-navigate to home or seller dashboard based on authenticated role
       setTimeout(() => {
-        navigateByRole(navigate, newUser);
+        navigateByRole(navigate, createdUser);
       }, 700);
     } catch (err) {
       const rawMsg = err.message || '';

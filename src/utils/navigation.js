@@ -2,7 +2,7 @@
  * Karigar Role-Based Navigation & Route Resolution
  */
 
-export const EXISTING_PATRON_ROUTE = '/';
+export const EXISTING_PATRON_ROUTE = '/patron';
 export const EXISTING_ARTISAN_ROUTE = '/seller/dashboard';
 
 /**

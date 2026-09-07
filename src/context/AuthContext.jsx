@@ -3,9 +3,17 @@ import React, { createContext, useContext, useState, useEffect, useCallback } fr
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
+  // Clear any legacy auth state from localStorage so past permanent logins never bypass login
+  try {
+    localStorage.removeItem('karigar-auth-token');
+    localStorage.removeItem('karigar-user');
+  } catch (_e) {
+    // Ignore storage errors
+  }
+
   const [token, setToken] = useState(() => {
     try {
-      return localStorage.getItem('karigar-auth-token') || null;
+      return sessionStorage.getItem('karigar-auth-token') || null;
     } catch (e) {
       console.warn('Error reading karigar-auth-token:', e);
       return null;
@@ -14,7 +22,7 @@ export const AuthProvider = ({ children }) => {
 
   const [user, setUser] = useState(() => {
     try {
-      const savedUser = localStorage.getItem('karigar-user');
+      const savedUser = sessionStorage.getItem('karigar-user');
       return savedUser ? JSON.parse(savedUser) : null;
     } catch (e) {
       console.warn('Error reading karigar-user:', e);
@@ -22,14 +30,25 @@ export const AuthProvider = ({ children }) => {
     }
   });
 
-  const [loading, setLoading] = useState(true);
+  // Fast loading resolution: if no session exists, loading is immediately false
+  const [loading, setLoading] = useState(() => {
+    try {
+      return Boolean(sessionStorage.getItem('karigar-auth-token'));
+    } catch (_e) {
+      return false;
+    }
+  });
 
-  // Validate session on mount if token exists
+  // Validate session on mount if token exists in sessionStorage
   useEffect(() => {
     let isMounted = true;
 
     async function verifySession() {
-      const storedToken = localStorage.getItem('karigar-auth-token');
+      let storedToken = null;
+      try {
+        storedToken = sessionStorage.getItem('karigar-auth-token');
+      } catch (_e) {}
+
       if (!storedToken) {
         if (isMounted) setLoading(false);
         return;
@@ -46,20 +65,23 @@ export const AuthProvider = ({ children }) => {
           const data = await res.json();
           if (isMounted && data.user) {
             setUser(data.user);
-            localStorage.setItem('karigar-user', JSON.stringify(data.user));
+            try {
+              sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
+            } catch (_e) {}
           }
         } else {
           // Token expired or invalid
           if (isMounted) {
             setToken(null);
             setUser(null);
-            localStorage.removeItem('karigar-auth-token');
-            localStorage.removeItem('karigar-user');
+            try {
+              sessionStorage.removeItem('karigar-auth-token');
+              sessionStorage.removeItem('karigar-user');
+            } catch (_e) {}
           }
         }
       } catch (err) {
         console.warn('Session verification network error:', err);
-        // Keep cached user if offline, but finish loading
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -94,17 +116,17 @@ export const AuthProvider = ({ children }) => {
     setUser(data.user);
 
     try {
-      localStorage.setItem('karigar-auth-token', data.token);
-      localStorage.setItem('karigar-user', JSON.stringify(data.user));
+      sessionStorage.setItem('karigar-auth-token', data.token);
+      sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
     } catch (e) {
-      console.warn('Error storing auth token:', e);
+      console.warn('Error storing auth token in sessionStorage:', e);
     }
 
     return data.user;
   };
 
   /**
-   * Register a new artisan account
+   * Register a new account
    */
   const signup = async (formData) => {
     const res = await fetch('/api/auth/signup', {
@@ -125,10 +147,10 @@ export const AuthProvider = ({ children }) => {
     setUser(data.user);
 
     try {
-      localStorage.setItem('karigar-auth-token', data.token);
-      localStorage.setItem('karigar-user', JSON.stringify(data.user));
+      sessionStorage.setItem('karigar-auth-token', data.token);
+      sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
     } catch (e) {
-      console.warn('Error storing auth token:', e);
+      console.warn('Error storing auth token in sessionStorage:', e);
     }
 
     return data.user;
@@ -156,10 +178,10 @@ export const AuthProvider = ({ children }) => {
     setUser(data.user);
 
     try {
-      localStorage.setItem('karigar-auth-token', data.token);
-      localStorage.setItem('karigar-user', JSON.stringify(data.user));
+      sessionStorage.setItem('karigar-auth-token', data.token);
+      sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
     } catch (e) {
-      console.warn('Error storing auth token:', e);
+      console.warn('Error storing auth token in sessionStorage:', e);
     }
 
     return data.user;
@@ -169,7 +191,7 @@ export const AuthProvider = ({ children }) => {
    * Refresh current user profile data from backend
    */
   const refreshUser = useCallback(async () => {
-    const currentToken = localStorage.getItem('karigar-auth-token') || token;
+    const currentToken = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('karigar-auth-token')) || token;
     if (!currentToken) return null;
 
     try {
@@ -182,7 +204,9 @@ export const AuthProvider = ({ children }) => {
         const data = await res.json();
         if (data.user) {
           setUser(data.user);
-          localStorage.setItem('karigar-user', JSON.stringify(data.user));
+          try {
+            sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
+          } catch (_e) {}
           return data.user;
         }
       }
@@ -196,7 +220,7 @@ export const AuthProvider = ({ children }) => {
    * Update current user profile in backend and local state
    */
   const updateUserProfile = async (updates) => {
-    const currentToken = localStorage.getItem('karigar-auth-token') || token;
+    const currentToken = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('karigar-auth-token')) || token;
     if (!currentToken) throw new Error('Not authenticated');
 
     const res = await fetch('/api/profile', {
@@ -215,7 +239,7 @@ export const AuthProvider = ({ children }) => {
 
     setUser(data.user);
     try {
-      localStorage.setItem('karigar-user', JSON.stringify(data.user));
+      sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
     } catch (e) {
       console.warn('Error persisting updated user:', e);
     }
@@ -227,7 +251,7 @@ export const AuthProvider = ({ children }) => {
    * Upload and save a new profile picture
    */
   const uploadAvatar = async (file) => {
-    const currentToken = localStorage.getItem('karigar-auth-token') || token;
+    const currentToken = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('karigar-auth-token')) || token;
     if (!currentToken) throw new Error('Not authenticated');
 
     // Validate type and size
@@ -269,7 +293,7 @@ export const AuthProvider = ({ children }) => {
 
     setUser(data.user);
     try {
-      localStorage.setItem('karigar-user', JSON.stringify(data.user));
+      sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
     } catch (e) {
       console.warn('Error persisting updated user:', e);
     }
@@ -278,7 +302,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   /**
-   * Log out: clears auth session while preserving karigar-theme & karigar-language
+   * Log out: clears auth session while strictly preserving karigar-theme & karigar-language in localStorage
    */
   const logout = useCallback(async () => {
     try {
@@ -291,9 +315,11 @@ export const AuthProvider = ({ children }) => {
     setUser(null);
 
     try {
+      sessionStorage.removeItem('karigar-auth-token');
+      sessionStorage.removeItem('karigar-user');
       localStorage.removeItem('karigar-auth-token');
       localStorage.removeItem('karigar-user');
-      // karigar-theme and karigar-language are strictly preserved
+      // karigar-theme and karigar-language are strictly preserved in localStorage
     } catch (e) {
       console.warn('Error clearing auth storage:', e);
     }
