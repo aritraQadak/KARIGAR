@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from 'react';
+import { safeFetch } from '../utils/api';
 
 const AuthContext = createContext();
 
@@ -55,33 +56,29 @@ export const AuthProvider = ({ children }) => {
       }
 
       try {
-        const res = await fetch('/api/auth/me', {
+        const data = await safeFetch('/api/auth/me', {
           headers: {
             'Authorization': `Bearer ${storedToken}`
           }
         });
 
-        if (res.ok) {
-          const data = await res.json();
-          if (isMounted && data.user) {
-            setUser(data.user);
-            try {
-              sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
-            } catch (_e) {}
-          }
-        } else {
-          // Token expired or invalid
-          if (isMounted) {
-            setToken(null);
-            setUser(null);
-            try {
-              sessionStorage.removeItem('karigar-auth-token');
-              sessionStorage.removeItem('karigar-user');
-            } catch (_e) {}
-          }
+        if (isMounted && data?.user) {
+          setUser(data.user);
+          try {
+            sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
+          } catch (_e) {}
         }
       } catch (err) {
         console.warn('Session verification network error:', err);
+        // Token expired, invalid or server unreachable
+        if (isMounted) {
+          setToken(null);
+          setUser(null);
+          try {
+            sessionStorage.removeItem('karigar-auth-token');
+            sessionStorage.removeItem('karigar-user');
+          } catch (_e) {}
+        }
       } finally {
         if (isMounted) setLoading(false);
       }
@@ -98,19 +95,13 @@ export const AuthProvider = ({ children }) => {
    * Log in with Email/Mobile, Password and Selected Role
    */
   const login = async (identifier, password, selectedRole = 'ARTISAN') => {
-    const res = await fetch('/api/auth/login', {
+    const data = await safeFetch('/api/auth/login', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ identifier, password, selectedRole })
     });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error || 'Login failed. Please check your credentials.');
-    }
 
     setToken(data.token);
     setUser(data.user);
@@ -129,19 +120,13 @@ export const AuthProvider = ({ children }) => {
    * Register a new account
    */
   const signup = async (formData) => {
-    const res = await fetch('/api/auth/signup', {
+    const data = await safeFetch('/api/auth/signup', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify(formData)
     });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error || 'Registration failed. Please check your inputs.');
-    }
 
     setToken(data.token);
     setUser(data.user);
@@ -160,19 +145,13 @@ export const AuthProvider = ({ children }) => {
    * Log in with Google authentication
    */
   const loginWithGoogle = async (googleToken, selectedRole) => {
-    const res = await fetch('/api/auth/google', {
+    const data = await safeFetch('/api/auth/google', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ token: googleToken, selectedRole })
     });
-
-    const data = await res.json();
-
-    if (!res.ok) {
-      throw new Error(data.error || 'Google authentication failed.');
-    }
 
     setToken(data.token);
     setUser(data.user);
@@ -195,20 +174,17 @@ export const AuthProvider = ({ children }) => {
     if (!currentToken) return null;
 
     try {
-      const res = await fetch('/api/profile', {
+      const data = await safeFetch('/api/profile', {
         headers: {
           'Authorization': `Bearer ${currentToken}`
         }
       });
-      if (res.ok) {
-        const data = await res.json();
-        if (data.user) {
-          setUser(data.user);
-          try {
-            sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
-          } catch (_e) {}
-          return data.user;
-        }
+      if (data?.user) {
+        setUser(data.user);
+        try {
+          sessionStorage.setItem('karigar-user', JSON.stringify(data.user));
+        } catch (_e) {}
+        return data.user;
       }
     } catch (err) {
       console.warn('refreshUser error:', err);
@@ -223,7 +199,7 @@ export const AuthProvider = ({ children }) => {
     const currentToken = (typeof sessionStorage !== 'undefined' && sessionStorage.getItem('karigar-auth-token')) || token;
     if (!currentToken) throw new Error('Not authenticated');
 
-    const res = await fetch('/api/profile', {
+    const data = await safeFetch('/api/profile', {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
@@ -231,11 +207,6 @@ export const AuthProvider = ({ children }) => {
       },
       body: JSON.stringify(updates)
     });
-
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.error || 'Failed to update profile');
-    }
 
     setUser(data.user);
     try {
@@ -273,7 +244,7 @@ export const AuthProvider = ({ children }) => {
       reader.readAsDataURL(file);
     });
 
-    const res = await fetch('/api/profile/avatar', {
+    const data = await safeFetch('/api/profile/avatar', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -285,11 +256,6 @@ export const AuthProvider = ({ children }) => {
         filename: file.name
       })
     });
-
-    const data = await res.json();
-    if (!res.ok) {
-      throw new Error(data.error || 'Failed to upload profile picture');
-    }
 
     setUser(data.user);
     try {
@@ -306,7 +272,7 @@ export const AuthProvider = ({ children }) => {
    */
   const logout = useCallback(async () => {
     try {
-      await fetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
+      await safeFetch('/api/auth/logout', { method: 'POST' }).catch(() => {});
     } catch (e) {
       // Ignore network errors on logout
     }

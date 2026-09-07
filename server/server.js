@@ -29,10 +29,16 @@ const MIME_TYPES = {
 };
 
 const server = http.createServer(async (req, res) => {
-  // Set CORS headers for standalone development
-  res.setHeader('Access-Control-Allow-Origin', '*');
+  // Set CORS headers for standalone development and cross-origin Render deployments
+  const origin = req.headers.origin;
+  if (origin) {
+    res.setHeader('Access-Control-Allow-Origin', origin);
+    res.setHeader('Access-Control-Allow-Credentials', 'true');
+  } else {
+    res.setHeader('Access-Control-Allow-Origin', '*');
+  }
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
-  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
 
   if (req.method === 'OPTIONS') {
     res.statusCode = 204;
@@ -65,8 +71,8 @@ const server = http.createServer(async (req, res) => {
     }
   }
 
-  // Route API requests
-  if (req.url && (req.url.startsWith('/api/auth') || req.url.startsWith('/api/profile') || req.url.startsWith('/api/upload'))) {
+  // Route all API requests directly to handleAuthRequest BEFORE any static file or SPA fallback
+  if (req.url && req.url.startsWith('/api/')) {
     await handleAuthRequest(req, res);
     return;
   }

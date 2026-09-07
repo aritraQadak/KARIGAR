@@ -4,7 +4,7 @@ import tailwindcss from '@tailwindcss/vite'
 import { handleAuthRequest } from './server/authHandler.js'
 
 function karigarAuthPlugin() {
-  const isApiPath = (url) => url && (url.startsWith('/api/auth') || url.startsWith('/api/profile') || url.startsWith('/api/upload'));
+  const isApiPath = (url) => url && url.startsWith('/api/');
 
   return {
     name: 'karigar-auth-middleware',

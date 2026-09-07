@@ -18,7 +18,7 @@ const JWT_EXPIRES_IN = '7d';
  */
 function sanitizeUser(user) {
   if (!user) return null;
-  const { password, ...safeUser } = user;
+  const { password, passwordHash, ...safeUser } = user;
   return safeUser;
 }
 
@@ -79,6 +79,16 @@ export async function handleAuthRequest(req, res) {
   const parseBody = () => bodyPromise;
 
   try {
+    // -------------------------------------------------------------
+    // GET /api/health
+    // -------------------------------------------------------------
+    if (pathname === '/api/health' && method === 'GET') {
+      return jsonResponse(200, {
+        status: 'ok',
+        service: 'karigar-backend',
+        timestamp: new Date().toISOString()
+      });
+    }
     // -------------------------------------------------------------
     // POST /api/auth/signup
     // -------------------------------------------------------------
