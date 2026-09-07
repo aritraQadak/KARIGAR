@@ -10,6 +10,24 @@ const PUBLIC_DIR = path.resolve(__dirname, '..', 'public');
 
 const PORT = process.env.PORT || 5000;
 
+const DIST_DIR = path.resolve(__dirname, '..', 'dist');
+
+const MIME_TYPES = {
+  '.html': 'text/html; charset=utf-8',
+  '.js': 'application/javascript; charset=utf-8',
+  '.css': 'text/css; charset=utf-8',
+  '.json': 'application/json',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+  '.webp': 'image/webp',
+  '.svg': 'image/svg+xml',
+  '.ico': 'image/x-icon',
+  '.woff': 'font/woff',
+  '.woff2': 'font/woff2',
+  '.ttf': 'font/ttf'
+};
+
 const server = http.createServer(async (req, res) => {
   // Set CORS headers for standalone development
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -36,13 +54,7 @@ const server = http.createServer(async (req, res) => {
 
     if (fs.existsSync(filePath) && fs.statSync(filePath).isFile()) {
       const ext = path.extname(filePath).toLowerCase();
-      const mimeTypes = {
-        '.jpg': 'image/jpeg',
-        '.jpeg': 'image/jpeg',
-        '.png': 'image/png',
-        '.webp': 'image/webp'
-      };
-      res.setHeader('Content-Type', mimeTypes[ext] || 'application/octet-stream');
+      res.setHeader('Content-Type', MIME_TYPES[ext] || 'application/octet-stream');
       res.statusCode = 200;
       fs.createReadStream(filePath).pipe(res);
       return;
@@ -57,6 +69,30 @@ const server = http.createServer(async (req, res) => {
   if (req.url && (req.url.startsWith('/api/auth') || req.url.startsWith('/api/profile') || req.url.startsWith('/api/upload'))) {
     await handleAuthRequest(req, res);
     return;
+  }
+
+  // Serve static production bundle (dist/) if available (Render Web Service deployment)
+  if (fs.existsSync(DIST_DIR)) {
+    const cleanUrl = req.url.split('?')[0];
+    const requestedFile = path.join(DIST_DIR, cleanUrl);
+
+    // If exact static file exists (e.g. /assets/index-xxx.js)
+    if (requestedFile.startsWith(DIST_DIR) && fs.existsSync(requestedFile) && fs.statSync(requestedFile).isFile()) {
+      const ext = path.extname(requestedFile).toLowerCase();
+      res.setHeader('Content-Type', MIME_TYPES[ext] || 'application/octet-stream');
+      res.statusCode = 200;
+      fs.createReadStream(requestedFile).pipe(res);
+      return;
+    }
+
+    // SPA Fallback: for any frontend route (e.g. /login, /patron, /seller/dashboard), serve index.html
+    const indexPath = path.join(DIST_DIR, 'index.html');
+    if (fs.existsSync(indexPath)) {
+      res.setHeader('Content-Type', 'text/html; charset=utf-8');
+      res.statusCode = 200;
+      fs.createReadStream(indexPath).pipe(res);
+      return;
+    }
   }
 
   res.statusCode = 404;
