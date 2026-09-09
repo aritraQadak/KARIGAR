@@ -30,11 +30,10 @@ export default function VoiceInput({ onTranscriptReady, onGenerateAI }) {
   useEffect(() => {
     let interval;
     if (isRecording) {
+      setTimer(0);
       interval = setInterval(() => {
         setTimer((t) => t + 1);
       }, 1000);
-    } else {
-      setTimer(0);
     }
     return () => clearInterval(interval);
   }, [isRecording]);

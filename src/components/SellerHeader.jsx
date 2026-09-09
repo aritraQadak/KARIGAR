@@ -2,17 +2,19 @@ import React, { useState, useRef, useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   Bell,
+  Languages,
+  ChevronDown,
   Menu,
   ShieldCheck,
   PackageCheck,
   MessageCircle,
 } from 'lucide-react';
 import { useSeller } from '../context/SellerContext';
-import ThemeToggle from './ThemeToggle';
+
 import SellerProfileDropdown from './SellerProfileDropdown';
 
 export default function SellerHeader({ onToggleMobileMenu }) {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { profile, lang, setLang, addToast } = useSeller();
   const [showNotifications, setShowNotifications] = useState(false);
   const [unreadCount, setUnreadCount] = useState(3);
@@ -88,33 +90,22 @@ export default function SellerHeader({ onToggleMobileMenu }) {
         </div>
       </div>
 
-      {/* Right side: Language, Theme Toggle, Notifications, Seller Profile Dropdown */}
+      {/* Right side: Language, Notifications, Seller Profile Dropdown */}
       <div className="flex items-center gap-2 sm:gap-3">
-        {/* Language selector */}
-        <div className="flex items-center bg-gray-100/90 dark:bg-[#0F172A] rounded-lg p-0.5 border border-gray-200 dark:border-gray-700">
-          {[
-            { code: 'en', label: 'EN' },
-            { code: 'hi', label: 'हि' },
-            { code: 'bn', label: 'বাং' }
-          ].map((item) => (
-            <button
-              key={item.code}
-              type="button"
-              onClick={() => handleLanguageChange(item.code)}
-              className={`text-xs px-2 py-1 rounded-md font-semibold transition-all ${
-                lang === item.code
-                  ? 'bg-white dark:bg-[#1F2937] text-gray-900 dark:text-gray-100 shadow-2xs'
-                  : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200'
-              }`}
-              title={item.code === 'en' ? 'English' : item.code === 'hi' ? 'हिन्दी' : 'বাংলা'}
-            >
-              {item.label}
-            </button>
-          ))}
-        </div>
-
-        {/* 1. Theme Toggle */}
-        <ThemeToggle />
+        <label className="relative inline-flex shrink-0 items-center rounded-full border border-stone-300/80 dark:border-gray-600 bg-white/80 dark:bg-[#111827] text-stone-800 dark:text-gray-100 shadow-sm backdrop-blur-md focus-within:ring-2 focus-within:ring-amber-700">
+          <Languages aria-hidden="true" className="pointer-events-none absolute left-3.5 h-4 w-4 text-[#914626] dark:text-amber-400" />
+          <select
+            aria-label={t('common.chooseLanguage', 'Choose language')}
+            value={['en', 'hi', 'bn'].includes(lang?.split('-')[0]) ? lang.split('-')[0] : 'en'}
+            onChange={event => handleLanguageChange(event.target.value)}
+            className="min-h-11 cursor-pointer appearance-none rounded-full bg-transparent py-2 pl-10 pr-9 text-sm font-medium outline-none"
+          >
+            <option className="bg-white dark:bg-[#111827]" value="en" lang="en">English</option>
+            <option className="bg-white dark:bg-[#111827]" value="hi" lang="hi">हिन्दी</option>
+            <option className="bg-white dark:bg-[#111827]" value="bn" lang="bn">বাংলা</option>
+          </select>
+          <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 h-4 w-4 text-stone-500 dark:text-gray-400" />
+        </label>
 
         {/* 2. Notification Bell */}
         <div className="relative" ref={notifRef}>

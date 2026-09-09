@@ -20,7 +20,7 @@ export default function Orders() {
       price: 48000,
       artisanPayout: 43200,
       giTag: '#WB-082',
-      image: 'https://images.unsplash.com/photo-1606744888344-493238951221?auto=format&fit=crop&q=80&w=600'
+      image: '/images/demo/embroidery.jpg'
     },
     {
       id: 'KGR-710293',
@@ -34,7 +34,7 @@ export default function Orders() {
       price: 34500,
       artisanPayout: 31050,
       giTag: '#MP-104',
-      image: 'https://images.unsplash.com/photo-1610030469983-98e550d6193c?auto=format&fit=crop&q=80&w=600'
+      image: '/images/demo/handloom-textiles.jpg'
     }
   ];
 

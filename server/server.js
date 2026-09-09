@@ -13,6 +13,8 @@ const PORT = process.env.PORT || 5000;
 const DIST_DIR = path.resolve(__dirname, '..', 'dist');
 
 const MIME_TYPES = {
+  '.mp4': 'video/mp4',
+  '.webm': 'video/webm',
   '.html': 'text/html; charset=utf-8',
   '.js': 'application/javascript; charset=utf-8',
   '.css': 'text/css; charset=utf-8',

@@ -1031,6 +1031,8 @@
       "handloomClusters": "Handloom Clusters",
       "directEscrowPayout": "Direct Escrow Payout",
       "masterpieceSpotlight": "Masterpiece Spotlight",
+      "exploreCollections": "Explore Collections",
+      "viewCraftMap": "View Craft Map",
       "curatedFilters": "Curated Filters",
       "resetAll": "Reset All",
       "craftLineage": "Craft Lineage",
@@ -1080,7 +1082,17 @@
       "telemetryGrid": "STATE CLUSTER TELEMETRY GRID",
       "statusOperational": "Status: Operational",
       "dedicatedGroups": "Dedicated master artisan groups specializing in authentic heritage craftsmanship. Verified under the National Handloom Commission.",
-      "artisanShare": "Artisan Share:"
+      "artisanShare": "Artisan Share:",
+      "exploreHeritage": "Explore {{name}}'s Heritage",
+      "meetArtisans": "Meet the Artisans",
+      "sideEditorial": "Artisans Keep Traditions Alive",
+      "clusterCertified": "{{name}} Cluster · Certified Heritage",
+      "defaultTagline": "Land of Craft, Culture & Coastlines",
+      "defaultQuote": "Where every weave tells a story.",
+      "catCraft": "Craft",
+      "catCulture": "Culture",
+      "catHeritage": "Heritage",
+      "catArtisans": "Artisans"
     },
     "product": {
       "homeNav": "Home",
@@ -1106,15 +1118,15 @@
       "registryEscrow": "Registry & Vault Escrow",
       "keepsakePackaging": "Includes Hand-Carved Teak Keepsake Chest & Climate Seal Bag",
       "freeLogistics": "Free Insured Air Courier via National Handloom Logistics (5-7 Days)",
-      "acquireBtn": "Acquire Masterwork",
-      "inspectBtn": "Inspect Provenance",
+      "acquireBtn": "Add to bag",
+      "inspectBtn": "View craft details",
       "escrowVaultProtected": "Protected by Sovereign Escrow Vault",
       "escrowVaultDesc": "Your payment remains safely impounded in the GI Artisan Escrow. Funds are released directly to master artisan only after you physically receive, inspect, and verify the item.",
       "tabStory": "01. Craft Narrative & Story",
       "tabArtisan": "02. Artisan Dossier & Documentary",
       "tabCertificate": "03. Sovereign GI Certificate & Ledger",
       "tabReviews": "04. Patron Appraisals",
-      "curatorialSpecs": "Curatorial Specifications",
+      "curatorialSpecs": "Details & materials",
       "dimensions": "Dimensions",
       "baseMaterial": "Base Material",
       "stitchDensity": "Stitch Density",
@@ -1146,34 +1158,34 @@
       "verificationTimestamp": "VERIFICATION TIMESTAMP",
       "closeCertificate": "Close Certificate",
       "transparentLedger": "100% Transparent",
-      "tabCraftNarrative": "01. Craft Narrative & Story",
-      "tabArtisanDossier": "02. Artisan Dossier & Documentary",
-      "tabGiCertificate": "03. Sovereign GI Certificate & Ledger",
-      "tabPatronAppraisals": "04. Patron Appraisals",
+      "tabCraftNarrative": "The craft",
+      "tabArtisanDossier": "The artisan",
+      "tabGiCertificate": "Certificate",
+      "tabPatronAppraisals": "Reviews",
       "escrowSafelyImpounded": "Your payment of {amount} remains safely impounded in the GI Artisan Escrow. Funds are released directly to {artisan} only after you physically receive, inspect, and verify the craft and embedded cryptotag."
     },
     "cart": {
       "home": "Home",
-      "title": "Sovereign Cart",
-      "heading": "Your Masterwork Selection",
+      "title": "Shopping bag",
+      "heading": "Your chosen crafts",
       "clearCart": "Empty Cart",
       "emptyTitle": "Your Cart is Currently Empty",
       "emptyDesc": "Discover rare GI-certified handloom silks, fine pottery, and narrative tapestries crafted by India’s master artisans.",
-      "exploreCrafts": "Explore Masterworks",
+      "exploreCrafts": "Explore crafts",
       "artisan": "Master Artisan",
       "directPayout": "Direct Artisan Payout",
       "remove": "Remove Item",
-      "continueShopping": "Continue Exploring Guilds",
-      "summaryTitle": "Sovereign Order Summary",
-      "subtotal": "Acquisition Subtotal",
-      "logistics": "Insured Climate Courier",
+      "continueShopping": "Continue shopping",
+      "summaryTitle": "Order summary",
+      "subtotal": "Subtotal",
+      "logistics": "Shipping",
       "complimentary": "COMPLIMENTARY",
-      "escrowFee": "Sovereign Vault Protection",
+      "escrowFee": "Protection",
       "included": "INCLUDED",
-      "directArtisanFund": "Guaranteed Direct Artisan Fund",
+      "directArtisanFund": "Artisan share",
       "fundDesc": "Disbursed straight to master artisan bank accounts upon delivery confirmation.",
       "total": "Total Payable",
-      "proceedCheckout": "Proceed to Sovereign Checkout",
+      "proceedCheckout": "Continue to checkout",
       "escrowGuarantee": "100% Escrow Protection",
       "escrowInfo": "Funds remain in secure escrow until you inspect the parcel and confirm authenticity.",
       "decreaseQty": "Decrease quantity",
@@ -1181,19 +1193,19 @@
     },
     "checkout": {
       "cartLink": "Cart",
-      "checkoutTitle": "Sovereign Checkout",
-      "heading": "Dispatch & Sovereign Escrow Setup",
+      "checkoutTitle": "Checkout",
+      "heading": "Delivery & payment",
       "fillRequired": "Please fill in all required shipping fields.",
       "successBadge": "Sovereign Escrow Locked",
       "successTitle": "Acquisition Order Placed Successfully!",
       "successDesc": "Your payment has been safely deposited into the Karigar Sovereign Escrow Vault. Funds will be released to the master artisan only upon parcel delivery and your inspection.",
-      "orderNumber": "Order Ledger ID",
+      "orderNumber": "Order number",
       "directArtisanPayout": "Direct Artisan Release",
       "viewOrders": "View My Collection & Orders",
       "continueExploring": "Return to Guilds",
       "noItems": "No Items in Cart for Checkout",
       "browseGuilds": "Browse Guild Masterworks",
-      "shippingDetails": "1. Dispatch & Delivery Address",
+      "shippingDetails": "1. Delivery details",
       "fullName": "Full Name",
       "email": "Email Address",
       "address": "Street Address & Colony",
@@ -1206,21 +1218,22 @@
       "upiDesc": "Instant 256-bit encrypted deposit into Karigar Trustee Account. Funds locked until delivery.",
       "cardTitle": "Credit / Debit Card (Insured Trade)",
       "cardDesc": "Supports Visa, Mastercard, RuPay & International Patron Cards.",
-      "itemsOverview": "Order Items Overview",
+      "itemsOverview": "Your order",
       "subtotal": "Items Total",
       "logistics": "Insured Express Shipping",
       "free": "FREE",
       "guaranteedArtisan": "Direct Artisan Payout",
-      "totalAmount": "Total Escrow Amount",
-      "processing": "Locking Escrow...",
-      "authorize": "Authorize Sovereign Escrow",
-      "qty": "Qty"
+      "totalAmount": "Total",
+      "processing": "Processing…",
+      "authorize": "Place order",
+      "qty": "Qty",
+      "paymentMethod": "2. Payment method"
     },
     "orders": {
       "home": "Home",
-      "title": "My Collection & Orders",
-      "heading": "Patron Consignments & Escrow Ledger",
-      "orderNo": "Ledger No",
+      "title": "Your orders",
+      "heading": "Your orders",
+      "orderNo": "Order number",
       "artisan": "Master Artisan",
       "artisanPayout": "Artisan Direct Payout",
       "giMark": "GI Certificate",
@@ -1230,7 +1243,7 @@
     "certificates": {
       "home": "Home",
       "title": "GI Certificates",
-      "heading": "Sovereign GI Certificates & Provenance Dossiers",
+      "heading": "Craft certificates",
       "masterArtisan": "Master Artisan",
       "cluster": "Origin Cluster",
       "purity": "Lab Purity Index",
@@ -1241,19 +1254,19 @@
     "saved": {
       "home": "Home",
       "title": "Saved Crafts & Artisans",
-      "heading": "Your Bookmarked Heritage Collection",
+      "heading": "Your saved crafts",
       "emptyTitle": "No Saved Masterworks Yet",
       "emptyDesc": "Bookmark your favorite handcrafted silk sarees, wood carvings, and authentic pottery while exploring.",
-      "exploreGuilds": "Explore Guilds",
+      "exploreGuilds": "Explore crafts",
       "removeBookmark": "Remove Bookmark",
-      "addToCart": "Acquire Masterwork",
+      "addToCart": "Add to bag",
       "byArtisan": "By",
       "artisanShare": "Artisan"
     },
     "wallet": {
       "home": "Home",
-      "title": "Sovereign Escrow Wallet",
-      "heading": "Patron Sovereign Escrow & Guild Reserve",
+      "title": "Wallet",
+      "heading": "Your wallet",
       "activeEscrow": "Active Escrow Balance Impounded",
       "escrowExplanation": "Patron funds remain securely vaulted under Government-compliant escrow. Money is only transferred to artisan bank accounts when delivery and authenticity are verified.",
       "guarantee": "100% Direct Payout Protocol",
@@ -1308,6 +1321,279 @@
       "mugaEriSilk": "Muga & Eri Silk (Assam)",
       "sambalpuriIkat": "Sambalpuri Ikat (Odisha)",
       "bhagalpuriTussar": "Bhagalpuri Tussar (Bihar)"
+    },
+    "data": {
+      "states": {
+        "haryana": {
+          "name": "Haryana",
+          "description": "Land of sacred looms, intricate Phulkari embroidery weaves, and ancient terracotta metalworks."
+        },
+        "himachal-pradesh": {
+          "name": "Himachal Pradesh",
+          "description": "High-altitude Himalayan weaves, famed Kullu shawls, Chamba rumals, and intricate wood carving traditions."
+        },
+        "punjab": {
+          "name": "Punjab",
+          "description": "Vibrant land of golden Phulkari gardens, handcrafted Jutti footwear, and royal brass inlay crafts."
+        },
+        "rajasthan": {
+          "name": "Rajasthan",
+          "description": "Royal desert kingdom celebrated for Jaipur Blue Pottery, Ajrakh & Dabu block prints, and Marwar miniature painting."
+        },
+        "uttar-pradesh": {
+          "name": "Uttar Pradesh",
+          "description": "Sacred cradle of Banarasi brocade weaves, delicate Chikankari white needlecraft, and Firozabad glass art."
+        },
+        "uttarakhand": {
+          "name": "Uttarakhand",
+          "description": "Alpine sanctuary of Aipan geometric floor frescoes, Ringal bamboo weaving, and Himalayan sheep wool blankets."
+        },
+        "andhra-pradesh": {
+          "name": "Andhra Pradesh",
+          "description": "Home of Kalamkari hand-painted temple scrolls, Uppada Jamdani weaves, and Kondapalli wooden toys."
+        },
+        "karnataka": {
+          "name": "Karnataka",
+          "description": "Kingdom of Mysore pure mulberry silk, Bidriware silver inlay, and Channapatna wooden craft."
+        },
+        "kerala": {
+          "name": "Kerala",
+          "description": "Coastal haven of Kasaravu golden-bordered sarees, Aranmula metal mirrors, and Screw-pine weaving."
+        },
+        "tamil-nadu": {
+          "name": "Tamil Nadu",
+          "description": "Loom capital of heavy Kanchipuram silk sarees, Toda tribal embroidery, and Tanjore gold leaf art."
+        },
+        "telangana": {
+          "name": "Telangana",
+          "description": "Birthplace of Pochampally Ikat resist-dyeing, Pembarthi sheet metalwork, and Cheriyal scroll painting."
+        },
+        "bihar": {
+          "name": "Bihar",
+          "description": "Land of Madhubani Mithila wall paintings, Bhagalpur Tussar silk, and Sujani embroidered quilts."
+        },
+        "jharkhand": {
+          "name": "Jharkhand",
+          "description": "Forest realm of Sohrai & Khovar tribal wall art, Kuchai tussar silk, and Pyatkar scroll drawings."
+        },
+        "odisha": {
+          "name": "Odisha",
+          "description": "Sacred coastal land of Sambalpuri Bandha Ikat, Pattachitra palm leaf paintings, and Silver Filigree.",
+          "tagline": "Land of Craft, Culture & Coastlines",
+          "quote": "Where every weave tells a story."
+        },
+        "west-bengal": {
+          "name": "West Bengal",
+          "description": "Cultural bastion of narrative Nakshi Kantha embroideries, Shantipur Jamdani muslins, and Bankura Terracotta."
+        },
+        "goa": {
+          "name": "Goa",
+          "description": "Coastal craft enclave of Kunbi tribal weaves, Azulejos ceramic tiles, and coconut shell carving."
+        },
+        "gujarat": {
+          "name": "Gujarat",
+          "description": "Vibrant craft kingdom of Ajrakh block prints, Patan Patola double Ikat, and Kutchi mirror embroidery."
+        },
+        "maharashtra": {
+          "name": "Maharashtra",
+          "description": "Cradle of royal Paithani peacock sarees, Warli tribal wall frescoes, and Kolhapuri leather chappals."
+        },
+        "chhattisgarh": {
+          "name": "Chhattisgarh",
+          "description": "Tribal heartland of Bell Metal Dhokra casting, Kosa tussar silk, and Godna tattoo painting."
+        },
+        "madhya-pradesh": {
+          "name": "Madhya Pradesh",
+          "description": "Historic realm of Chanderi sheer sarees, Maheshwari weaves, and Gond folk art painting."
+        },
+        "arunachal-pradesh": {
+          "name": "Arunachal Pradesh",
+          "description": "Highland realm of Apatani geometric weaves, Monpa handmade paper, and tribal woodcarving."
+        },
+        "assam": {
+          "name": "Assam",
+          "description": "Valley of golden Muga silk, Eri ahimsa silk, Jaapi bamboo hats, and Majuli traditional masks."
+        },
+        "manipur": {
+          "name": "Manipur",
+          "description": "Land of Shaphee Lanphee lotus weaves, Kauna reed craft, and Longpi black earthenware."
+        },
+        "meghalaya": {
+          "name": "Meghalaya",
+          "description": "Abode of Ryndia organic Eri silk, cane weaving, and Khasi bamboo architecture."
+        },
+        "mizoram": {
+          "name": "Mizoram",
+          "description": "Highland kingdom of Puan complex striped weaves, cane baskets, and Bamboo dance crafts."
+        },
+        "nagaland": {
+          "name": "Nagaland",
+          "description": "Naga warrior shawls, intricate beadwork, and bamboo drinking mugs."
+        },
+        "sikkim": {
+          "name": "Sikkim",
+          "description": "Alpine realm of Bhutia carpet weaving, Choktse carved tables, and Lepcha handlooms."
+        },
+        "tripura": {
+          "name": "Tripura",
+          "description": "Haven of Risa & Rignai textiles, bamboo furniture, and cane basketry."
+        },
+        "andaman-nicobar": {
+          "name": "Andaman & Nicobar Islands",
+          "description": "Island arc of Nicobari mat weaving, shell craft jewellery, and padauk woodcarving."
+        },
+        "chandigarh": {
+          "name": "Chandigarh",
+          "description": "Heritage hub of Phulkari embroidery, Punjabi jutti, and modern pottery collectives."
+        },
+        "daman-diu-dadra": {
+          "name": "Daman, Diu & Nagar Haveli",
+          "description": "Coastal hub of Portuguese-influenced lace embroidery, shell crafts, and palm mat weaving."
+        },
+        "delhi": {
+          "name": "Delhi (NCT)",
+          "description": "Imperial capital of Zardozi gold thread embroidery, Mughal miniature art, and ivory-style wood inlay."
+        },
+        "jammu-kashmir": {
+          "name": "Jammu & Kashmir",
+          "description": "Crown land of Pashmina, Kani weave shawls, Papier-mâché, and Walnut woodcarving."
+        },
+        "ladakh": {
+          "name": "Ladakh",
+          "description": "High-altitude sanctuary of Pashmina wool spinning, Thangka scroll painting, and Nomad carpet weaves."
+        },
+        "lakshadweep": {
+          "name": "Lakshadweep",
+          "description": "Coral archipelago of Coconut shell craft, coir fibre matting, and tortoise shell motifs."
+        },
+        "puducherry": {
+          "name": "Puducherry",
+          "description": "Franco-Tamil enclave of handmade paper, terracotta figures, and natural dye batik."
+        }
+      },
+      "products": {
+        "wb-nk-042": {
+          "name": "Radha-Krishna Narrative Nakshi Kantha Tapestry",
+          "description": "Smt. Ananya Devi (National Award '18). Hand-stitched running stitch on unbleached wild tussar silk depicting Krishna under the Kalpavriksha tree.",
+          "longStory": {
+            "title": "The Song of the Kadamba Bough",
+            "text": "Embroidered over 180 uninterrupted dawns upon hand-beaten wild tussar silk, this singular narrative revives the pastoral divinity of Radha-Krishna under the Kalpavriksha (the eternal wishing tree). Every figure is meticulously shaped by microscopic running kantha stitches, layered to create tactile low-relief ripples across the cloth."
+          }
+        },
+        "wb-jamdani-01": {
+          "name": "Nilambari Fine Cotton Jamdani Saree",
+          "description": "Master Weaver Debabrata Pal. Supplementary weft geometric and floral motif on gossamer 200s high-count handspun cotton muslin.",
+          "longStory": {
+            "title": "Shadows on Gossamer Muslin",
+            "text": "Jamdani weaving is an intangible cultural art form where intricate floral motifs are inserted thread-by-thread into the sheer cotton warp using delicate non-mechanized bamboo needles."
+          }
+        },
+        "wb-swarna-02": {
+          "name": "Mythological Swarnachari Silk Saree",
+          "description": "Master Artisan Ruma Pramanik. Gold and crimson silk brocade recreating Mahabharata battle scenes across the pallu.",
+          "longStory": {
+            "title": "Chariots Woven in Gold Filament",
+            "text": "Swarnachari sarees inherit the epic narrative traditions of Bishnupur, featuring pure gold-plated metallic thread brocading of Mahabharata and Ramayana scenes."
+          }
+        },
+        "wb-terracotta-03": {
+          "name": "Panchmura Long-Neck Terracotta Heritage Horse",
+          "description": "Master Potter Baidyanath Kumbhakar. Hand-thrown and wood-fired natural clay votive horse with hollow segmented neck.",
+          "longStory": {
+            "title": "The Votive Earth of Panchmura",
+            "text": "The Panchmura terracotta horse is the world-renowned symbol of Indian folk craft, handcrafted by traditional Kumbhakar artisans."
+          }
+        },
+        "jk-pashmina-01": {
+          "name": "Royal Shahus Kani Weave Pashmina Shawl",
+          "description": "Master Weaver Ghulam Hassan Mir. Hand-woven on traditional looms using Changthangi grade-A pashmina with Kani wooden needles.",
+          "longStory": {
+            "title": "Whispers of the Changthang Plateau",
+            "text": "Hand-woven using wooden bobbins called Tujis according to coded Talim notation scripts passed down through generations in Srinagar."
+          }
+        },
+        "rj-bluepottery-01": {
+          "name": "Jaipur Blue Pottery Royal Floral Urn",
+          "description": "Master Artisan Kripal Singh Studio. Clay-free quartz frit pottery with Persian cobalt blue arabesque painting.",
+          "longStory": {
+            "title": "The Turquoise Flame of Amber",
+            "text": "Jaipur Blue Pottery is unique as it uses no clay, made instead from Egyptian paste of powdered quartz stone and glass."
+          }
+        },
+        "up-chanderi-01": {
+          "name": "Imperial Gold Zari Chanderi Silk Tissue Saree",
+          "description": "Master Weaver Ramdas Ansari. Sheer silk-cotton woven with pure tested gold zari motifs.",
+          "longStory": {
+            "title": "Glimmer of the Malwa Kingdom",
+            "text": "Chanderi weaving creates lightweight translucent fabrics embellished with delicate gold and silver zari buttis."
+          }
+        },
+        "gj-ajrakh-01": {
+          "name": "Ajrakhpur 16-Stage Natural Dye Block Print Stole",
+          "description": "Shilp Guru Dr. Ismail M. Khatri. Natural indigo, madder, and iron-resist block print on Tussar silk.",
+          "longStory": {
+            "title": "Symphony of River and Mud",
+            "text": "Ajrakh is a complex 16-step block printing process utilizing natural minerals and vegetable dyes in Kutch."
+          }
+        },
+        "tn-kanchi-01": {
+          "name": "Kanchipuram Heavy Crimson Korvai Silk Saree",
+          "description": "Master Weaver Murugan Swamy. Interlocked Korvai weave with 3-ply Mulberry silk and certified gold zari.",
+          "longStory": {
+            "title": "The Temple Looms of Kanchi",
+            "text": "Korvai is the ancient temple technique of interlocked weaving where the border and body are woven separately and joined with unmatched strength."
+          }
+        },
+        "cg-dhokra-01": {
+          "name": "Bastar Bell Metal Lost-Wax Dhokra Tribal Procession",
+          "description": "Master Craftsperson Budhram Jhoria. Ancient cire-perdue lost-wax cast bell metal sculpture depicting tribal musicians.",
+          "longStory": {
+            "title": "Molten Bronze of the Bastar Forest",
+            "text": "Dhokra metal casting uses the 4,000-year-old lost-wax technique, ensuring that every single figurine is a one-of-a-kind original."
+          }
+        },
+        "up-banarasi-01": {
+          "name": "Varanasi Royal Katan Silk Kadwa Jaal Brocade Saree",
+          "description": "Ustad Ramdas Ansari (Padma Nominee). Pure Katan silk with gold Zari Kadwa weaving of Mughal jaal motifs.",
+          "longStory": {
+            "title": "The Gold Filaments of Kashi",
+            "text": "Kadwa is the painstaking technique of weaving each motif individually into the silk fabric without any loose threads on the reverse."
+          }
+        },
+        "od-pattachitra-01": {
+          "name": "Raghurajpur Palm Leaf Pattachitra Tale of Dashavatar",
+          "description": "Master Chitrakar Bhaskar Mahapatra. Fine etching on dried palm leaf strips with natural mineral colours depicting Vishnu avatars.",
+          "longStory": {
+            "title": "Etchings on the Sacred Folios",
+            "text": "Palm leaf Pattachitra involves stitching dried palm leaves together and etching delicate mythological scenes with an iron stylus."
+          }
+        }
+      }
+    },
+    "premium": {
+      "appearance": "Appearance",
+      "themeDescription": "Choose a light or dark look for your browsing experience.",
+      "viewRegion": "Explore their art",
+      "viewDetails": "Discover the collection",
+      "lightTheme": "Light",
+      "darkTheme": "Dark",
+      "heroEyebrow": "Rooted in heritage. Made for your everyday.",
+      "heroLead": "Stories you can hold.",
+      "heroEmphasis": "Indian, handmade.",
+      "heroClose": "Treasures you can call your own.",
+      "browseArtisans": "Browse artisans",
+      "artisanIntro": "Meet the makers, discover their traditions, and find the art that speaks to you.",
+      "collectionIntro": "Find something to treasure, by the place it comes from or the craft that brings it to life.",
+      "searchLabel": "Search",
+      "stateLabel": "State",
+      "allStates": "All states",
+      "craftLabel": "Art & craft",
+      "loadingMakers": "Updating the artisan directory…",
+      "makersUnavailable": "Showing catalogue artisans. The live directory is temporarily unavailable.",
+      "retry": "Try again",
+      "craftsComingSoon": "Craft listings coming soon",
+      "noMatches": "No matches just yet",
+      "tryFilters": "Try another state, craft, or search term."
     }
   }
 }

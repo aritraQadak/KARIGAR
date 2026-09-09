@@ -47,10 +47,10 @@ export default function About() {
   ];
 
   return (
-    <div className="min-h-full flex flex-col justify-between -m-4 sm:-m-6 lg:-m-8">
-      <div className="p-4 sm:p-6 lg:p-10 max-w-7xl w-full mx-auto space-y-12">
+    <div className="about-page min-h-full flex flex-col justify-between -m-4 sm:-m-6 lg:-m-8">
+      <div className="about-content p-4 sm:p-6 lg:p-10 max-w-7xl w-full mx-auto space-y-12">
         {/* Page Header Badge & Title */}
-        <div className="text-center max-w-3xl mx-auto pt-2">
+        <div className="about-heading text-center max-w-3xl mx-auto pt-2">
           <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 dark:bg-emerald-950/60 border border-emerald-200 dark:border-emerald-800 text-emerald-800 dark:text-emerald-300 text-xs font-semibold mb-3">
             <Sparkles className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
             <span>{t('about.missionTitle')}</span>
@@ -66,9 +66,9 @@ export default function About() {
         </div>
 
         {/* Two-Column Hero Section */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+        <div className="about-story grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
           {/* Left Column: Mission Description */}
-          <div className="lg:col-span-6 space-y-5">
+          <div className="about-copy lg:col-span-6 space-y-5">
             <div className="h-1 w-16 bg-gradient-to-r from-orange-500 to-amber-500 rounded-full" />
 
             <div className="space-y-4 text-sm sm:text-base text-gray-600 dark:text-gray-300 leading-relaxed">
@@ -96,8 +96,8 @@ export default function About() {
             {/* Main Artisan Visual */}
             <div className="relative rounded-2xl overflow-hidden shadow-xl border border-amber-900/10 dark:border-gray-700 aspect-[4/3] sm:aspect-[16/11]">
               <img
-                src="https://images.unsplash.com/photo-1596178065887-1198b6148b2b?auto=format&fit=crop&w=1200&q=80"
-                alt="Indian Artisan shaping terracotta pottery"
+                src="/images/demo/about.png"
+                alt="The craft and heritage of Karigar"
                 className="w-full h-full object-cover"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />

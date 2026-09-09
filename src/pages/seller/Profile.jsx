@@ -1,3 +1,4 @@
+import { artisanPortrait } from '../../data/demoImages';
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -155,9 +156,9 @@ export default function Profile() {
           {/* Profile Picture with Change Photo option */}
           <div className="flex flex-col items-center gap-2">
             <div className="relative flex-shrink-0">
-              {user?.avatarUrl ? (
+              {artisanPortrait(user) ? (
                 <img
-                  src={user.avatarUrl}
+                  src={artisanPortrait(user)}
                   alt={user.fullName || 'Artisan'}
                   className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover ring-4 ring-emerald-50 dark:ring-emerald-950/60 shadow-md"
                 />

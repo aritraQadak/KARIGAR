@@ -1,16 +1,18 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
 import BuyerHeader from '../components/BuyerHeader';
-import Footer from '../components/Footer';
+import '../styles/buyerHeritage.css';
+import BuyerFooter from '../components/BuyerFooter';
+import { ArtisanDirectoryProvider } from '../components/ArtisanDirectoryProvider';
 
 export default function BuyerLayout() {
   return (
-    <div className="min-h-screen flex flex-col bg-surface text-on-surface font-sans antialiased">
+    <ArtisanDirectoryProvider><div className="buyer-heritage min-h-screen flex flex-col bg-surface text-on-surface font-sans antialiased">
       <BuyerHeader />
-      <main className="flex-1 w-full pt-20">
+      <main className="buyer-content flex-1 w-full">
         <Outlet />
       </main>
-      <Footer variant="buyer" />
-    </div>
+      <BuyerFooter />
+    </div></ArtisanDirectoryProvider>
   );
 }

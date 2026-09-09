@@ -53,7 +53,7 @@ export default function StateSelectorDropdown({ className = '' }) {
     });
 
     return result;
-  }, [searchQuery]);
+  }, [searchQuery, t]);
 
   const toggleRegion = (region) => {
     setExpandedRegions(prev => ({
@@ -73,6 +73,7 @@ export default function StateSelectorDropdown({ className = '' }) {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
+        onKeyDown={e => { if(e.key === 'Escape') setIsOpen(false); }}
         className="flex items-center gap-1.5 font-label-md text-label-md uppercase tracking-[0.14em] text-on-surface-variant hover:text-secondary transition-colors py-space-xs font-semibold focus:outline-none"
         aria-expanded={isOpen}
       >
@@ -94,6 +95,8 @@ export default function StateSelectorDropdown({ className = '' }) {
                 onChange={(e) => setSearchQuery(e.target.value)}
                 placeholder={t('buyer.nav.searchStatePlaceholder', 'Search state or craft (e.g. Kashmir, Saree)...')}
                 className="w-full pl-9 pr-3 py-2 text-xs rounded-xl bg-white dark:bg-stone-900 text-stone-900 dark:text-stone-100 border border-[#D5C9B3] dark:border-stone-700 focus:border-[#14532D] dark:focus:border-emerald-500 focus:ring-1 focus:ring-[#14532D]/30 focus:outline-none placeholder:text-stone-400 font-sans transition-all"
+                aria-label={t('buyer.nav.searchStatePlaceholder', 'Search state or craft')}
+                onKeyDown={e => { if(e.key === 'Escape') { setIsOpen(false); dropdownRef.current?.querySelector('button')?.focus(); } }}
                 autoFocus
               />
             </div>

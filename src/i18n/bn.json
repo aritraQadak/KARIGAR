@@ -884,8 +884,8 @@
     "nav": {
       "explore": "Explore",
       "categories": "Categories",
-      "selectState": "Select Your State",
-      "cart": "Cart",
+      "selectState": "রাজ্য বেছে নিন",
+      "cart": "ব্যাগ",
       "signIn": "Sign In",
       "searchStatePlaceholder": "Search State or Union Territory...",
       "noStatesFound": "No states matching your search",
@@ -1018,7 +1018,7 @@
     },
     "stateExplore": {
       "home": "Home",
-      "homeNav": "Home",
+      "homeNav": "হোম",
       "statesOfHeritage": "States of Heritage",
       "viewing": "Viewing",
       "switchState": "Switch State",
@@ -1031,6 +1031,8 @@
       "handloomClusters": "Handloom Clusters",
       "directEscrowPayout": "Direct Escrow Payout",
       "masterpieceSpotlight": "Masterpiece Spotlight",
+      "exploreCollections": "সংগ্রহ অন্বেষণ করুন",
+      "viewCraftMap": "হস্তশিল্প মানচিত্র দেখুন",
       "curatedFilters": "Curated Filters",
       "resetAll": "Reset All",
       "craftLineage": "Craft Lineage",
@@ -1080,7 +1082,17 @@
       "telemetryGrid": "STATE CLUSTER TELEMETRY GRID",
       "statusOperational": "Status: Operational",
       "dedicatedGroups": "Dedicated master artisan groups specializing in authentic heritage craftsmanship. Verified under the National Handloom Commission.",
-      "artisanShare": "কারিগর অংশীদারিত্ব:"
+      "artisanShare": "কারিগর অংশীদারিত্ব:",
+      "exploreHeritage": "{{name}}-এর ঐতিহ্য আবিষ্কার করুন",
+      "meetArtisans": "কারিগরদের সাথে পরিচিত হন",
+      "sideEditorial": "কারিগররা ঐতিহ্যকে জীবন্ত রাখেন",
+      "clusterCertified": "{{name}} ক্লাস্টার · সার্টিফাইড ঐতিহ্য",
+      "defaultTagline": "শিল্প, সংস্কৃতি ও ঐতিহ্যের রূপময় ভূমি",
+      "defaultQuote": "যেখানে প্রতিটি বয়ন এক অনন্য আখ্যান বুনে চলে।",
+      "catCraft": "শিল্প",
+      "catCulture": "সংস্কৃতি",
+      "catHeritage": "ঐতিহ্য",
+      "catArtisans": "কারিগর"
     },
     "product": {
       "homeNav": "Home",
@@ -1154,26 +1166,26 @@
     },
     "cart": {
       "home": "Home",
-      "title": "Sovereign Cart",
-      "heading": "Your Masterwork Selection",
+      "title": "শপিং ব্যাগ",
+      "heading": "আপনার বাছাই করা শিল্পকর্ম",
       "clearCart": "Empty Cart",
       "emptyTitle": "Your Cart is Currently Empty",
       "emptyDesc": "Discover rare GI-certified handloom silks, fine pottery, and narrative tapestries crafted by India’s master artisans.",
-      "exploreCrafts": "Explore Masterworks",
+      "exploreCrafts": "শিল্পকর্ম দেখুন",
       "artisan": "Master Artisan",
       "directPayout": "Direct Artisan Payout",
       "remove": "Remove Item",
-      "continueShopping": "Continue Exploring Guilds",
-      "summaryTitle": "Sovereign Order Summary",
-      "subtotal": "Acquisition Subtotal",
-      "logistics": "Insured Climate Courier",
+      "continueShopping": "কেনাকাটা চালিয়ে যান",
+      "summaryTitle": "অর্ডারের সারাংশ",
+      "subtotal": "উপমোট",
+      "logistics": "ডেলিভারি",
       "complimentary": "COMPLIMENTARY",
-      "escrowFee": "Sovereign Vault Protection",
+      "escrowFee": "সুরক্ষা",
       "included": "INCLUDED",
-      "directArtisanFund": "Guaranteed Direct Artisan Fund",
+      "directArtisanFund": "কারিগরের অংশ",
       "fundDesc": "Disbursed straight to master artisan bank accounts upon delivery confirmation.",
       "total": "Total Payable",
-      "proceedCheckout": "Proceed to Sovereign Checkout",
+      "proceedCheckout": "চেকআউটে যান",
       "escrowGuarantee": "100% Escrow Protection",
       "escrowInfo": "Funds remain in secure escrow until you inspect the parcel and confirm authenticity.",
       "decreaseQty": "পরিমাণ কমান",
@@ -1181,19 +1193,19 @@
     },
     "checkout": {
       "cartLink": "Cart",
-      "checkoutTitle": "Sovereign Checkout",
-      "heading": "Dispatch & Sovereign Escrow Setup",
+      "checkoutTitle": "চেকআউট",
+      "heading": "ডেলিভারি ও পেমেন্ট",
       "fillRequired": "Please fill in all required shipping fields.",
       "successBadge": "Sovereign Escrow Locked",
       "successTitle": "Acquisition Order Placed Successfully!",
       "successDesc": "Your payment has been safely deposited into the Karigar Sovereign Escrow Vault. Funds will be released to the master artisan only upon parcel delivery and your inspection.",
-      "orderNumber": "Order Ledger ID",
+      "orderNumber": "অর্ডার নম্বর",
       "directArtisanPayout": "Direct Artisan Release",
       "viewOrders": "View My Collection & Orders",
       "continueExploring": "Return to Guilds",
       "noItems": "No Items in Cart for Checkout",
       "browseGuilds": "Browse Guild Masterworks",
-      "shippingDetails": "1. Dispatch & Delivery Address",
+      "shippingDetails": "1. ডেলিভারির বিবরণ",
       "fullName": "Full Name",
       "email": "Email Address",
       "address": "Street Address & Colony",
@@ -1206,21 +1218,22 @@
       "upiDesc": "Instant 256-bit encrypted deposit into Karigar Trustee Account. Funds locked until delivery.",
       "cardTitle": "Credit / Debit Card (Insured Trade)",
       "cardDesc": "Supports Visa, Mastercard, RuPay & International Patron Cards.",
-      "itemsOverview": "Order Items Overview",
+      "itemsOverview": "আপনার অর্ডার",
       "subtotal": "Items Total",
       "logistics": "Insured Express Shipping",
       "free": "FREE",
       "guaranteedArtisan": "Direct Artisan Payout",
-      "totalAmount": "Total Escrow Amount",
-      "processing": "Locking Escrow...",
-      "authorize": "Authorize Sovereign Escrow",
-      "qty": "পরিমাণ"
+      "totalAmount": "মোট",
+      "processing": "প্রক্রিয়া চলছে…",
+      "authorize": "অর্ডার দিন",
+      "qty": "পরিমাণ",
+      "paymentMethod": "2. পেমেন্টের মাধ্যম"
     },
     "orders": {
       "home": "Home",
-      "title": "My Collection & Orders",
-      "heading": "Patron Consignments & Escrow Ledger",
-      "orderNo": "Ledger No",
+      "title": "আপনার অর্ডার",
+      "heading": "আপনার অর্ডার",
+      "orderNo": "অর্ডার নম্বর",
       "artisan": "Master Artisan",
       "artisanPayout": "Artisan Direct Payout",
       "giMark": "GI Certificate",
@@ -1230,7 +1243,7 @@
     "certificates": {
       "home": "Home",
       "title": "GI Certificates",
-      "heading": "Sovereign GI Certificates & Provenance Dossiers",
+      "heading": "শিল্পের শংসাপত্র",
       "masterArtisan": "Master Artisan",
       "cluster": "Origin Cluster",
       "purity": "Lab Purity Index",
@@ -1241,19 +1254,19 @@
     "saved": {
       "home": "Home",
       "title": "Saved Crafts & Artisans",
-      "heading": "Your Bookmarked Heritage Collection",
+      "heading": "আপনার সংরক্ষিত শিল্পকর্ম",
       "emptyTitle": "No Saved Masterworks Yet",
       "emptyDesc": "Bookmark your favorite handcrafted silk sarees, wood carvings, and authentic pottery while exploring.",
-      "exploreGuilds": "Explore Guilds",
+      "exploreGuilds": "শিল্পকর্ম দেখুন",
       "removeBookmark": "Remove Bookmark",
-      "addToCart": "Acquire Masterwork",
+      "addToCart": "ব্যাগে যোগ করুন",
       "byArtisan": "দ্বারা",
       "artisanShare": "কারিগর"
     },
     "wallet": {
       "home": "Home",
-      "title": "Sovereign Escrow Wallet",
-      "heading": "Patron Sovereign Escrow & Guild Reserve",
+      "title": "ওয়ালেট",
+      "heading": "আপনার ওয়ালেট",
       "activeEscrow": "Active Escrow Balance Impounded",
       "escrowExplanation": "Patron funds remain securely vaulted under Government-compliant escrow. Money is only transferred to artisan bank accounts when delivery and authenticity are verified.",
       "guarantee": "100% Direct Payout Protocol",
@@ -1308,6 +1321,354 @@
       "mugaEriSilk": "Muga & Eri Silk (Assam)",
       "sambalpuriIkat": "Sambalpuri Ikat (Odisha)",
       "bhagalpuriTussar": "Bhagalpuri Tussar (Bihar)"
+    },
+    "data": {
+      "states": {
+        "haryana": {
+          "name": "হরিয়ানা",
+          "description": "পবিত্র তাঁত, জটিল ফুলকারি বয়ন এবং প্রাচীন পোড়ামাটির ধাতশিল্পের দেশ।"
+        },
+        "himachal-pradesh": {
+          "name": "হিমাচল প্রদেশ",
+          "description": "উচ্চ হিমালয়ের বয়ন ঐতিহ্য, বিখ্যাত কুল্লু শাল, চাম্বা রুমাল এবং সূক্ষ্ম কাঠের খোদাই কাজ।"
+        },
+        "punjab": {
+          "name": "পাঞ্জাব",
+          "description": "সোনালী ফুলকারি বাগান, হস্তনির্মিত জুতি এবং রাজকীয় পিতলের ইনলে শিল্পের প্রাণবন্ত ভূমি।"
+        },
+        "rajasthan": {
+          "name": "রাজস্থান",
+          "description": "জয়পুর ব্লু পটারি, অজরখ ও ডাবু ব্লক প্রিন্ট এবং মারওয়াড় রৈখিক ক্ষুদ্রচিত্রের জন্য বিখ্যাত রাজকীয় মরুভূমি।"
+        },
+        "uttar-pradesh": {
+          "name": "উত্তর প্রদেশ",
+          "description": "বারাণসী ব্রোকেড বয়ন, সূক্ষ্ম চিকনকারী সাদা সেলাই শিল্প এবং ফিরোজাবাদ কাঁচ শিল্পের ঐতিহ্যবাহী কেন্দ্র।"
+        },
+        "uttarakhand": {
+          "name": "উত্তরাখণ্ড",
+          "description": "ঐপণ জ্যামিতিক নকশা, রিঙ্গাল বাঁশ বয়ন এবং হিমালয় ভেড়ার উল কম্বলের ঐতিহ্যবাহী পার্বত্য স্থান।"
+        },
+        "andhra-pradesh": {
+          "name": "অন্ধ্র প্রদেশ",
+          "description": "কলমকারী হস্তচিত্রিত পটচিত্র, উপ্পাদা জামদানি শাড়ি এবং কোণ্ডাপল্লী কাঠের খেলনার কেন্দ্র।"
+        },
+        "karnataka": {
+          "name": "কর্ণাটক",
+          "description": "মাইসোর সিল্ক বয়ন, বিদরীওয়্যার রূপার ইনলে এবং চন্নাপাটনা কাঠের কারুশিল্পের ঐতিহ্যবাহী রাজ্য।"
+        },
+        "kerala": {
+          "name": "কেরালা",
+          "description": "কাসারাভু সোনালী পাড় শাড়ি, আরানমুলা ধাতুর আয়না এবং কেয়া পাতার বয়নের তটরেখা।"
+        },
+        "tamil-nadu": {
+          "name": "তামিলনাড়ু",
+          "description": "ঐতিহ্যবাহী কাঞ্চিপুরম রেশম শাড়ি, তোডা উপজাতীয় সেলাই এবং তাঞ্জাবুর স্বর্ণপত্র চিত্রকলার রাজধানী।"
+        },
+        "telangana": {
+          "name": "তেলেঙ্গানা",
+          "description": "পোচমপল্লী ইকত বয়িন, পেম্বারতী ধাতব শিল্প এবং চেরিয়াল পটচিত্রের জন্মস্থান।"
+        },
+        "bihar": {
+          "name": "বিহার",
+          "description": "মধুবনী মিথিলা লোকচিত্রকলা, ভাগলপুর তসর রেশম এবং সুজনি সেলাই কাঁথার ঐতিহ্যবাহী দেশ।"
+        },
+        "jharkhand": {
+          "name": "ঝাড়খণ্ড",
+          "description": "সোহরাই ও খোভার উপজাতীয় দেয়ালচিত্র, কুচাই তসর রেশম এবং প্যাতকর পটচিত্রের বনভূমি।"
+        },
+        "odisha": {
+          "name": "ওড়িশা",
+          "description": "সম্বলপুরী বান্ধা ইকত, পট্টচিত্র তালপাতা চিত্র এবং রুপোর তারকশি কাজের পবিত্র উপকূল।",
+          "tagline": "শিল্প, সংস্কৃতি ও উপকূলের পবিত্র ভূমি",
+          "quote": "যেখানে প্রতিটি বয়ন এক অনন্য আখ্যান বুনে চলে।"
+        },
+        "west-bengal": {
+          "name": "পশ্চিমবঙ্গ",
+          "description": "নকশী কাঁথার কাহিনী বয়ন, শান্তিপুরী জামদানি মসলিন এবং বাঁকুড়া পোড়ামাটির রূপময় সংস্কৃতি।"
+        },
+        "goa": {
+          "name": "গোয়া",
+          "description": "কুনবি উপজাতীয় তাঁত, আজুলেজোস সিরামিক টাইলস এবং নারকেল মালাই খোদাই শিল্পের উপকূলীয় নিদর্শণ।"
+        },
+        "gujarat": {
+          "name": "গুজরাট",
+          "description": "অজরখ ব্লক প্রিন্ট, পাটন পাটোলা ডাবল ইকত এবং কচ্ছের আয়না সেলাই কাজের রূপময় রাজ্য।"
+        },
+        "maharashtra": {
+          "name": "মহারাষ্ট্র",
+          "description": "পৈঠানী ময়ূর নকশা শাড়ি, ওয়ারলি উপজাতীয় দেয়ালচিত্র এবং কোলহাপুরী চামড়ার চটি জুতার কেন্দ্র।"
+        },
+        "chhattisgarh": {
+          "name": "ছত্তিশগড়",
+          "description": "বেল মেটাল ঢোকরা ঢালাই, কোসা তসর রেশম এবং গোদনা ট্যাটু চিত্রকলার উপজাতীয় প্রাণকেন্দ্র।"
+        },
+        "madhya-pradesh": {
+          "name": "মধ্যপ্রদেশ",
+          "description": "চন্দেরী সূক্ষ্ম শাড়ি, মহেশ্বরী বয়ন এবং গোণ্ড লোকচিত্রকলার ঐতিহাসিক রাজ্য।"
+        },
+        "arunachal-pradesh": {
+          "name": "অরুনাচল প্রদেশ",
+          "description": "আপাতানি জ্যামিতিক বয়ন, মনপা হাতে তৈরি কাগজ এবং উপজাতীয় কাঠ খোদাই শিল্প।"
+        },
+        "assam": {
+          "name": "অসম",
+          "description": "সোনালী মুগা রেশম, এরি অহিংস রেশম, জাপি বাঁশের টুপি এবং মাজুলির ঐতিহ্যবাহী মুখোশের উপত্যকা।"
+        },
+        "manipur": {
+          "name": "মণিপুর",
+          "description": "শাফি লাংফি পদ্ম সুতা বয়ন, কৌনা কাঠির কারুশিল্প এবং লোংপি কালো পোড়ামাটির পাত্রের দেশ।"
+        },
+        "meghalaya": {
+          "name": "মেঘালয়",
+          "description": "রিন্ডিয়া প্রাকৃতিক এরি রেশম, বেতের বয়ন এবং খাসি বাঁশ স্থাপত্যের শান্ত রাজ্য।"
+        },
+        "mizoram": {
+          "name": "মিজোরাম",
+          "description": "পুআন জটিল স্ট্রাইপ বয়ন, বেতের ঝুড়ি এবং বাঁশের নৃত্যের ঐতিহ্যবাহী পার্বত্য অঞ্চল।"
+        },
+        "nagaland": {
+          "name": "নাগাল্যান্ড",
+          "description": "নাগা যোদ্ধা শাল, সূক্ষ্ম পুঁতির কাজ এবং বাঁশের তৈরি ঐতিহ্যবাহী পাত্র।"
+        },
+        "sikkim": {
+          "name": "সিকিম",
+          "description": "ভুটিয়া গালিচা বয়ন, চোকৎসে খোদাই করা টেবিল এবং লেপচা তাঁত শিল্পের অপূর্ব রূপ।"
+        },
+        "tripura": {
+          "name": "ত্রিপুরা",
+          "description": "রিসা ও রিগনই পোশাক, বাঁশের আসবাবপত্র এবং বেতের কাজের সুন্দর রূপ।"
+        },
+        "andaman-nicobar": {
+          "name": "আন্দামান ও নিকোবর দ্বীপপুঞ্জ",
+          "description": "নিকোবোরি মাদুর বয়ন, শামুক-ঝিনুক গহনা এবং পদাউক কাঠ খোদাই করা দ্বীপপুঞ্জ।"
+        },
+        "chandigarh": {
+          "name": "চণ্ডীগড়",
+          "description": "ফুলকারি সেলাই, পাঞ্জাবী জুতি এবং আধুনিক মৃৎশিল্পের স্থাপত্য শহর।"
+        },
+        "daman-diu-dadra": {
+          "name": "দমন, দিউ ও নগর হাভেলি",
+          "description": "পর্তুগিজ প্রভাবান্বিত লেইস সেলাই, ঝিনুক শিল্প এবং খেজুর পাতার মাদুর বয়ন।"
+        },
+        "delhi": {
+          "name": "দিল্লি (জাতীয় রাজধানী অঞ্চল)",
+          "description": "জারদোজি সোনার সুতার সেলাই, মুঘল ক্ষুদ্রচিত্র এবং কাঠের ইনলে কাজের ঐতিহাসিক রাজধানী।"
+        },
+        "jammu-kashmir": {
+          "name": "জম্মু ও কাশ্মীর",
+          "description": "পশমিনা, কানি শাল বয়ন, পেপিয়ার-মাশে এবং আখরোট কাঠের খোদাই শিল্পের চিরন্তন মুকুট।"
+        },
+        "ladakh": {
+          "name": "লাদাখ",
+          "description": "পশমিনা উল কাটাই, থাংকা চিত্রপট এবং যাযাবর গালিচা বয়নের উচ্চ হিমালয় স্থান।"
+        },
+        "lakshadweep": {
+          "name": "লক্ষদ্বীপ",
+          "description": "নারকেল মালাই শিল্প, নারকেলের ছাল মাদুর বয়ন এবং ঝিনুক নকশার কোরাল দ্বীপ।"
+        },
+        "puducherry": {
+          "name": "পুদুচেরি",
+          "description": "হাতে তৈরি কাগজ, পোড়ামাটির প্রতিমা এবং প্রাকৃতিক রঙের বাটিকের ফরাসি-তামিল সংস্কৃতি।"
+        }
+      },
+      "products": {
+        "wb-nk-042": {
+          "name": "রাধা-কৃষ্ণ উপাখ্যান নকশী কাঁথা তাপেশ্রী",
+          "description": "শ্রীমতী অনন্যা দেবী (জাতীয় পুরস্কার '18)। বুনো তসর রেশমে হস্তনির্মিত সূক্ষ্ম নকশী কাঁথা সেলাইয়ে কল্পবৃক্ষের নিচে রাধা-কৃষ্ণের প্রেমগাথা।",
+          "longStory": {
+            "title": "কদমতলার অমর প্রেমগাথা",
+            "text": "অখণ্ড ১৮০ দিনের সুনিপুণ পরিশ্রমে বুনো তসর রেশমের পটভূমিতে রচিত এই অনবদ্য নকশী কাঁথাটি রাধা-কৃষ্ণের চিরন্তন কদমতলার মিলনগাথাকে মূর্ত করে তুলেছে। বাংলার শতাব্দীপ্রাচীন সুজনী ভরাট ও সুক্ষ্ম কাঁথাস্টিচের বুননে সৃষ্ট প্রতিটি নকশা যেন পল্লীপ্রকৃতির এক নিবিড় উচ্চারণ।"
+          }
+        },
+        "wb-jamdani-01": {
+          "name": "নীলাম্বরী সূক্ষ্ম সুতি জামদানি শাড়ি",
+          "description": "মাস্টার তাঁতি দেবব্রত পাল। ২০০ কাউন্টের সূক্ষ্ম হাতে কাটা সুতি মসলিনে সম্পূরক টানা-বানের জ্যামিতিক ও ফুলদানি নকশা।",
+          "longStory": {
+            "title": "মেঘের ডানায় রূপালী নকশা",
+            "text": "শান্তিপুরের ঐতিহাসিক পিট লুমের তাঁতে বোনা ২০০ কাউন্টের এই সূক্ষ্ম ঢাকাই জামদানী শাড়িটিতে রূপালী জারির কাজে ফুটিয়ে তোলা হয়েছে ঐতিহ্যবাহী কোণকা ও পন্নাহাজাড় বুটি।"
+          }
+        },
+        "wb-swarna-02": {
+          "name": "পৌরাণিক স্বর্ণচরী রেশম শাড়ি",
+          "description": "মাস্টার কারিগর রুমা প্রামাণিক। আঁচলে মহাভারতের কুরুক্ষেত্র যুদ্ধের চিত্র রূপালী ও সোনালী সুতায় নির্মিত অনবদ্য স্বর্নচরী।",
+          "longStory": {
+            "title": "সোনার সুতোয় আঁকা মহাভারত",
+            "text": "বিষ্ণুপুরের ঐতিহাসিক স্বর্নচরী শাড়িতে কুরুক্ষেত্রের রথের চাকা এবং গীতোপদেশের অলঙ্করণ সুচারুভাবে বোনা হয়েছে।"
+          }
+        },
+        "wb-terracotta-03": {
+          "name": "পঞ্চমুড়া লম্বা ঘাড়ের পোড়ামাটির ঐতিহ্যবাহী ঘোড়া",
+          "description": "মাস্টার মৃৎশিল্পী বৈদ্যনাথ কুম্ভকার। প্রাকৃতিক লাল মাটি দিয়ে হাতে গড়া ও কাঠের ভাটিতে পোড়ানো বাঁকুড়ার ঐতিহ্যবাহী টেরাকোটা ঘোড়া।",
+          "longStory": {
+            "title": "বাঁকুড়ার পোড়ামাটির অমর রূপ",
+            "text": "পঞ্চমুড়ার পোড়ামাটির ঘোড়া ভারতীয় লোকশিল্পের এক অনন্য নিদর্শন যা দীর্ঘকাল ধরে গ্রাম বাংলার উপাসনা ও সৌন্দর্যের প্রতীক।"
+          }
+        },
+        "jk-pashmina-01": {
+          "name": "রাজকীয় শাহুস কানি বয়নের পশমিনা শাল",
+          "description": "মাস্টার তাঁতি গোলাম হাসান মীর। চাংথাঙ্গী গ্রেড-এ পশমিনা এবং কাঠের কাঠি দিয়ে হাতে বোনা অনন্য কাশ্মিরী কানি শাল।",
+          "longStory": {
+            "title": "চাংথাং মালভূমির সোনার পশম",
+            "text": "শ্রীনগরের ঐতিহ্যবাহী তালিম লিপির সাহায্যে কাঠের সুচ দিয়ে বোনা অত্যন্ত সূক্ষ্ম ও উষ্ণ শাহুস পশমিনা শাল।"
+          }
+        },
+        "rj-bluepottery-01": {
+          "name": "জয়পুর ব্লু পটারি রাজকীয় পুষ্প পাত্র",
+          "description": "মাস্টার কারিগর কৃপাল সিং স্টুডিও। কাদা মাটি ছাড়া স্ফটিক কোয়ার্টজ ও পার্সিয়ান কোবাল্ট ব্লু হাতে আঁকা রাজকীয় ফুলদানি।",
+          "longStory": {
+            "title": "জয়পুরের নীল মৃৎশিল্প",
+            "text": "জয়পুর ব্লু পটারি মাটির পরিবর্তে কোয়ার্টজ পাথর গুঁড়ো করে তৈরি এক অপূর্ব পার্সিয়ান মোটিফযুক্ত শিল্পকর্ম।"
+          }
+        },
+        "up-chanderi-01": {
+          "name": "ইম্পেরিয়াল গোল্ড জারি চন্দেরী রেশম টিস্যু শাড়ি",
+          "description": "মাস্টার তাঁতি রামদাস আনসারী। খাঁটি সোনালী জারির বুটিযুক্ত স্বচ্ছ রেশম-সুতি চন্দেরী টিস্যু শাড়ি।",
+          "longStory": {
+            "title": "মালব রাজত্বের সোনার আলো",
+            "text": "চন্দেরী তাঁতের আলো-ছায়াময় সূক্ষ্ম রেশম সুতায় বোনা সোনালী ও রূপালী জারির কাজ রাজকীয় আভিজাত্যের রূপ।"
+          }
+        },
+        "gj-ajrakh-01": {
+          "name": "অজরখপুর ১৬-ধাপের প্রাকৃতিক রঙের ব্লক প্রিন্ট স্টোল",
+          "description": "শিল্প গুরু ডঃ ইসমাইল এম খত্রী। তসর রেশমে প্রাকৃতিক নীল, মঞ্জিষ্ঠা ও লোহার প্রলেপে ১৬টি ধাপে মুদ্রিত অজরখ স্টোল।",
+          "longStory": {
+            "title": "নদী ও মাটির প্রাকৃতিক সুর",
+            "text": "অজরখ হলো কচ্ছের ১৬টি জটিল ধাপে প্রাকৃতিক ভেজষ রঙ ও কারুকার্যময় কাঠের ব্লকে মুদ্রিত ঐতিহ্যবাহী বস্ত্রশিল্প।"
+          }
+        },
+        "tn-kanchi-01": {
+          "name": "কাঞ্চিপুরম হেভি ক্রিমসন কোরভই রেশম শাড়ি",
+          "description": "মাস্টার তাঁতি মুরুগান স্বামী। ৩-প্লাই তুত রেশম এবং খাঁটি সোনার জারিতে আন্তঃসংযুক্ত কোরভই বুননে তৈরি ভারী কাঞ্চিপুরম শাড়ি।",
+          "longStory": {
+            "title": "কাঞ্চিপুরমের মন্দির তাঁত",
+            "text": "কোরভই হলো কাঞ্চিপুরমের তাঁতের প্রাচীন কৌশল যেখানে শাড়ির বডি ও পাড় আলাদা বুনে অত্যন্ত শক্তিশালী সংযোগে জোড়া হয়।"
+          }
+        },
+        "cg-dhokra-01": {
+          "name": "বস্তার বেল মেটাল লস্ট-ওয়াক্স ঢোকরা উপজাতীয় মিছিল",
+          "description": "মাস্টার কারিগর বুধরাম ঝোরিয়া। প্রাচীন মোম ঢালাই পদ্ধতিতে তৈরি বেল মেটালের উপজাতীয় শোভাযাত্রা শিল্পকর্ম।",
+          "longStory": {
+            "title": "বস্তারের প্রাচীন বেল মেটাল ঢালাই",
+            "text": "ঢোকরা ধাতব শিল্প ৪০০০ বছরের প্রাচীন লস্ট-ওয়াক্স মোম ঢালাই পদ্ধতি মেনে তৈরি এক অনন্য উপজাতীয় নিদর্শন।"
+          }
+        },
+        "up-banarasi-01": {
+          "name": "বারাণসী রাজকীয় কাতান সিল্ক কড়ওয়া জাল ব্রোকেড শাড়ি",
+          "description": "উস্তাদ রামদাস আনসারী (পদ্ম মনোনীত)। মুঘল জাফরি নকশায় খাঁটি কড়ওয়া সোনালী জারিতে বোনা রাজকীয় বারাণসী কাতান শাড়ি।",
+          "longStory": {
+            "title": "কাশীর সোনার ব্রোকেড",
+            "text": "কড়ওয়া হলো বারাণসীর ঐতিহ্যবাহী তাঁত কৌশল যেখানে প্রতিটি বুটি স্বতন্ত্রভাবে বোনা হয় যেন উল্টো পিঠে কোনো আলগা সুতো না থাকে।"
+          }
+        },
+        "od-pattachitra-01": {
+          "name": "রঘুরাজপুর তালপাতা পট্টচিত্র দশা অবতার কথা",
+          "description": "মাস্টার চিত্রকর ভাস্কর মহাপাত্র। শুকনো তালপাতায় সূক্ষ্ম খোদাই ও প্রাকৃতিক খনিজ রঙে অঙ্কিত ভগবান বিষ্ণুর দশা অবতার।",
+          "longStory": {
+            "title": "তালপাতায় খোদাই করা বিষ্ণু কথা",
+            "text": "তালপাতা পট্টচিত্র হলো শুকনো তালপাতাকে সুতোয় বেঁধে লোহার সূঁচালো নিব দিয়ে পৌরাণিক গল্প খোদাই করে চিত্রিত করার সুপ্রাচীন ও ঐতিহ্যবাহী ওড়িশি শিল্প।"
+          }
+        }
+      }
+    },
+    "premium": {
+      "settings": "সেটিংস",
+      "language": "ভাষা",
+      "languageDescription": "আপনার পছন্দের ভাষা বেছে নিন।",
+      "profileDetails": "প্রোফাইলের বিবরণ",
+      "fullName": "পুরো নাম",
+      "mobile": "মোবাইল নম্বর",
+      "state": "রাজ্য",
+      "district": "জেলা",
+      "saveChanges": "পরিবর্তন সংরক্ষণ করুন",
+      "saving": "সংরক্ষণ হচ্ছে…",
+      "profileSaved": "প্রোফাইলের বিবরণ সংরক্ষিত হয়েছে।",
+      "saveFailed": "প্রোফাইল সংরক্ষণ করা যায়নি। আবার চেষ্টা করুন।",
+      "yourAccount": "আপনার অ্যাকাউন্ট",
+      "accountMenu": "অ্যাকাউন্ট মেনু",
+      "welcome": "আবার স্বাগতম",
+      "collections": "সংগ্রহ",
+      "artisans": "কারিগর",
+      "orders": "অর্ডার",
+      "saved": "পছন্দের শিল্পকর্ম",
+      "certificates": "শংসাপত্র",
+      "wallet": "ওয়ালেট",
+      "help": "সাহায্য ও যোগাযোগ",
+      "footerLine": "হাতে তৈরি। যত্নে বেছে নেওয়া।",
+      "availableCrafts": "উপলব্ধ শিল্পকর্ম",
+      "listedDistricts": "তালিকাভুক্ত জেলা",
+      "meetMakers": "কারিগরদের সঙ্গে পরিচয়",
+      "indianCraft": "ভারতীয় কারুশিল্পের শিল্প",
+      "representedStates": "পণ্য রয়েছে এমন রাজ্য",
+      "discoverRegions": "প্রতি রাজ্যে এক নতুন গল্প",
+      "showLess": "কম দেখান",
+      "allStates": "সব রাজ্য",
+      "chosenByHand": "যত্নে বাছাই করা সংগ্রহ",
+      "madeToKeep": "রাখার মতো, ভালোবাসার মতো",
+      "searchCrafts": "শিল্পকর্ম, কারিগর বা রাজ্য খুঁজুন",
+      "allCrafts": "সব শিল্পকর্ম",
+      "noCrafts": "কোনো শিল্পকর্ম পাওয়া যায়নি",
+      "resetFilters": "ফিল্টার রিসেট করুন",
+      "behindCraft": "শিল্পের পেছনের হাত",
+      "exploreMap": "মানচিত্র দেখুন",
+      "viewCraft": "শিল্পকর্ম দেখুন",
+      "loadingMap": "কারিগর মানচিত্র লোড হচ্ছে…",
+      "madeByHand": "হাতে তৈরি",
+      "storyCaption": "ভারতীয় কারুশিল্পের পেছনের কাজ, ধৈর্য ও হাতের এক ঝলক।",
+      "craftedHere": "এখানে তৈরি, সর্বত্র আদরের",
+      "craft": "কারুশিল্প",
+      "allDistricts": "সব জেলা",
+      "budget": "সর্বোচ্চ দাম (₹)",
+      "anyPrice": "যেকোনো দাম",
+      "sort": "সাজান",
+      "topRated": "সেরা রেটিং",
+      "awardWinners": "পুরস্কারপ্রাপ্ত কারিগর",
+      "collectionGrowing": "এই সংগ্রহটি এখনও বাড়ছে",
+      "noStateListings": "এই রাজ্য থেকে এখনও কোনো পণ্য তালিকাভুক্ত হয়নি। এখানকার শিল্পের ঐতিহ্য জানুন বা অন্য অঞ্চল দেখুন।",
+      "browseCollections": "সংগ্রহ দেখুন",
+      "localTraditions": "স্থানীয় ঐতিহ্য",
+      "craftVocabulary": "কারুশিল্পের নিজস্ব ভাষা",
+      "artisanMap": "কারিগর মানচিত্র",
+      "madeAcrossIndia": "ভারতজুড়ে তৈরি",
+      "craftAtlas": "শিল্পের মানচিত্র",
+      "mapIntro": "শিল্পের পেছনের মানুষদের খুঁজুন। অঞ্চল জানতে একটি পিন বেছে নিন।",
+      "approximatePins": "পিনগুলি রাজ্য অনুযায়ী কারিগরদের দেখায়; এগুলি আঞ্চলিক অবস্থান, কর্মশালার সঠিক ঠিকানা নয়।",
+      "mapUnavailable": "মানচিত্র লোড হয়নি। তালিকায় সব কারিগর দেখতে পারবেন।",
+      "showAll": "সব দেখান",
+      "loadingArtisans": "নিবন্ধিত কারিগরদের লোড করা হচ্ছে…",
+      "directoryError": "নিবন্ধিত বিক্রেতারা আপাতত উপলব্ধ নন। ক্যাটালগের কারিগরদের দেখানো হচ্ছে।",
+      "retry": "আবার চেষ্টা করুন",
+      "locationPending": "অবস্থান দেওয়া হয়নি",
+      "registeredArtisan": "নিবন্ধিত কারিগর",
+      "noArtisans": "এখানে এখনও কোনো কারিগর তালিকাভুক্ত নেই। নতুন নিবন্ধন স্বয়ংক্রিয়ভাবে দেখা যাবে।",
+      "save": "সংরক্ষণ",
+      "unsave": "সরান",
+      "addToBag": "ব্যাগে যোগ করুন",
+      "addAnother": "আরেকটি যোগ করুন",
+      "stateNotFound": "রাজ্য পাওয়া যায়নি",
+      "appearance": "সাজসজ্জা",
+      "themeDescription": "হালকা বা গাঢ় রঙের থিম বেছে নিন।",
+      "viewRegion": "তাঁদের শিল্প দেখুন",
+      "viewDetails": "সংগ্রহটি জানুন",
+      "lightTheme": "হালকা",
+      "darkTheme": "গাঢ়",
+      "heroEyebrow": "ঐতিহ্যে শিকড়। আপনার প্রতিদিনের জন্য তৈরি।",
+      "heroLead": "হাতে ছুঁয়ে দেখার গল্প।",
+      "heroEmphasis": "ভারতীয়, হাতে তৈরি।",
+      "heroClose": "অমূল্য শিল্প, যাকে নিজের বলতে পারেন।",
+      "browseArtisans": "কারিগরদের দেখুন",
+      "artisanIntro": "কারিগরদের সঙ্গে পরিচিত হন, তাঁদের ঐতিহ্য জানুন এবং পছন্দের শিল্প খুঁজে নিন।",
+      "collectionIntro": "রাজ্য বা শিল্প অনুযায়ী আপনার পছন্দের বিশেষ কিছু খুঁজে নিন।",
+      "searchLabel": "খুঁজুন",
+      "stateLabel": "রাজ্য",
+      "craftLabel": "শিল্প ও কারুশিল্প",
+      "loadingMakers": "কারিগরদের তালিকা আপডেট হচ্ছে…",
+      "makersUnavailable": "ক্যাটালগের কারিগরদের দেখানো হচ্ছে। লাইভ তালিকা এখন উপলব্ধ নয়।",
+      "craftsComingSoon": "শিল্পকর্ম শীঘ্রই আসছে",
+      "noMatches": "কোনও ফলাফল পাওয়া যায়নি",
+      "tryFilters": "অন্য রাজ্য, শিল্প বা অনুসন্ধানের শব্দ ব্যবহার করুন।"
+    },
+    "heritage": {
+      "about": "সম্পর্কে"
     }
   }
 }

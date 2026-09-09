@@ -1,3 +1,4 @@
+import { sellerOrderImage } from '../data/sellerImages';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -119,7 +120,7 @@ export default function OrderDetailsModal() {
             <div className="flex items-center gap-4">
               {selectedOrder.productImage && (
                 <img
-                  src={selectedOrder.productImage}
+                  src={sellerOrderImage(selectedOrder)}
                   alt={selectedOrder.product}
                   className="w-16 h-16 rounded-xl object-cover border border-gray-200 dark:border-gray-700 shadow-xs"
                 />

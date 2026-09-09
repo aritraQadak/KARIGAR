@@ -1,7 +1,11 @@
+import { useTheme } from '../../context/ThemeContext';
+import { artisanPortrait } from '../../data/demoImages';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
   User,
+  Sun,
+  Moon,
   Building2,
   Bell,
   Languages,
@@ -13,6 +17,7 @@ import { useSeller } from '../../context/SellerContext';
 
 export default function Settings() {
   const { t } = useTranslation();
+  const { theme, setTheme } = useTheme();
   const { profile, updateProfile, lang, setLang, addToast } = useSeller();
 
   const [formData, setFormData] = useState({
@@ -65,6 +70,20 @@ export default function Settings() {
         </button>
       </div>
 
+      <section aria-labelledby="seller-appearance" className="bg-white dark:bg-[#1F2937] rounded-2xl p-6 border border-gray-200/90 dark:border-gray-700/80 shadow-2xs space-y-4">
+        <div>
+          <h2 id="seller-appearance" className="text-sm font-bold text-gray-900 dark:text-gray-100">{t('buyer.premium.appearance', 'Appearance')}</h2>
+          <p className="text-sm text-gray-500 dark:text-gray-400 mt-1">{t('buyer.premium.themeDescription', 'Choose a light or dark look for your browsing experience.')}</p>
+        </div>
+        <div className="flex flex-wrap gap-3">
+          {[['light', Sun, t('buyer.premium.lightTheme', 'Light')], ['dark', Moon, t('buyer.premium.darkTheme', 'Dark')]].map(([value, Icon, label]) => (
+            <button key={value} type="button" aria-pressed={theme === value} onClick={() => setTheme(value)} className={`inline-flex items-center gap-2 rounded-xl border px-5 py-3 text-sm font-medium transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-emerald-600 ${theme === value ? 'bg-[#14532D] text-white border-[#14532D] dark:bg-emerald-800 dark:border-emerald-600' : 'bg-gray-50 text-gray-700 border-gray-200 dark:bg-[#111827] dark:text-gray-200 dark:border-gray-600'}`}>
+              <Icon size={18} aria-hidden="true" />{label}
+            </button>
+          ))}
+        </div>
+      </section>
+
       {/* Grid of Setting Sections */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Section 1: Artisan Profile */}
@@ -76,7 +95,7 @@ export default function Settings() {
 
           <div className="flex items-center gap-4">
             <img
-              src={profile.avatar}
+              src={artisanPortrait(profile)}
               alt={profile.name}
               className="w-16 h-16 rounded-full object-cover border-2 border-emerald-600 shadow-xs"
             />

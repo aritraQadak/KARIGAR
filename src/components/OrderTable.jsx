@@ -1,3 +1,4 @@
+import { sellerOrderImage } from '../data/sellerImages';
 import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Eye, ShieldCheck } from 'lucide-react';
@@ -87,7 +88,7 @@ export default function OrderTable({ orders, showCustomer = false, limit, onView
                 <div className="flex items-center gap-3">
                   {order.productImage ? (
                     <img
-                      src={order.productImage}
+                      src={sellerOrderImage(order)}
                       alt={order.product}
                       className="w-9 h-9 rounded-lg object-cover border border-gray-200 dark:border-gray-700 flex-shrink-0"
                     />

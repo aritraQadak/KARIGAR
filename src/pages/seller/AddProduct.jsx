@@ -1,3 +1,4 @@
+import { categoryImage } from '../../data/demoImages';
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import {
@@ -68,6 +69,8 @@ const sampleCraftUploads = [
     description: 'Authentic Kachni style Madhubani painting drawn with fine bamboo twigs and colored using pure vegetable pigments extracted from turmeric, leaves and soot.'
   }
 ];
+
+for (const sample of sampleCraftUploads) sample.url = categoryImage(sample) || sample.url;
 
 export default function AddProduct() {
   const navigate = useNavigate();
@@ -819,7 +822,7 @@ export default function AddProduct() {
             {/* Image Preview */}
             <div className="space-y-2">
               <img
-                src={uploadedImages[selectedImageIndex] || sampleCraftUploads[0].url}
+                src={categoryImage(formData) || uploadedImages[selectedImageIndex] || sampleCraftUploads[0].url}
                 alt={formData.name}
                 className="w-full h-64 object-cover rounded-xl border border-gray-200 shadow-xs"
               />

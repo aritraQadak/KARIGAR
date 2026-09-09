@@ -13,6 +13,7 @@ import {
 import { useBuyer } from '../../context/BuyerContext';
 import { useAuth } from '../../context/AuthContext';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
+import Button from '../../components/Button';
 
 export default function Checkout() {
   const { t, i18n } = useTranslation();
@@ -24,15 +25,17 @@ export default function Checkout() {
     fullName: user?.fullName || '',
     email: user?.email || '',
     mobile: user?.mobile || '',
-    address: '14/B Heritage Enclave, Salt Lake Sector V',
-    city: 'Kolkata',
-    state: 'West Bengal',
-    pincode: '700091',
+    address: '',
+    city: user?.district || '',
+    state: user?.state || '',
+    pincode: '',
     paymentMethod: 'escrow_upi'
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
+  const [shippingError, setShippingError] = useState('');
+  const [receipt, setReceipt] = useState(null);
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -40,10 +43,12 @@ export default function Checkout() {
   };
 
   const handlePlaceOrder = () => {
-    if (!formData.fullName || !formData.address || !formData.pincode) {
-      alert(t('buyer.checkout.fillRequired', 'Please fill in all required shipping fields.'));
+    if (!formData.fullName.trim() || !formData.address.trim() || !formData.city.trim() || !formData.state.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email) || !/^[1-9][0-9]{5}$/.test(formData.pincode) || (formData.mobile && !/^[6-9][0-9]{9}$/.test(formData.mobile))) {
+      setShippingError(t('buyer.premium.shippingError', 'Enter your name, email, address, city, state and a valid six-digit PIN code. Check your mobile number if provided.'));
       return;
     }
+    setShippingError('');
+    setReceipt({ id: 'KGR-' + Date.now().toString().slice(-8), artisanTotal: artisanDirectTotal });
 
     setIsSubmitting(true);
 
@@ -74,11 +79,11 @@ export default function Checkout() {
           <div className="bg-surface-container p-space-md space-y-1 text-left">
             <div className="flex justify-between font-label-sm text-label-sm text-outline uppercase">
               <span>{t('buyer.checkout.orderNumber', 'Order Ledger ID')}:</span>
-              <span className="font-mono text-on-surface font-bold">#KGR-{Math.floor(100000 + Math.random() * 900000)}</span>
+              <span className="font-mono text-on-surface font-bold">#{receipt?.id}</span>
             </div>
             <div className="flex justify-between font-label-sm text-label-sm text-outline uppercase">
               <span>{t('buyer.checkout.directArtisanPayout', 'Direct Artisan Release')}:</span>
-              <span className="text-secondary font-bold">{formatCurrency(artisanDirectTotal, i18n.language)}</span>
+              <span className="text-secondary font-bold">{formatCurrency(receipt?.artisanTotal || 0, i18n.language)}</span>
             </div>
           </div>
 
@@ -123,6 +128,7 @@ export default function Checkout() {
   return (
     <div className="w-full bg-surface py-space-2xl px-space-md lg:px-space-4xl min-h-[80vh]">
       <div className="max-w-[1440px] mx-auto space-y-space-2xl">
+        {shippingError && <p role="alert" className="checkout-validation">{shippingError}</p>}
         {/* Header Title */}
         <div className="border-b border-outline-variant/40 pb-space-lg">
           <div className="flex items-center gap-space-xs text-outline font-label-sm text-label-sm uppercase tracking-[0.14em] mb-1">
@@ -151,12 +157,12 @@ export default function Checkout() {
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
                 <div>
-                  <label className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
+                  <label htmlFor="shipping-fullName" className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
                     {t('buyer.checkout.fullName', 'Full Name')} *
                   </label>
                   <input
                     type="text"
-                    name="fullName"
+                    id="shipping-fullName" name="fullName"
                     value={formData.fullName}
                     onChange={handleInputChange}
                     className="w-full bg-surface-container-low border border-outline-variant/60 px-space-md py-2 font-body-md text-on-surface focus:outline-none focus:border-secondary"
@@ -164,12 +170,12 @@ export default function Checkout() {
                 </div>
 
                 <div>
-                  <label className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
+                  <label htmlFor="shipping-email" className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
                     {t('buyer.checkout.email', 'Email Address')} *
                   </label>
                   <input
                     type="email"
-                    name="email"
+                    id="shipping-email" name="email"
                     value={formData.email}
                     onChange={handleInputChange}
                     className="w-full bg-surface-container-low border border-outline-variant/60 px-space-md py-2 font-body-md text-on-surface focus:outline-none focus:border-secondary"
@@ -177,12 +183,12 @@ export default function Checkout() {
                 </div>
 
                 <div className="sm:col-span-2">
-                  <label className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
+                  <label htmlFor="shipping-address" className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
                     {t('buyer.checkout.address', 'Street Address & Colony')} *
                   </label>
                   <input
                     type="text"
-                    name="address"
+                    id="shipping-address" name="address"
                     value={formData.address}
                     onChange={handleInputChange}
                     className="w-full bg-surface-container-low border border-outline-variant/60 px-space-md py-2 font-body-md text-on-surface focus:outline-none focus:border-secondary"
@@ -190,12 +196,12 @@ export default function Checkout() {
                 </div>
 
                 <div>
-                  <label className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
+                  <label htmlFor="shipping-city" className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
                     {t('buyer.checkout.city', 'City / District')} *
                   </label>
                   <input
                     type="text"
-                    name="city"
+                    id="shipping-city" name="city"
                     value={formData.city}
                     onChange={handleInputChange}
                     className="w-full bg-surface-container-low border border-outline-variant/60 px-space-md py-2 font-body-md text-on-surface focus:outline-none focus:border-secondary"
@@ -203,12 +209,12 @@ export default function Checkout() {
                 </div>
 
                 <div>
-                  <label className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
+                  <label htmlFor="shipping-state" className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
                     {t('buyer.checkout.state', 'State')} *
                   </label>
                   <input
                     type="text"
-                    name="state"
+                    id="shipping-state" name="state"
                     value={formData.state}
                     onChange={handleInputChange}
                     className="w-full bg-surface-container-low border border-outline-variant/60 px-space-md py-2 font-body-md text-on-surface focus:outline-none focus:border-secondary"
@@ -216,12 +222,12 @@ export default function Checkout() {
                 </div>
 
                 <div>
-                  <label className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
+                  <label htmlFor="shipping-pincode" className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
                     {t('buyer.checkout.pincode', 'Pincode')} *
                   </label>
                   <input
                     type="text"
-                    name="pincode"
+                    id="shipping-pincode" name="pincode"
                     value={formData.pincode}
                     onChange={handleInputChange}
                     className="w-full bg-surface-container-low border border-outline-variant/60 px-space-md py-2 font-body-md text-on-surface focus:outline-none focus:border-secondary"
@@ -229,12 +235,12 @@ export default function Checkout() {
                 </div>
 
                 <div>
-                  <label className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
+                  <label htmlFor="shipping-mobile" className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1">
                     {t('buyer.checkout.mobile', 'Mobile Number')}
                   </label>
                   <input
                     type="text"
-                    name="mobile"
+                    id="shipping-mobile" name="mobile"
                     value={formData.mobile}
                     onChange={handleInputChange}
                     className="w-full bg-surface-container-low border border-outline-variant/60 px-space-md py-2 font-body-md text-on-surface focus:outline-none focus:border-secondary"
@@ -344,15 +350,17 @@ export default function Checkout() {
                 </span>
               </div>
 
-              <button
+              <Button
                 type="button"
                 onClick={handlePlaceOrder}
                 disabled={isSubmitting}
-                className="w-full py-space-md bg-secondary text-on-secondary font-label-md text-label-md uppercase tracking-[0.18em] shadow-lg hover:bg-secondary-container hover:text-on-secondary-container transition-all flex items-center justify-center gap-space-xs font-semibold disabled:opacity-50"
+                variant="primary"
+                size="lg"
+                fullWidth
+                icon={Lock}
               >
-                <Lock className="w-4 h-4" />
-                <span>{isSubmitting ? t('buyer.checkout.processing', 'Locking Escrow...') : t('buyer.checkout.authorize', 'Authorize Sovereign Escrow')}</span>
-              </button>
+                {isSubmitting ? t('buyer.checkout.processing', 'Locking Escrow...') : t('buyer.checkout.authorize', 'Authorize Sovereign Escrow')}
+              </Button>
             </div>
           </div>
         </div>

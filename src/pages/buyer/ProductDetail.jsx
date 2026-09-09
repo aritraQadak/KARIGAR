@@ -25,6 +25,7 @@ import {
 import { getProductById, PRODUCTS } from '../../data/products';
 import { useBuyer } from '../../context/BuyerContext';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
+import Button from '../../components/Button';
 
 export default function ProductDetail() {
   const { productId } = useParams();
@@ -32,7 +33,7 @@ export default function ProductDetail() {
   const navigate = useNavigate();
   const { addToCart } = useBuyer();
 
-  const product = getProductById(productId) || PRODUCTS[0];
+  const product = getProductById(productId);
 
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const [activeTab, setActiveTab] = useState('story');
@@ -43,6 +44,7 @@ export default function ProductDetail() {
     navigate('/cart');
   };
 
+  if (!product) return <div className="premium-section premium-empty"><h1>Craft not found</h1><Link to="/patron">Browse collections</Link></div>;
   return (
     <div className="flex flex-col w-full bg-surface text-on-surface">
       {/* BREADCRUMB STRIP */}
@@ -257,22 +259,26 @@ export default function ProductDetail() {
 
             {/* Action CTAs */}
             <div className="flex flex-col sm:flex-row gap-3 pt-1">
-              <button
+              <Button
                 type="button"
                 onClick={handleAcquire}
-                className="flex-1 bg-[#14532D] hover:bg-[#0E3D20] text-white font-label-md text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl text-center transition-all flex items-center justify-center gap-2 font-bold shadow-xs hover:shadow-md cursor-pointer"
+                variant="primary"
+                size="lg"
+                icon={ShoppingBag}
+                className="flex-1"
               >
-                <ShoppingBag className="w-4 h-4" />
-                <span>{t('buyer.product.acquireBtn', 'Acquire Masterwork')}</span>
-              </button>
-              <button
+                {t('buyer.product.acquireBtn', 'Acquire Masterwork')}
+              </Button>
+              <Button
                 type="button"
                 onClick={() => setIsCertModalOpen(true)}
-                className="flex-1 bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-200 hover:bg-stone-200 dark:hover:bg-stone-700 font-label-md text-xs uppercase tracking-wider py-3.5 px-6 rounded-xl text-center transition-colors flex items-center justify-center gap-2 font-semibold border border-stone-300 dark:border-stone-700 cursor-pointer"
+                variant="ghost"
+                size="lg"
+                icon={Award}
+                className="flex-1"
               >
-                <Award className="w-4 h-4 text-[#14532D] dark:text-emerald-400" />
-                <span>{t('buyer.product.inspectBtn', 'Inspect Provenance')}</span>
-              </button>
+                {t('buyer.product.inspectBtn', 'Inspect Provenance')}
+              </Button>
             </div>
 
             {/* Sovereign Escrow Vault Card */}

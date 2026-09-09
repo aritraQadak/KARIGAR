@@ -1,3 +1,4 @@
+import { artisanPortrait } from '../data/demoImages';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -25,7 +26,7 @@ export default function SellerProfileDropdown() {
 
   const displayName = user?.fullName || profile.name || t('nav.verifiedBadge');
   const displayEmail = user?.email || profile.email || '';
-  const displayAvatar = user?.avatarUrl || profile.avatar;
+  const displayAvatar = artisanPortrait(user || profile);
   const initials = getInitials(displayName);
 
   // Close dropdown on outside click

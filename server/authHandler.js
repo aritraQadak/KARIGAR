@@ -82,6 +82,16 @@ export async function handleAuthRequest(req, res) {
     // -------------------------------------------------------------
     // GET /api/health
     // -------------------------------------------------------------
+    // Public shop directory: deliberately exclude email, mobile, and account credentials.
+    if (pathname === '/api/artisans' && method === 'GET') {
+      const artisans = await prisma.user.findMany({
+        where: { role: 'ARTISAN', isActive: true },
+        select: { id: true, fullName: true, businessName: true, state: true, district: true, craftType: true, avatarUrl: true },
+        orderBy: { createdAt: 'asc' }
+      });
+      res.setHeader('Cache-Control', 'no-store');
+      return jsonResponse(200, { artisans });
+    }
     if (pathname === '/api/health' && method === 'GET') {
       return jsonResponse(200, {
         status: 'ok',

@@ -884,8 +884,8 @@
     "nav": {
       "explore": "Explore",
       "categories": "Categories",
-      "selectState": "Select Your State",
-      "cart": "Cart",
+      "selectState": "राज्य चुनें",
+      "cart": "कार्ट",
       "signIn": "Sign In",
       "searchStatePlaceholder": "Search State or Union Territory...",
       "noStatesFound": "No states matching your search",
@@ -1018,7 +1018,7 @@
     },
     "stateExplore": {
       "home": "Home",
-      "homeNav": "Home",
+      "homeNav": "मुखपृष्ठ",
       "statesOfHeritage": "States of Heritage",
       "viewing": "Viewing",
       "switchState": "Switch State",
@@ -1031,6 +1031,8 @@
       "handloomClusters": "Handloom Clusters",
       "directEscrowPayout": "Direct Escrow Payout",
       "masterpieceSpotlight": "Masterpiece Spotlight",
+      "exploreCollections": "संग्रह देखें",
+      "viewCraftMap": "शिल्प मानचित्र देखें",
       "curatedFilters": "Curated Filters",
       "resetAll": "Reset All",
       "craftLineage": "Craft Lineage",
@@ -1080,7 +1082,17 @@
       "telemetryGrid": "STATE CLUSTER TELEMETRY GRID",
       "statusOperational": "Status: Operational",
       "dedicatedGroups": "Dedicated master artisan groups specializing in authentic heritage craftsmanship. Verified under the National Handloom Commission.",
-      "artisanShare": "कारीगर का हिस्सा:"
+      "artisanShare": "कारीगर का हिस्सा:",
+      "exploreHeritage": "{{name}} की विरासत देखें",
+      "meetArtisans": "शिल्पकारों से मिलें",
+      "sideEditorial": "शिल्पकार परंपराओं को जीवंत रखते हैं",
+      "clusterCertified": "{{name}} क्लस्टर · प्रमाणित विरासत",
+      "defaultTagline": "शिल्प, संस्कृति और परंपरा की पावन भूमि",
+      "defaultQuote": "जहाँ हर बुनाई एक कहानी बयां करती है।",
+      "catCraft": "शिल्प",
+      "catCulture": "संस्कृति",
+      "catHeritage": "विरासत",
+      "catArtisans": "शिल्पकार"
     },
     "product": {
       "homeNav": "Home",
@@ -1154,26 +1166,26 @@
     },
     "cart": {
       "home": "Home",
-      "title": "Sovereign Cart",
-      "heading": "Your Masterwork Selection",
+      "title": "शॉपिंग बैग",
+      "heading": "आपके चुने हुए शिल्प",
       "clearCart": "Empty Cart",
       "emptyTitle": "Your Cart is Currently Empty",
       "emptyDesc": "Discover rare GI-certified handloom silks, fine pottery, and narrative tapestries crafted by India’s master artisans.",
-      "exploreCrafts": "Explore Masterworks",
+      "exploreCrafts": "शिल्प देखें",
       "artisan": "Master Artisan",
       "directPayout": "Direct Artisan Payout",
       "remove": "Remove Item",
-      "continueShopping": "Continue Exploring Guilds",
-      "summaryTitle": "Sovereign Order Summary",
-      "subtotal": "Acquisition Subtotal",
-      "logistics": "Insured Climate Courier",
+      "continueShopping": "खरीदारी जारी रखें",
+      "summaryTitle": "ऑर्डर सारांश",
+      "subtotal": "उप-योग",
+      "logistics": "डिलीवरी",
       "complimentary": "COMPLIMENTARY",
-      "escrowFee": "Sovereign Vault Protection",
+      "escrowFee": "सुरक्षा",
       "included": "INCLUDED",
-      "directArtisanFund": "Guaranteed Direct Artisan Fund",
+      "directArtisanFund": "कारीगर का हिस्सा",
       "fundDesc": "Disbursed straight to master artisan bank accounts upon delivery confirmation.",
       "total": "Total Payable",
-      "proceedCheckout": "Proceed to Sovereign Checkout",
+      "proceedCheckout": "चेकआउट पर जाएँ",
       "escrowGuarantee": "100% Escrow Protection",
       "escrowInfo": "Funds remain in secure escrow until you inspect the parcel and confirm authenticity.",
       "decreaseQty": "मात्रा घटाएं",
@@ -1181,19 +1193,19 @@
     },
     "checkout": {
       "cartLink": "Cart",
-      "checkoutTitle": "Sovereign Checkout",
-      "heading": "Dispatch & Sovereign Escrow Setup",
+      "checkoutTitle": "चेकआउट",
+      "heading": "डिलीवरी और भुगतान",
       "fillRequired": "Please fill in all required shipping fields.",
       "successBadge": "Sovereign Escrow Locked",
       "successTitle": "Acquisition Order Placed Successfully!",
       "successDesc": "Your payment has been safely deposited into the Karigar Sovereign Escrow Vault. Funds will be released to the master artisan only upon parcel delivery and your inspection.",
-      "orderNumber": "Order Ledger ID",
+      "orderNumber": "ऑर्डर नंबर",
       "directArtisanPayout": "Direct Artisan Release",
       "viewOrders": "View My Collection & Orders",
       "continueExploring": "Return to Guilds",
       "noItems": "No Items in Cart for Checkout",
       "browseGuilds": "Browse Guild Masterworks",
-      "shippingDetails": "1. Dispatch & Delivery Address",
+      "shippingDetails": "1. डिलीवरी विवरण",
       "fullName": "Full Name",
       "email": "Email Address",
       "address": "Street Address & Colony",
@@ -1206,21 +1218,22 @@
       "upiDesc": "Instant 256-bit encrypted deposit into Karigar Trustee Account. Funds locked until delivery.",
       "cardTitle": "Credit / Debit Card (Insured Trade)",
       "cardDesc": "Supports Visa, Mastercard, RuPay & International Patron Cards.",
-      "itemsOverview": "Order Items Overview",
+      "itemsOverview": "आपका ऑर्डर",
       "subtotal": "Items Total",
       "logistics": "Insured Express Shipping",
       "free": "FREE",
       "guaranteedArtisan": "Direct Artisan Payout",
-      "totalAmount": "Total Escrow Amount",
-      "processing": "Locking Escrow...",
-      "authorize": "Authorize Sovereign Escrow",
-      "qty": "मात्रा"
+      "totalAmount": "कुल",
+      "processing": "प्रक्रिया जारी…",
+      "authorize": "ऑर्डर दें",
+      "qty": "मात्रा",
+      "paymentMethod": "2. भुगतान का तरीका"
     },
     "orders": {
       "home": "Home",
-      "title": "My Collection & Orders",
-      "heading": "Patron Consignments & Escrow Ledger",
-      "orderNo": "Ledger No",
+      "title": "आपके ऑर्डर",
+      "heading": "आपके ऑर्डर",
+      "orderNo": "ऑर्डर नंबर",
       "artisan": "Master Artisan",
       "artisanPayout": "Artisan Direct Payout",
       "giMark": "GI Certificate",
@@ -1230,7 +1243,7 @@
     "certificates": {
       "home": "Home",
       "title": "GI Certificates",
-      "heading": "Sovereign GI Certificates & Provenance Dossiers",
+      "heading": "शिल्प प्रमाणपत्र",
       "masterArtisan": "Master Artisan",
       "cluster": "Origin Cluster",
       "purity": "Lab Purity Index",
@@ -1241,19 +1254,19 @@
     "saved": {
       "home": "Home",
       "title": "Saved Crafts & Artisans",
-      "heading": "Your Bookmarked Heritage Collection",
+      "heading": "आपके पसंदीदा शिल्प",
       "emptyTitle": "No Saved Masterworks Yet",
       "emptyDesc": "Bookmark your favorite handcrafted silk sarees, wood carvings, and authentic pottery while exploring.",
-      "exploreGuilds": "Explore Guilds",
+      "exploreGuilds": "शिल्प देखें",
       "removeBookmark": "Remove Bookmark",
-      "addToCart": "Acquire Masterwork",
+      "addToCart": "बैग में जोड़ें",
       "byArtisan": "द्वारा",
       "artisanShare": "कारीगर"
     },
     "wallet": {
       "home": "Home",
-      "title": "Sovereign Escrow Wallet",
-      "heading": "Patron Sovereign Escrow & Guild Reserve",
+      "title": "वॉलेट",
+      "heading": "आपका वॉलेट",
       "activeEscrow": "Active Escrow Balance Impounded",
       "escrowExplanation": "Patron funds remain securely vaulted under Government-compliant escrow. Money is only transferred to artisan bank accounts when delivery and authenticity are verified.",
       "guarantee": "100% Direct Payout Protocol",
@@ -1308,6 +1321,354 @@
       "mugaEriSilk": "Muga & Eri Silk (Assam)",
       "sambalpuriIkat": "Sambalpuri Ikat (Odisha)",
       "bhagalpuriTussar": "Bhagalpuri Tussar (Bihar)"
+    },
+    "data": {
+      "states": {
+        "haryana": {
+          "name": "हरियाणा",
+          "description": "पवित्र करघों, जटिल फुलकारी कढ़ाई और प्राचीन टेराकोटा धातुकला की भूमि।"
+        },
+        "himachal-pradesh": {
+          "name": "हिमाचल प्रदेश",
+          "description": "उच्च हिमालयी बुनाई, प्रसिद्ध कुल्लू शॉल, चंबा रुमाल और जटिल काष्ठ नक्काशी परंपराएं।"
+        },
+        "punjab": {
+          "name": "पंजाब",
+          "description": "सुनहरे फुलकारी बागों, हस्तनिर्मित जूती और शाही पीतल जड़ाई शिल्प की जीवंत भूमि।"
+        },
+        "rajasthan": {
+          "name": "राजस्थान",
+          "description": "जयपुर ब्लू पॉटरी, अजरक व डाबू ब्लॉक प्रिंट और मारवाड़ लघुचित्रों के लिए प्रसिद्ध शाही मरुभूमि राज्य।"
+        },
+        "uttar-pradesh": {
+          "name": "उत्तर प्रदेश",
+          "description": "बनारसी ज़री ब्रोकेड बुनाई, नाज़ुक चिकनकारी सफेद कढ़ाई और फिरोजाबाद कांच कला का पवित्र केंद्र।"
+        },
+        "uttarakhand": {
+          "name": "उत्तराखंड",
+          "description": "ऐपण ज्यामितीय अल्पना, रिंगाल बांस बुनाई और हिमालयी भेड़ की ऊन के कंबलों का पर्वतीय अभयारण्य।"
+        },
+        "andhra-pradesh": {
+          "name": "आंध्र प्रदेश",
+          "description": "कलमकारी हस्तनिर्मित मंदिर स्क्रॉल, उप्पड़ा जमदानी बुनाई और कोंडापल्ली लकड़ी के खिलौनों की पावन धरा।"
+        },
+        "karnataka": {
+          "name": "कर्नाटक",
+          "description": "मैसूर शुद्ध रेशम बुनाई, बिदरीवेयर चांदी की जड़ाई और चन्नापटना लकड़ी शिल्प का समृद्ध साम्राज्य।"
+        },
+        "kerala": {
+          "name": "केरल",
+          "description": "कसरावू सुनहरे बॉर्डर वाली साड़ियों, आराणमुला धातु दर्पण और स्क्रूपाइन बुनाई का तटीय स्वर्ग।"
+        },
+        "tamil-nadu": {
+          "name": "तमिलनाडु",
+          "description": "भारी कांजीवरम सिल्क साड़ियों, टोडा जनजातीय कढ़ाई और तंजावुर स्वर्ण पत्र कला की राजधानी।"
+        },
+        "telangana": {
+          "name": "तेलंगाना",
+          "description": "पोचमपल्ली इकत प्रतिरोधी रंगाई, पेम्बरती धातु कला और चेरियाल स्क्रॉल चित्रों की जन्मभूमि।"
+        },
+        "bihar": {
+          "name": "बिहार",
+          "description": "मधुबनी मिथिला लोकचित्र, भागलपुर टसर रेशम और सुजनी कढ़ाईदार कंबलों की ऐतिहासिक भूमि।"
+        },
+        "jharkhand": {
+          "name": "झारखंड",
+          "description": "सोहराई व खोवर जनजातीय भित्तिचित्रों, कुचाई टसर सिल्क और प्यातकर स्क्रॉल कला का अरण्य क्षेत्र।"
+        },
+        "odisha": {
+          "name": "ओडिशा",
+          "description": "संभलपुरी बांधा इकत, पट्टचित्र ताड़पत्र चित्रकला और कटक चांदी तारकशी की पवित्र तटीय भूमि।",
+          "tagline": "शिल्प, संस्कृति और समुद्र तटों की पावन भूमि",
+          "quote": "जहाँ हर बुनाई एक कहानी बयां करती है।"
+        },
+        "west-bengal": {
+          "name": "पश्चिम बंगाल",
+          "description": "नक्शी कांथा कढ़ाई, शांतिपुर जमदानी मलमल और बांकुरा टेराकोटा की सांस्कृतिक धरोहर।"
+        },
+        "goa": {
+          "name": "गोवा",
+          "description": "कुनबी जनजातीय बुनाई, अजुलेजोस चीनी मिट्टी की टाइलों और नारियल खोल नक्काशी का तटीय क्षेत्र।"
+        },
+        "gujarat": {
+          "name": "गुजरात",
+          "description": "अजरक ब्लॉक प्रिंट, पाटन पटोला डबल इकत और कच्छी शीशा कढ़ाई का जीवंत शिल्प साम्राज्य।"
+        },
+        "maharashtra": {
+          "name": "महाराष्ट्र",
+          "description": "पैठणी मयूर साड़ियों, वारली जनजातीय भित्तिचित्रों और कोल्हापुरी चमड़े की चप्पलों की भूमि।"
+        },
+        "chhattisgarh": {
+          "name": "छत्तीसगढ़",
+          "description": "बेल मेटल ढोकरा ढलाई, कोसा टसर रेशम और गोदना टैटू चित्रकला का जनजातीय हृदयस्थल।"
+        },
+        "madhya-pradesh": {
+          "name": "मध्य प्रदेश",
+          "description": "चंदेरी पारदर्शी साड़ियों, महेश्वरी बुनाई और गोंड लोक कला चित्रों की ऐतिहासिक भूमि।"
+        },
+        "arunachal-pradesh": {
+          "name": "अरुणाचल प्रदेश",
+          "description": "आपतानी ज्यामितीय बुनाई, मोनपा हस्तनिर्मित कागज और जनजातीय काष्ठ नक्काशी का पर्वतीय क्षेत्र।"
+        },
+        "assam": {
+          "name": "असम",
+          "description": "सुनहरे मूगा सिल्क, एरी अहिंसा रेशम, जापी बांस की टोपियों और माजुली मुखौटों की ब्रह्मपुत्र घाटी।"
+        },
+        "manipur": {
+          "name": "मणिपुर",
+          "description": "शाफी लांफी कमल बुनाई, कौना रीड शिल्प और लोंगपी काले मृद्भांडों की मनमोहक भूमि।"
+        },
+        "meghalaya": {
+          "name": "मेघालय",
+          "description": "रिंगडिया जैविक एरी रेशम, केन बांस बुनाई और खासी बांस स्थापत्य का सुरम्य धाम।"
+        },
+        "mizoram": {
+          "name": "मिजोरम",
+          "description": "पुआन जटिल धारीदार बुनाई, बांस की टोकरियों और पर्वतीय लोक शिल्प का प्राकृतिक धाम।"
+        },
+        "nagaland": {
+          "name": "नागालैंड",
+          "description": "नागा योद्धा शॉल, नाज़ुक मनके का काम और बांस के पार पारंपरिक पात्र।"
+        },
+        "sikkim": {
+          "name": "सिक्किम",
+          "description": "भूटिया कालीन बुनाई, चोकत्से नक्काशीदार मेजों और लेपचा हथकरघा का अलौकिक पर्वतीय क्षेत्र।"
+        },
+        "tripura": {
+          "name": "त्रिपुरा",
+          "description": "रीसा व रिगनाई परिधानों, बांस के फर्नीचर और केन बुनाई की खूबसूरत भूमि।"
+        },
+        "andaman-nicobar": {
+          "name": "अंडमान और निकोबार द्वीप समूह",
+          "description": "निकोबारी चटाई बुनाई, शंख व सीप आभूषणों और पड़ौक लकड़ी नक्काशी का द्वीप समूह।"
+        },
+        "chandigarh": {
+          "name": "चंडीगढ़",
+          "description": "फुलकारी कढ़ाई, पंजाबी जूती और आधुनिक पॉटरी संग्रहों का स्थापत्य केंद्र।"
+        },
+        "daman-diu-dadra": {
+          "name": "दमन, दीव और नगर हवेली",
+          "description": "पुर्तगाली प्रभावित लेस कढ़ाई, शंख शिल्प और खजूर चटाई बुनाई का तटीय क्षेत्र।"
+        },
+        "delhi": {
+          "name": "दिल्ली (राष्ट्रीय राजधानी)",
+          "description": "ज़रदोज़ी सोने के तार की कढ़ाई, मुग़ल लघुचित्रों और हाथीदांत शैली लकड़ी जड़ाई की ऐतिहासिक राजधानी।"
+        },
+        "jammu-kashmir": {
+          "name": "जम्मू और कश्मीर",
+          "description": "पश्मीना, कानी शॉल बुनाई, पेपियर-माशे और अखरोट की लकड़ी की नक्काशी का मुकुटमणि।"
+        },
+        "ladakh": {
+          "name": "लद्दाख",
+          "description": "पश्मीना ऊन कताई, थंगका स्क्रॉल चित्रकला और घुमंतू कालीन बुनाई का उच्च पर्वतीय अभयारण्य।"
+        },
+        "lakshadweep": {
+          "name": "लक्षद्वीप",
+          "description": "नारियल खोल शिल्प, नारियल जटा चटाई बुनाई और कछुआ खोल रूपांकनों का प्रवाल द्वीप समूह।"
+        },
+        "puducherry": {
+          "name": "पुडुचेरी",
+          "description": "हस्तनिर्मित कागज, टेराकोटा मूर्तियों और प्राकृतिक रंग बाटिक का भारत-फ्रांसीसी तटीय केंद्र।"
+        }
+      },
+      "products": {
+        "wb-nk-042": {
+          "name": "राधा-कृष्ण आख्यान नक्शी कांथा टेपेस्ट्री",
+          "description": "श्रीमती अनन्या देवी (राष्ट्रीय पुरस्कार '18)। कल्पवृक्ष के नीचे श्री कृष्ण को दर्शाती जंगली टसर सिल्क पर हाथ से की गई बारीक कांथा कढ़ाई।",
+          "longStory": {
+            "title": "कदंब की डाल का गीत",
+            "text": "हथकुटे जंगली टसर रेशम पर लगातार 180 भोर तक कढ़ी गई यह अनूठी कृति कल्पवृक्ष के नीचे राधा-कृष्ण के प्राकृतिक सौंदर्य को जीवंत करती है। प्रत्येक आकृति को सूक्ष्म कांथा टांकों द्वारा उभारा गया है।"
+          }
+        },
+        "wb-jamdani-01": {
+          "name": "नीलांबरी बारीक सूती जमदानी साड़ी",
+          "description": "मास्टर बुनकर देबव्रत पाल। 200s काउंट के महीन हाथ से कते सूती मलमल पर पूरक बाने से उकेरी गई ज्यामितीय व पुष्पीय बूटियां।",
+          "longStory": {
+            "title": "मलमल पर उकेरी परछाइयां",
+            "text": "जमदानी बुनाई एक अमूर्त सांस्कृतिक कला है जहां बांस की तीलियों से धागे-धागे को जोड़कर सूक्ष्म फूल-पत्तियां उकेरी जाती हैं।"
+          }
+        },
+        "wb-swarna-02": {
+          "name": "पौराणिक स्वर्णचरी सिल्क साड़ी",
+          "description": "मास्टर कारीगर रूमा प्रमाणिक। पल्लू पर महाभारत के धर्मयुद्ध दृश्यों को उकेरने वाली स्वर्ण व लाल रेशम ब्रोकेड साड़ी।",
+          "longStory": {
+            "title": "स्वर्ण तारों में बुने रथ",
+            "text": "स्वर्णचरी साड़ियां विष्णुपुर की पौराणिक आख्यान परंपरा को स्वर्णमयी ब्रोकेड धागों से जीवंत करती हैं।"
+          }
+        },
+        "wb-terracotta-03": {
+          "name": "पंचमुरा लंबी गर्दन वाला टेराकोटा विरासत घोड़ा",
+          "description": "मास्टर कुम्हार बैद्यनाथ कुंभकार। प्राकृतिक मिट्टी से निर्मित व लकड़ी की भट्टी में पकाया गया लंबी गर्दन का टेराकोटा घोड़ा।",
+          "longStory": {
+            "title": "पंचमुरा की पवित्र मृत्तिका",
+            "text": "पंचमुरा का टेराकोटा घोड़ा भारतीय लोक शिल्प का विश्व प्रसिद्ध प्रतीक है जिसे पारंपरिक कुंभकार तैयार करते हैं।"
+          }
+        },
+        "jk-pashmina-01": {
+          "name": "शाही शाहूस कानी वीव पश्मीना शॉल",
+          "description": "मास्टर बुनकर गुलाम हसन मीर। चांगथांगी ग्रेड-ए पश्मीना और कानी की लकड़ी की तीलियों से हाथ से बुना गया शाही शॉल।",
+          "longStory": {
+            "title": "चांगथांग पठार की सरसराहट",
+            "text": "श्रीनगर में पीढ़ियों से चली आ रही तालीम की सांकेतिक भाषा के अनुसार लकड़ी की तुजी छड़ियों से बुना गया शॉल।"
+          }
+        },
+        "rj-bluepottery-01": {
+          "name": "जयपुर ब्लू पॉटरी शाही पुष्पीय कलश",
+          "description": "मास्टर कारीगर कृपाल सिंह स्टूडियो। बिना मिट्टी के क्वाार्ट्ज़ और पर्शियन कोबाल्ट ब्लू से तैयार हस्तचित्रित कलश।",
+          "longStory": {
+            "title": "आमेर की फ़िरोज़ी ज्वाला",
+            "text": "जयपुर ब्लू पॉटरी अनूठी है क्योंकि इसमें मिट्टी का उपयोग नहीं होता, बल्कि यह क्वाार्ट्ज़ पत्थर और कांच के चूर्ण से बनती है।"
+          }
+        },
+        "up-chanderi-01": {
+          "name": "इंपीरियल गोल्ड ज़री चंदेरी सिल्क टिश्यू साड़ी",
+          "description": "मास्टर बुनकर रामदास अंसारी। शुद्ध परीक्षित गोल्ड ज़री बूटियों से बुनी गई पारदर्शी सिल्क-कॉटन चंदेरी साड़ी।",
+          "longStory": {
+            "title": "मालवा साम्राज्य की चमक",
+            "text": "चंदेरी बुनाई से बने हल्के और पारदर्शी वस्त्रों पर सोने-चांदी के तारों से बारीक बूटियां उकेरी जाती हैं।"
+          }
+        },
+        "gj-ajrakh-01": {
+          "name": "अजरकपुर 16-चरणीय प्राकृतिक रंग ब्लॉक प्रिंट स्टोल",
+          "description": "शिल्प गुरु डॉ. इस्माइल एम. खत्री। टसर सिल्क पर प्राकृतिक नील, मजीठ और लोहे से 16 चरणों में तैयार अजरक प्रिंट।",
+          "longStory": {
+            "title": "नदी और माटी की जुगलबंदी",
+            "text": "अजरक कच्छ की एक जटिल 16-स्तरीय ब्लॉक प्रिंटिंग प्रक्रिया है जिसमें प्राकृतिक खनिजों और वनस्पति रंगों का उपयोग होता है।"
+          }
+        },
+        "tn-kanchi-01": {
+          "name": "कांजीवरम हैवी क्रिमसन कोरवई सिल्क साड़ी",
+          "description": "मास्टर बुनकर मुरुगन स्वामी। 3-प्लाई मलबरी सिल्क और प्रमाणित गोल्ड ज़री से इंटरलॉक कोरवई तकनीक द्वारा निर्मित।",
+          "longStory": {
+            "title": "कांची के मंदिर करघे",
+            "text": "कोरवई अंतरग्रथित बुनाई की प्राचीन मंदिर तकनीक है जिसमें बॉर्डर और बॉडी को अलग बुना जाता है फिर मजबूती से जोड़ा जाता है।"
+          }
+        },
+        "cg-dhokra-01": {
+          "name": "बस्तर बेल मेटल लॉस्ट-वैक्स ढोकरा जनजातीय जुलूस",
+          "description": "मास्टर शिल्पी बुधराम झोरिया। प्राचीन सीरे-परड्यू मोम ढलाई विधि से निर्मित जनजातीय संगीतकारों की पीतल मूर्ति।",
+          "longStory": {
+            "title": "बस्तर के जंगलों का पिघला कांस्य",
+            "text": "ढोकरा धातु ढलाई 4,000 वर्ष पुरानी लॉस्ट-वैक्स तकनीक का उपयोग करती है जिससे हर मूर्ति अनूठी और अद्वितीय बनती है।"
+          }
+        },
+        "up-banarasi-01": {
+          "name": "वाराणसी रॉयल कतान सिल्क कड़वा जाल ब्रोकेड साड़ी",
+          "description": "उस्ताद रामदास अंसारी (पद्म नामांकित)। मुग़ल जाल बूटियों से युक्त शुद्ध कतान सिल्क व स्वर्ण ज़री कड़वा बुनाई साड़ी।",
+          "longStory": {
+            "title": "काशी के स्वर्णिम तार",
+            "text": "कड़वा रेशम पर प्रत्येक बूटी को अलग-अलग हाथ से बुनने की श्रमसाध्य तकनीक है जिससे पीछे कोई ढीला धागा नहीं रहता।"
+          }
+        },
+        "od-pattachitra-01": {
+          "name": "रघुराजपुर ताड़पत्र पट्टचित्र दशावतार कथा",
+          "description": "मास्टर चित्रकार भास्कर महापात्र। सुखाए गए ताड़पत्रों पर खनिज रंगों व नक्काशी से उकेरे गए भगवान विष्णु के दशावतार।",
+          "longStory": {
+            "title": "पवित्र पत्रों पर उकेरी रेखाएं",
+            "text": "ताड़पत्र पट्टचित्र में ताड़ के सुखाए पत्तों को जोड़कर लोहे की सुई से पौराणिक दृश्यों की सूक्ष्म नक्काशी की जाती है।"
+          }
+        }
+      }
+    },
+    "premium": {
+      "settings": "सेटिंग्स",
+      "language": "भाषा",
+      "languageDescription": "अपनी पसंद की भाषा चुनें।",
+      "profileDetails": "प्रोफ़ाइल विवरण",
+      "fullName": "पूरा नाम",
+      "mobile": "मोबाइल नंबर",
+      "state": "राज्य",
+      "district": "ज़िला",
+      "saveChanges": "बदलाव सहेजें",
+      "saving": "सहेजा जा रहा है…",
+      "profileSaved": "प्रोफ़ाइल विवरण सहेजे गए।",
+      "saveFailed": "प्रोफ़ाइल सहेजी नहीं जा सकी। फिर से कोशिश करें।",
+      "yourAccount": "आपका खाता",
+      "accountMenu": "खाता मेनू",
+      "welcome": "फिर से स्वागत है",
+      "collections": "संग्रह",
+      "artisans": "कारीगर",
+      "orders": "ऑर्डर",
+      "saved": "पसंदीदा शिल्प",
+      "certificates": "प्रमाणपत्र",
+      "wallet": "वॉलेट",
+      "help": "सहायता और संपर्क",
+      "footerLine": "हाथों से बना। दिल से चुना।",
+      "availableCrafts": "उपलब्ध कलाकृतियाँ",
+      "listedDistricts": "सूचीबद्ध ज़िले",
+      "meetMakers": "कारीगरों से मिलें",
+      "indianCraft": "भारतीय शिल्प की कला",
+      "representedStates": "उत्पादों वाले राज्य",
+      "discoverRegions": "हर राज्य की अपनी कहानी",
+      "showLess": "कम दिखाएँ",
+      "allStates": "सभी राज्य",
+      "chosenByHand": "ध्यान से चुना हुआ संग्रह",
+      "madeToKeep": "सहेजने के लिए बना, अर्थ से भरा",
+      "searchCrafts": "शिल्प, कारीगर या राज्य खोजें",
+      "allCrafts": "सभी शिल्प",
+      "noCrafts": "कोई शिल्प नहीं मिला",
+      "resetFilters": "फ़िल्टर रीसेट करें",
+      "behindCraft": "शिल्प के पीछे के हाथ",
+      "exploreMap": "मानचित्र देखें",
+      "viewCraft": "शिल्प देखें",
+      "loadingMap": "कारीगर मानचित्र लोड हो रहा है…",
+      "madeByHand": "हाथों से बना",
+      "storyCaption": "भारतीय शिल्प के पीछे के काम, धैर्य और हाथों की एक झलक।",
+      "craftedHere": "यहाँ बना, हर जगह संजोया",
+      "craft": "शिल्प",
+      "allDistricts": "सभी ज़िले",
+      "budget": "अधिकतम कीमत (₹)",
+      "anyPrice": "कोई भी कीमत",
+      "sort": "क्रम",
+      "topRated": "सर्वोच्च रेटिंग",
+      "awardWinners": "पुरस्कार विजेता कारीगर",
+      "collectionGrowing": "यह संग्रह अभी बढ़ रहा है",
+      "noStateListings": "इस राज्य से अभी कोई उत्पाद सूचीबद्ध नहीं है। इसकी शिल्प परंपराएँ देखें या किसी और क्षेत्र को खोजें।",
+      "browseCollections": "संग्रह देखें",
+      "localTraditions": "स्थानीय परंपराएँ",
+      "craftVocabulary": "शिल्प की अपनी भाषा",
+      "artisanMap": "कारीगर मानचित्र",
+      "madeAcrossIndia": "भारत भर में निर्मित",
+      "craftAtlas": "शिल्प मानचित्र",
+      "mapIntro": "शिल्प के पीछे के लोगों को खोजें। क्षेत्र देखने के लिए पिन चुनें।",
+      "approximatePins": "पिन राज्य के अनुसार कारीगरों को समूहित करते हैं; ये क्षेत्रीय स्थान हैं, कार्यशाला के सटीक पते नहीं।",
+      "mapUnavailable": "मानचित्र लोड नहीं हुआ। सूची में सभी कारीगरों को देख सकते हैं।",
+      "showAll": "सभी दिखाएँ",
+      "loadingArtisans": "पंजीकृत कारीगर लोड हो रहे हैं…",
+      "directoryError": "पंजीकृत विक्रेता अभी उपलब्ध नहीं हैं। कैटलॉग के कारीगर दिखाए गए हैं।",
+      "retry": "फिर कोशिश करें",
+      "locationPending": "स्थान नहीं दिया गया",
+      "registeredArtisan": "पंजीकृत कारीगर",
+      "noArtisans": "यहाँ अभी कोई कारीगर सूचीबद्ध नहीं है। नए पंजीकरण अपने आप दिखेंगे।",
+      "save": "सहेजें",
+      "unsave": "हटाएँ",
+      "addToBag": "बैग में जोड़ें",
+      "addAnother": "एक और जोड़ें",
+      "stateNotFound": "राज्य नहीं मिला",
+      "appearance": "रंग रूप",
+      "themeDescription": "हल्का या गहरा रंग रूप चुनें।",
+      "viewRegion": "उनकी कला देखें",
+      "viewDetails": "संग्रह के बारे में जानें",
+      "lightTheme": "हल्का",
+      "darkTheme": "गहरा",
+      "heroEyebrow": "विरासत से जुड़ा। आपके हर दिन के लिए बना।",
+      "heroLead": "कहानियाँ, जिन्हें आप छू सकें।",
+      "heroEmphasis": "भारतीय, हस्तनिर्मित।",
+      "heroClose": "अनमोल कृतियाँ, जिन्हें आप अपना कहें।",
+      "browseArtisans": "कारीगर देखें",
+      "artisanIntro": "कारीगरों से मिलें, उनकी परंपराएँ जानें और अपनी पसंद की कला खोजें।",
+      "collectionIntro": "राज्य या शिल्प के अनुसार अपने लिए कुछ खास खोजें।",
+      "searchLabel": "खोजें",
+      "stateLabel": "राज्य",
+      "craftLabel": "कला और शिल्प",
+      "loadingMakers": "कारीगर सूची अपडेट हो रही है…",
+      "makersUnavailable": "कैटलॉग के कारीगर दिखाए जा रहे हैं। लाइव सूची अभी उपलब्ध नहीं है।",
+      "craftsComingSoon": "शिल्प जल्द उपलब्ध होंगे",
+      "noMatches": "कोई परिणाम नहीं मिला",
+      "tryFilters": "कोई दूसरा राज्य, शिल्प या खोज शब्द आज़माएँ।"
+    },
+    "heritage": {
+      "about": "परिचय"
     }
   }
 }

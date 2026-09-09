@@ -1,3 +1,4 @@
+import RouteScroll from './components/RouteScroll';
 import React from 'react';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -25,6 +26,7 @@ import Profile from './pages/seller/Profile';
 
 // Buyer Pages
 import Home from './pages/buyer/Home';
+import Browse from './pages/buyer/Browse';
 import StateExplore from './pages/buyer/StateExplore';
 import ProductDetail from './pages/buyer/ProductDetail';
 import Cart from './pages/buyer/Cart';
@@ -34,6 +36,7 @@ import Certificates from './pages/buyer/Certificates';
 import Saved from './pages/buyer/Saved';
 import Wallet from './pages/buyer/Wallet';
 import BuyerProfile from './pages/buyer/Profile';
+import BuyerSettings from './pages/buyer/Settings';
 
 // Shared Pages
 import About from './pages/About';
@@ -98,6 +101,7 @@ export default function App() {
         <BuyerProvider>
           <SellerProvider>
             <BrowserRouter>
+              <RouteScroll />
               <Routes>
                 {/* Root URL strictly displays Login page */}
                 <Route path="/" element={<Navigate to="/login" replace />} />
@@ -119,6 +123,8 @@ export default function App() {
                 >
                   {/* Existing Patron Home Interface */}
                   <Route path="/patron" element={<Home />} />
+                  <Route path="/collections" element={<Browse key="collections" />} />
+                  <Route path="/artisans" element={<Browse key="artisans" makers />} />
                   <Route path="/patron/dashboard" element={<Home />} />
                   <Route path="/user" element={<Home />} />
                   <Route path="/marketplace" element={<Home />} />
@@ -138,6 +144,7 @@ export default function App() {
                   <Route path="/buyer/certificates" element={<Certificates />} />
                   <Route path="/buyer/saved" element={<Saved />} />
                   <Route path="/buyer/wallet" element={<Wallet />} />
+                  <Route path="/buyer/settings" element={<BuyerSettings />} />
                   <Route path="/buyer/profile" element={<BuyerProfile />} />
                   <Route path="/patron/profile" element={<BuyerProfile />} />
                   <Route path="/user/profile" element={<BuyerProfile />} />

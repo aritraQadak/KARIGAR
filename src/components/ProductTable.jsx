@@ -1,3 +1,4 @@
+import { categoryImage } from '../data/demoImages';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Eye, Edit3, Trash2, Award, CheckCircle2 } from 'lucide-react';
@@ -79,7 +80,7 @@ export default function ProductTable({ products, onViewProduct, onEditProduct })
                 <div className="flex items-center gap-3">
                   <div className="relative">
                     <img
-                      src={item.image}
+                      src={categoryImage(item)}
                       alt={item.name}
                       className="w-11 h-11 rounded-lg object-cover border border-gray-200 dark:border-gray-700 shadow-xs flex-shrink-0"
                     />

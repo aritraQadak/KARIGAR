@@ -20,6 +20,7 @@ import {
   AlertCircle,
   X,
   Languages,
+  ChevronDown,
   ArrowRight
 } from 'lucide-react';
 
@@ -128,7 +129,7 @@ export default function Login() {
     i18n.changeLanguage(lng);
     try {
       localStorage.setItem('karigar-language', lng);
-    } catch (_e) {}
+    } catch {}
   };
 
   // Switch tabs with role retention
@@ -438,7 +439,7 @@ export default function Login() {
       />
 
       {/* Top Header Controls (Govt Badge + Language Switcher ONLY - NO Theme Toggle) */}
-      <header className="relative z-10 w-full max-w-5xl flex items-center justify-between mb-4 sm:mb-6">
+      <header className="relative z-10 w-full max-w-5xl flex flex-wrap items-center justify-between gap-3 mb-4 sm:mb-6">
         <div className="flex items-center gap-2">
           <span className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-amber-900/10 text-stone-800 text-xs font-semibold tracking-wide backdrop-blur-md border border-amber-900/20">
             <ShieldCheck className="w-4 h-4 text-emerald-700" />
@@ -446,42 +447,21 @@ export default function Login() {
           </span>
         </div>
 
-        {/* Language Switcher */}
-        <div className="flex items-center bg-white/85 backdrop-blur-md rounded-xl p-1 border border-stone-300/80 shadow-xs text-xs font-medium">
-          <button
-            type="button"
-            onClick={() => changeLanguage('en')}
-            className={`px-2.5 py-1 rounded-lg transition-all ${
-              i18n.language === 'en'
-                ? 'bg-[#14532D] text-white font-bold shadow-xs'
-                : 'text-stone-700 hover:text-stone-900'
-            }`}
+        {/* Compact native language picker supports keyboard and mobile controls. */}
+        <label className="relative inline-flex shrink-0 items-center rounded-full border border-stone-300/80 bg-white/80 text-stone-800 shadow-sm backdrop-blur-md transition-colors hover:bg-white focus-within:ring-2 focus-within:ring-amber-800 focus-within:ring-offset-2">
+          <Languages aria-hidden="true" className="pointer-events-none absolute left-3.5 h-4 w-4 text-[#914626]" />
+          <select
+            aria-label={t('common.chooseLanguage', 'Choose language')}
+            value={['en', 'hi', 'bn'].includes(i18n.language?.split('-')[0]) ? i18n.language.split('-')[0] : 'en'}
+            onChange={event => changeLanguage(event.target.value)}
+            className="min-h-11 cursor-pointer appearance-none rounded-full bg-transparent py-2 pl-10 pr-9 text-sm font-medium text-stone-800 outline-none"
           >
-            EN
-          </button>
-          <button
-            type="button"
-            onClick={() => changeLanguage('hi')}
-            className={`px-2.5 py-1 rounded-lg transition-all ${
-              i18n.language === 'hi'
-                ? 'bg-[#14532D] text-white font-bold shadow-xs'
-                : 'text-stone-700 hover:text-stone-900'
-            }`}
-          >
-            हिन्दी
-          </button>
-          <button
-            type="button"
-            onClick={() => changeLanguage('bn')}
-            className={`px-2.5 py-1 rounded-lg transition-all ${
-              i18n.language === 'bn'
-                ? 'bg-[#14532D] text-white font-bold shadow-xs'
-                : 'text-stone-700 hover:text-stone-900'
-            }`}
-          >
-            বাংলা
-          </button>
-        </div>
+            <option value="en" lang="en">English</option>
+            <option value="hi" lang="hi">हिन्दी</option>
+            <option value="bn" lang="bn">বাংলা</option>
+          </select>
+          <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 h-4 w-4 text-stone-500" />
+        </label>
       </header>
 
       {/* Main Authentication Section */}

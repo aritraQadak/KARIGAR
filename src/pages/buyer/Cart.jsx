@@ -1,3 +1,4 @@
+import { categoryImage } from '../../data/demoImages';
 import React from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -14,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useBuyer } from '../../context/BuyerContext';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
+import Button from '../../components/Button';
 
 export default function Cart() {
   const { t, i18n } = useTranslation();
@@ -64,13 +66,16 @@ export default function Cart() {
             <p className="font-body-md text-xs text-stone-600 dark:text-stone-400 max-w-md leading-relaxed">
               {t('buyer.cart.emptyDesc', 'Discover rare GI-certified handloom silks, fine pottery, and narrative tapestries crafted by India’s master artisans.')}
             </p>
-            <Link
-              to="/explore/west-bengal"
-              className="inline-flex items-center gap-2 px-6 py-3 bg-[#14532D] hover:bg-[#0E3D20] text-white font-label-md text-xs uppercase tracking-wider rounded-xl shadow-xs hover:shadow-md transition-all font-semibold cursor-pointer"
+            <Button
+              to="/patron"
+              variant="primary"
+              size="md"
+              icon={ArrowRight}
+              iconPosition="right"
+              fullWidthOnMobile={false}
             >
-              <span>{t('buyer.cart.exploreCrafts', 'Explore Masterworks')}</span>
-              <ArrowRight className="w-4 h-4" />
-            </Link>
+              {t('buyer.cart.exploreCrafts', 'Explore Masterworks')}
+            </Button>
           </div>
         ) : (
           /* Active Cart Grid */
@@ -90,7 +95,7 @@ export default function Cart() {
                     {/* Item Image */}
                     <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl bg-stone-100 dark:bg-stone-800 flex-shrink-0 overflow-hidden border border-stone-200/60 dark:border-stone-700 shadow-xs">
                       <img
-                        src={p.images?.[0] || p.image}
+                        src={categoryImage(p)}
                         alt={p.name}
                         className="w-full h-full object-cover"
                       />
@@ -172,7 +177,7 @@ export default function Cart() {
 
               <div className="pt-2 flex items-center justify-between">
                 <Link
-                  to="/explore/west-bengal"
+                  to="/patron"
                   className="inline-flex items-center gap-1.5 font-label-sm text-xs uppercase tracking-wider text-[#14532D] dark:text-emerald-400 font-bold hover:underline"
                 >
                   <ArrowLeft className="w-4 h-4" />
@@ -227,14 +232,17 @@ export default function Cart() {
                 </div>
 
                 {/* Checkout CTA */}
-                <button
+                <Button
                   type="button"
                   onClick={handleCheckout}
-                  className="w-full py-3.5 bg-[#14532D] hover:bg-[#0E3D20] text-white rounded-xl font-label-md text-xs uppercase tracking-wider shadow-xs hover:shadow-md transition-all flex items-center justify-center gap-2 font-bold cursor-pointer"
+                  variant="primary"
+                  size="lg"
+                  fullWidth
+                  icon={ArrowRight}
+                  iconPosition="right"
                 >
-                  <span>{t('buyer.cart.proceedCheckout', 'Proceed to Sovereign Checkout')}</span>
-                  <ArrowRight className="w-4 h-4" />
-                </button>
+                  {t('buyer.cart.proceedCheckout', 'Proceed to Sovereign Checkout')}
+                </Button>
               </div>
 
               {/* Security Badges */}
