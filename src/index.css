@@ -1,4 +1,6 @@
 @import "tailwindcss";
+@import "./styles/sellerTheme.css";
+@import "./styles/safeArea.css";
 
 @custom-variant dark (&:where(.dark, .dark *));
 

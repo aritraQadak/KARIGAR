@@ -1,3 +1,4 @@
+import { CRAFT_CATEGORIES as CRAFT_TYPES } from '../constants/craftCategories.js';
 import React, { useState } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -46,23 +47,7 @@ const INDIAN_STATES = [
   'Uttarakhand'
 ];
 
-const CRAFT_TYPES = [
-  'Handloom Weaving',
-  'Madhubani / Mithila Painting',
-  'Blue Pottery',
-  'Dhokra Metal Casting',
-  'Pashmina & Cashmere Shawls',
-  'Brass & Copper Handicrafts',
-  'Bidriware Inlay Craft',
-  'Wood Carving & Marquetry',
-  'Channapatna Wooden Toys',
-  'Zardozi & Chikankari Embroidery',
-  'Terracotta & Pottery',
-  'Leather Mojari & Crafts',
-  'Kalamkari Art',
-  'Tanjore Painting',
-  'Other Traditional Craft'
-];
+
 
 export default function Login() {
   const { t, i18n } = useTranslation();

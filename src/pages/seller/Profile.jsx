@@ -143,7 +143,7 @@ export default function Profile() {
         <button
           type="button"
           onClick={openEditModal}
-          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-[#14532D] hover:bg-[#0f3f22] text-white text-xs sm:text-sm font-semibold shadow-xs hover:shadow-md transition-all self-start sm:self-auto cursor-pointer"
+          className="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-xl bg-seller-accent hover:bg-[#0f3f22] text-white text-xs sm:text-sm font-semibold shadow-xs hover:shadow-md transition-all self-start sm:self-auto cursor-pointer"
         >
           <Edit3 className="w-4 h-4" />
           <span>{t('profile.editProfile', 'Edit Profile')}</span>
@@ -151,7 +151,7 @@ export default function Profile() {
       </div>
 
       {/* TOP ARTISAN CARD */}
-      <div className="bg-white dark:bg-[#1F2937] rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-gray-700/80 shadow-xs">
+      <div className="bg-seller-card  rounded-3xl p-6 sm:p-8 border border-gray-200/80 dark:border-gray-700/80 shadow-xs">
         <div className="flex flex-col sm:flex-row items-center sm:items-start gap-6 text-center sm:text-left">
           {/* Profile Picture with Change Photo option */}
           <div className="flex flex-col items-center gap-2">
@@ -163,14 +163,14 @@ export default function Profile() {
                   className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover ring-4 ring-emerald-50 dark:ring-emerald-950/60 shadow-md"
                 />
               ) : (
-                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-br from-emerald-600 to-teal-700 text-white font-bold text-3xl flex items-center justify-center ring-4 ring-emerald-50 dark:ring-emerald-950/60 shadow-md select-none">
+                <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-seller-accent text-white font-bold text-3xl flex items-center justify-center ring-4 ring-emerald-50 dark:ring-emerald-950/60 shadow-md select-none">
                   {userInitials}
                 </div>
               )}
 
               {user?.isVerified && (
                 <span
-                  className="absolute -bottom-1 -right-1 p-1 bg-emerald-600 rounded-full text-white ring-2 ring-white dark:ring-[#1F2937] shadow-xs"
+                  className="absolute -bottom-1 -right-1 p-1 bg-seller-accent rounded-full text-white ring-2 ring-white dark:ring-[#1F2937] shadow-xs"
                   title={t('common.verified', 'Verified')}
                 >
                   <Check className="w-3.5 h-3.5 stroke-[3]" />
@@ -192,9 +192,9 @@ export default function Profile() {
               type="button"
               onClick={() => fileInputRef.current?.click()}
               disabled={isUploading}
-              className="inline-flex items-center gap-1.5 px-3 py-1 bg-gray-100 dark:bg-[#2A374A] hover:bg-gray-200 dark:hover:bg-[#34445B] text-gray-700 dark:text-gray-200 text-xs font-semibold rounded-lg transition-colors cursor-pointer disabled:opacity-50"
+              className="inline-flex items-center gap-1.5 px-3 py-1 bg-seller-muted dark:bg-[#2A374A] hover:bg-gray-200 dark:hover:bg-[#34445B] text-gray-700 dark:text-gray-200 text-xs font-semibold rounded-lg transition-colors cursor-pointer disabled:opacity-50"
             >
-              <Camera className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
+              <Camera className="w-3.5 h-3.5 text-seller-accent-ink" />
               <span>{isUploading ? t('common.loading', 'Loading...') : t('profile.changePhoto', 'Change Photo')}</span>
             </button>
           </div>
@@ -236,7 +236,7 @@ export default function Profile() {
       {/* DETAILED ARTISAN CREDENTIALS GRID */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {/* Card 1: Craft Details */}
-        <div className="bg-white dark:bg-[#1F2937] p-5 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 shadow-xs space-y-3">
+        <div className="bg-seller-card  p-5 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 shadow-xs space-y-3">
           <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider">
             <Layers className="w-4 h-4" />
             <span>{t('profile.craftDetails', 'Craft & Experience')}</span>
@@ -266,7 +266,7 @@ export default function Profile() {
         </div>
 
         {/* Card 2: Provenance & GI Details */}
-        <div className="bg-white dark:bg-[#1F2937] p-5 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 shadow-xs space-y-3">
+        <div className="bg-seller-card  p-5 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 shadow-xs space-y-3">
           <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider">
             <Award className="w-4 h-4" />
             <span>{t('profile.giAndCluster', 'GI Tag & Cluster')}</span>
@@ -294,7 +294,7 @@ export default function Profile() {
         </div>
 
         {/* Card 3: Account Verification & Status */}
-        <div className="bg-white dark:bg-[#1F2937] p-5 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 shadow-xs space-y-3">
+        <div className="bg-seller-card  p-5 rounded-2xl border border-gray-200/80 dark:border-gray-700/80 shadow-xs space-y-3">
           <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400 font-bold text-xs uppercase tracking-wider">
             <ShieldCheck className="w-4 h-4" />
             <span>{t('profile.accountStatusHeader', 'Account & Verification')}</span>
@@ -326,7 +326,7 @@ export default function Profile() {
       {/* EDIT PROFILE MODAL */}
       {isEditModalOpen && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-xs animate-in fade-in duration-150">
-          <div className="bg-white dark:bg-[#1F2937] rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-gray-100 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
+          <div className="bg-seller-card  rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-gray-100 dark:border-gray-700 max-h-[90vh] overflow-y-auto">
             <div className="flex items-center justify-between pb-4 border-b border-gray-100 dark:border-gray-700">
               <div>
                 <h3 className="text-lg sm:text-xl font-bold text-gray-900 dark:text-white">
@@ -339,7 +339,7 @@ export default function Profile() {
               <button
                 type="button"
                 onClick={() => setIsEditModalOpen(false)}
-                className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-[#2A374A] cursor-pointer"
+                className="p-1.5 rounded-lg text-gray-400 hover:text-gray-600 dark:hover:text-gray-200 hover:bg-seller-muted dark:hover:bg-[#2A374A] cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>
@@ -356,7 +356,7 @@ export default function Profile() {
                     required
                     value={editForm.fullName}
                     onChange={(e) => setEditForm({ ...editForm, fullName: e.target.value })}
-                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#111827] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-seller-card  text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -369,7 +369,7 @@ export default function Profile() {
                     placeholder="9876543210"
                     value={editForm.mobile}
                     onChange={(e) => setEditForm({ ...editForm, mobile: e.target.value })}
-                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#111827] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-seller-card  text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -381,7 +381,7 @@ export default function Profile() {
                     type="text"
                     value={editForm.businessName}
                     onChange={(e) => setEditForm({ ...editForm, businessName: e.target.value })}
-                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#111827] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-seller-card  text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -393,7 +393,7 @@ export default function Profile() {
                     type="text"
                     value={editForm.craftType}
                     onChange={(e) => setEditForm({ ...editForm, craftType: e.target.value })}
-                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#111827] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-seller-card  text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -406,7 +406,7 @@ export default function Profile() {
                     min="0"
                     value={editForm.yearsOfExperience}
                     onChange={(e) => setEditForm({ ...editForm, yearsOfExperience: e.target.value })}
-                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#111827] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-seller-card  text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -418,7 +418,7 @@ export default function Profile() {
                     type="text"
                     value={editForm.giTagNumber}
                     onChange={(e) => setEditForm({ ...editForm, giTagNumber: e.target.value })}
-                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#111827] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-seller-card  text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -430,7 +430,7 @@ export default function Profile() {
                     type="text"
                     value={editForm.clusterName}
                     onChange={(e) => setEditForm({ ...editForm, clusterName: e.target.value })}
-                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#111827] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-seller-card  text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -442,7 +442,7 @@ export default function Profile() {
                     type="text"
                     value={editForm.district}
                     onChange={(e) => setEditForm({ ...editForm, district: e.target.value })}
-                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#111827] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-seller-card  text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
 
@@ -454,7 +454,7 @@ export default function Profile() {
                     type="text"
                     value={editForm.state}
                     onChange={(e) => setEditForm({ ...editForm, state: e.target.value })}
-                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-[#111827] text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                    className="w-full px-3 py-2 text-sm rounded-xl border border-gray-200 dark:border-gray-700 bg-seller-card  text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
                   />
                 </div>
               </div>
@@ -464,14 +464,14 @@ export default function Profile() {
                 <button
                   type="button"
                   onClick={() => setIsEditModalOpen(false)}
-                  className="px-4 py-2 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-[#2A374A] rounded-xl transition-colors cursor-pointer"
+                  className="px-4 py-2 text-xs sm:text-sm font-semibold text-gray-600 dark:text-gray-300 hover:bg-seller-muted dark:hover:bg-[#2A374A] rounded-xl transition-colors cursor-pointer"
                 >
                   {t('common.cancel', 'Cancel')}
                 </button>
                 <button
                   type="submit"
                   disabled={isSaving}
-                  className="px-5 py-2 text-xs sm:text-sm font-semibold text-white bg-[#14532D] hover:bg-[#0f3f22] rounded-xl transition-colors cursor-pointer disabled:opacity-50"
+                  className="px-5 py-2 text-xs sm:text-sm font-semibold text-white bg-seller-accent hover:bg-[#0f3f22] rounded-xl transition-colors cursor-pointer disabled:opacity-50"
                 >
                   {isSaving ? t('common.loading', 'Loading...') : t('common.save', 'Save Changes')}
                 </button>

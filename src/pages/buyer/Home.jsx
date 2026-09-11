@@ -1,3 +1,4 @@
+import { CRAFT_CATEGORIES,normalizeCraftCategory } from '../../constants/craftCategories.js';
 import { artisanPortrait } from '../../data/demoImages';
 import React, { useEffect, useRef, useState } from "react";
 import { Link } from "react-router-dom";
@@ -25,10 +26,10 @@ export default function Home() {
     preference.addEventListener("change", apply);
     return () => preference.removeEventListener("change", apply);
   }, []);
-  const categories = [...new Set(PRODUCTS.map((p) => p.craftCategory))];
+  const categories = CRAFT_CATEGORIES;
   const filtered = PRODUCTS.filter(
     (p) =>
-      (category === "all" || p.craftCategory === category) &&
+      (category === "all" || normalizeCraftCategory(p.craftCategory) === category) &&
       `${p.name} ${p.artisanName} ${p.stateName} ${p.craftLineage}`
         .toLowerCase()
         .includes(query.toLowerCase()),
@@ -41,11 +42,11 @@ export default function Home() {
       <section className="home-film-hero">
         <video
           ref={video}
+          autoPlay
           muted
           loop
           playsInline
-          preload="metadata"
-          poster="/images/states/default-hero.png"
+          preload="auto"
           aria-hidden="true"
         >
           <source src="/videos/hero-loop.mp4" type="video/mp4" />

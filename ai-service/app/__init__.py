@@ -1,0 +1,1 @@
+"""Independent KARIGAR verification service."""

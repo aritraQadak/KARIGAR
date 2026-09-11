@@ -1,0 +1,89 @@
+{
+  "trust_score": {
+    "score": 72.5,
+    "max_score": 100,
+    "level": "good_evidence",
+    "principle": "Score reflects transparency and supporting evidence, not authenticity probability",
+    "categories": {
+      "product_photo_evidence": {
+        "score": 35.0,
+        "max_score": 35.0,
+        "available": true,
+        "reasons": [
+          "Product image validated and decoded",
+          "DINOv2 extraction successful",
+          "Only one image assessed; multi-view consistency not checked"
+        ],
+        "signals": {
+          "image_decoded": true,
+          "embedding_successful": true,
+          "multi_view_consistency_checked": false
+        }
+      },
+      "product_video_evidence": {
+        "score": 0.0,
+        "max_score": 15.0,
+        "available": false,
+        "reasons": [
+          "No standalone product video provided; process video is not counted here"
+        ],
+        "signals": {}
+      },
+      "craft_process_evidence": {
+        "score": 20.0,
+        "max_score": 20.0,
+        "available": true,
+        "reasons": [
+          "Process video successfully analyzed; base analysis points awarded",
+          "Activity points use a bounded uncalibrated visual-change heuristic; no craft progression is established"
+        ],
+        "signals": {
+          "average_visual_change": 0.2,
+          "frames_analyzed": 8,
+          "duration_seconds": 10,
+          "temporal_progression_component": 1.0,
+          "hand_evidence_available": false,
+          "hand_presence_component": null,
+          "interaction_component": null,
+          "combined_activity_component": 1.0
+        }
+      },
+      "artisan_visibility": {
+        "score": 7.5,
+        "max_score": 15.0,
+        "available": true,
+        "reasons": [
+          "Person detected in 4 of 8 sampled frames",
+          "Optional visibility bonus only; no face or identity analysis"
+        ],
+        "signals": {
+          "person_presence_ratio": 0.5,
+          "average_person_confidence": 0.8,
+          "maximum_person_confidence": 0.9
+        }
+      },
+      "product_process_match": {
+        "score": 10.0,
+        "max_score": 10.0,
+        "available": true,
+        "reasons": [
+          "Points map best/average whole-image visual similarity; backgrounds may influence the match"
+        ],
+        "signals": {
+          "best_similarity": 0.9,
+          "average_similarity": 0.9,
+          "combined_similarity": 0.9
+        }
+      },
+      "listing_completeness": {
+        "score": 0.0,
+        "max_score": 5.0,
+        "available": false,
+        "reasons": [
+          "Listing metadata not provided to AI service"
+        ],
+        "signals": {}
+      }
+    }
+  }
+}

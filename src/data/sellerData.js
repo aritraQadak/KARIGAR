@@ -20,8 +20,6 @@ export const initialSellerProfile = {
   ifsc: "SBIN0001245",
   rating: 4.8,
   reviewsCount: 46,
-  totalProducts: 12,
-  totalOrders: 28,
   totalEarnings: 24560,
   availableBalance: 8420,
   pendingBalance: 3100,

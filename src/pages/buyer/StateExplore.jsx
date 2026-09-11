@@ -1,3 +1,4 @@
+import { CRAFT_CATEGORIES,normalizeCraftCategory } from '../../constants/craftCategories.js';
 import { artisanPortrait } from '../../data/demoImages';
 import React, { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
@@ -27,7 +28,7 @@ function StateCollection({ stateSlug }) {
       products
         .filter(
           (p) =>
-            (craft === "all" || p.craftLineage === craft) &&
+            (craft === "all" || normalizeCraftCategory(p.craftCategory) === craft) &&
             (district === "all" || p.district === district) &&
             (!awardOnly || /award/i.test(p.artisanTitle)) &&
             (!budget || p.price <= Number(budget)),
@@ -101,7 +102,7 @@ function StateCollection({ stateSlug }) {
                   <option value="all">
                     {t("buyer.premium.allCrafts", "All crafts")}
                   </option>
-                  {[...new Set(products.map((p) => p.craftLineage))].map(
+                  {CRAFT_CATEGORIES.map(
                     (c) => (
                       <option key={c}>{c}</option>
                     ),

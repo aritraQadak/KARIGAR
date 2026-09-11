@@ -1,3 +1,4 @@
+import { CRAFT_CATEGORIES } from '../constants/craftCategories.js';
 import i18n from '../i18n/i18n.js';
 /**
  * KARIGAR Artisanal Heritage Platform
@@ -14,18 +15,7 @@ export const REGIONS = [
   'Union Territory'
 ];
 
-export const CRAFT_TYPES = [
-  'Handloom & Textiles',
-  'Embroidery',
-  'Painting & Folk Art',
-  'Wood',
-  'Metal',
-  'Pottery/Clay',
-  'Jewellery',
-  'Natural Fibre',
-  'Leather',
-  'Special/Other'
-];
+export const CRAFT_TYPES = CRAFT_CATEGORIES;
 
 export const STATES_CRAFTS = [
   // --- NORTH ---

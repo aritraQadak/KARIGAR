@@ -65,7 +65,7 @@ export default function SellerProfileDropdown() {
       <button
         type="button"
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2.5 p-1 sm:px-2 sm:py-1 rounded-xl hover:bg-gray-100 dark:hover:bg-[#243244] transition-all border border-transparent hover:border-gray-200 dark:hover:border-gray-700 text-left focus:outline-none cursor-pointer"
+        className="flex items-center gap-2.5 p-1 sm:px-2 sm:py-1 rounded-xl hover:bg-seller-muted dark:hover:bg-seller-card transition-all border border-transparent hover:border-gray-200 dark:hover:border-gray-700 text-left focus:outline-none cursor-pointer"
         aria-expanded={isOpen}
         aria-haspopup="true"
       >
@@ -111,7 +111,7 @@ export default function SellerProfileDropdown() {
 
       {/* Dropdown Menu */}
       {isOpen && (
-        <div className="absolute right-0 mt-2 w-64 bg-white dark:bg-[#1F2937] rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 py-2 z-50 animate-in fade-in-50 duration-150">
+        <div className="absolute right-0 mt-2 w-64 bg-seller-card  rounded-2xl shadow-xl border border-gray-100 dark:border-gray-700 py-2 z-50 animate-in fade-in-50 duration-150">
           {/* Header Info */}
           <div className="px-4 py-3 border-b border-gray-100 dark:border-gray-700/80">
             <p className="text-xs font-semibold text-gray-400 dark:text-gray-400 uppercase tracking-wider">
@@ -134,7 +134,7 @@ export default function SellerProfileDropdown() {
                   key={item.label}
                   type="button"
                   onClick={() => handleSelect(item.path)}
-                  className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-gray-50 dark:hover:bg-[#243244] rounded-xl transition-colors text-left"
+                  className="w-full flex items-center justify-between px-3 py-2 text-xs font-medium text-gray-700 dark:text-gray-200 hover:text-emerald-700 dark:hover:text-emerald-400 hover:bg-seller-muted dark:hover:bg-seller-card rounded-xl transition-colors text-left"
                 >
                   <div className="flex items-center gap-2.5">
                     <Icon className="w-4 h-4 text-gray-400 dark:text-gray-400" />
