@@ -4,6 +4,7 @@ import jwt from 'jsonwebtoken';
 import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
+import { handleProducts } from './productHandler.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -47,6 +48,17 @@ export async function handleAuthRequest(req, res) {
     res.setHeader('Content-Type', 'application/json');
     res.end(JSON.stringify(data));
   };
+
+  // Product multipart requests must bypass the legacy JSON/avatar body reader.
+  if(pathname === '/api/products') {
+    let user;
+    try {
+      const decoded=jwt.verify(extractToken(req)||'',JWT_SECRET);
+      user=await prisma.user.findUnique({where:{id:decoded.id}});
+    } catch { return jsonResponse(401,{error:'Please sign in again before publishing.'}); }
+    if(!user)return jsonResponse(401,{error:'Please sign in again before publishing.'});
+    return handleProducts(req,res,{prisma,user});
+  }
 
   // Immediately attach body listener so chunks are never dropped
   const bodyPromise = new Promise((resolve, reject) => {

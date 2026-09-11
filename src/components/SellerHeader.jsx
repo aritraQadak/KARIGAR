@@ -7,7 +7,6 @@ import {
   Menu,
   ShieldCheck,
   PackageCheck,
-  MessageCircle,
 } from 'lucide-react';
 import { useSeller } from '../context/SellerContext';
 
@@ -17,7 +16,7 @@ export default function SellerHeader({ onToggleMobileMenu }) {
   const { t } = useTranslation();
   const { profile, lang, setLang, addToast } = useSeller();
   const [showNotifications, setShowNotifications] = useState(false);
-  const [unreadCount, setUnreadCount] = useState(3);
+  const [notificationsRead, setNotificationsRead] = useState(false);
   const notifRef = useRef(null);
 
   const notifications = [
@@ -30,22 +29,16 @@ export default function SellerHeader({ onToggleMobileMenu }) {
       color: 'text-emerald-600 bg-emerald-50 dark:bg-emerald-950/60 dark:text-emerald-400'
     },
     {
-      id: 2,
-      title: t('notifications.customerInquiry'),
-      desc: t('dashboard.customerInquiryDesc'),
-      time: t('dashboard.timeAgo1h'),
-      icon: MessageCircle,
-      color: 'text-blue-600 bg-blue-50 dark:bg-blue-950/60 dark:text-blue-400'
-    },
-    {
       id: 3,
       title: t('notifications.giRenewal'),
       desc: t('dashboard.giRenewalDesc'),
       time: t('dashboard.timeAgo1d'),
       icon: PackageCheck,
-      color: 'text-purple-600 bg-purple-50 dark:bg-purple-950/60 dark:text-purple-400'
+      color: 'text-seller-accent-ink bg-seller-accent-soft  text-seller-accent-ink'
     }
   ];
+
+  const unreadCount = notificationsRead ? 0 : notifications.length;
 
   // Close notifications on outside click
   useEffect(() => {
@@ -69,13 +62,13 @@ export default function SellerHeader({ onToggleMobileMenu }) {
   };
 
   return (
-    <header className="sticky top-0 z-20 h-16 bg-white dark:bg-[#1F2937] border-b border-gray-200/90 dark:border-gray-700/80 px-4 sm:px-6 flex items-center justify-between transition-colors">
+    <header className="sticky top-0 z-20 h-16 bg-seller-card  border-b border-gray-200/90 dark:border-gray-700/80 px-4 sm:px-6 flex items-center justify-between transition-colors">
       {/* Left: Mobile hamburger & breadcrumb or title */}
       <div className="flex items-center gap-3">
         <button
           type="button"
           onClick={onToggleMobileMenu}
-          className="p-2 rounded-lg text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-[#243244] md:hidden"
+          className="p-2 rounded-lg text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-seller-muted dark:hover:bg-seller-card md:hidden"
           aria-label="Open Navigation Menu"
         >
           <Menu className="w-5 h-5" />
@@ -92,17 +85,17 @@ export default function SellerHeader({ onToggleMobileMenu }) {
 
       {/* Right side: Language, Notifications, Seller Profile Dropdown */}
       <div className="flex items-center gap-2 sm:gap-3">
-        <label className="relative inline-flex shrink-0 items-center rounded-full border border-stone-300/80 dark:border-gray-600 bg-white/80 dark:bg-[#111827] text-stone-800 dark:text-gray-100 shadow-sm backdrop-blur-md focus-within:ring-2 focus-within:ring-amber-700">
-          <Languages aria-hidden="true" className="pointer-events-none absolute left-3.5 h-4 w-4 text-[#914626] dark:text-amber-400" />
+        <label className="relative inline-flex shrink-0 items-center rounded-full border border-stone-300/80 dark:border-gray-600 bg-seller-card/80  text-stone-800 dark:text-gray-100 shadow-sm backdrop-blur-md focus-within:ring-2 focus-within:ring-amber-700">
+          <Languages aria-hidden="true" className="pointer-events-none absolute left-3.5 h-4 w-4 text-[#914626] text-seller-accent-ink" />
           <select
             aria-label={t('common.chooseLanguage', 'Choose language')}
             value={['en', 'hi', 'bn'].includes(lang?.split('-')[0]) ? lang.split('-')[0] : 'en'}
             onChange={event => handleLanguageChange(event.target.value)}
             className="min-h-11 cursor-pointer appearance-none rounded-full bg-transparent py-2 pl-10 pr-9 text-sm font-medium outline-none"
           >
-            <option className="bg-white dark:bg-[#111827]" value="en" lang="en">English</option>
-            <option className="bg-white dark:bg-[#111827]" value="hi" lang="hi">हिन्दी</option>
-            <option className="bg-white dark:bg-[#111827]" value="bn" lang="bn">বাংলা</option>
+            <option className="bg-seller-card " value="en" lang="en">English</option>
+            <option className="bg-seller-card " value="hi" lang="hi">हिन्दी</option>
+            <option className="bg-seller-card " value="bn" lang="bn">বাংলা</option>
           </select>
           <ChevronDown aria-hidden="true" className="pointer-events-none absolute right-3 h-4 w-4 text-stone-500 dark:text-gray-400" />
         </label>
@@ -113,9 +106,9 @@ export default function SellerHeader({ onToggleMobileMenu }) {
             type="button"
             onClick={() => {
               setShowNotifications(!showNotifications);
-              if (unreadCount > 0) setUnreadCount(0);
+              if (unreadCount > 0) setNotificationsRead(true);
             }}
-            className="relative p-2 rounded-xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-gray-100 dark:hover:bg-[#243244] transition-colors"
+            className="relative p-2 rounded-xl text-gray-500 hover:text-gray-900 dark:text-gray-400 dark:hover:text-gray-100 hover:bg-seller-muted dark:hover:bg-seller-card transition-colors"
             aria-label="Notifications"
           >
             <Bell className="w-5 h-5" />
@@ -126,7 +119,7 @@ export default function SellerHeader({ onToggleMobileMenu }) {
 
           {/* Notifications Dropdown */}
           {showNotifications && (
-            <div className="absolute right-0 mt-2 w-80 sm:w-88 bg-white dark:bg-[#1F2937] rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 animate-in fade-in-50 duration-150">
+            <div className="absolute right-0 mt-2 w-80 sm:w-88 bg-seller-card  rounded-xl shadow-xl border border-gray-200 dark:border-gray-700 py-2 z-50 animate-in fade-in-50 duration-150">
               <div className="px-4 py-2 border-b border-gray-100 dark:border-gray-700/80 flex items-center justify-between">
                 <h4 className="text-xs font-bold uppercase tracking-wider text-gray-500 dark:text-gray-400">
                   {t('notifications.title')}
@@ -139,7 +132,7 @@ export default function SellerHeader({ onToggleMobileMenu }) {
                 {notifications.map((n) => {
                   const Icon = n.icon;
                   return (
-                    <div key={n.id} className="p-3 hover:bg-gray-50 dark:hover:bg-[#243244] flex items-start gap-3 transition-colors cursor-pointer">
+                    <div key={n.id} className="p-3 hover:bg-seller-muted dark:hover:bg-seller-card flex items-start gap-3 transition-colors cursor-pointer">
                       <div className={`p-2 rounded-lg ${n.color} flex-shrink-0 mt-0.5`}>
                         <Icon className="w-4 h-4" />
                       </div>

@@ -1,0 +1,37 @@
+/* Scoped to the seller layout; buyer/login design keeps its own palette. */
+@theme inline {
+  --color-seller-base: var(--seller-base);
+  --color-seller-card: var(--seller-card);
+  --color-seller-muted: var(--seller-muted);
+  --color-seller-text: var(--seller-text);
+  --color-seller-secondary: var(--seller-secondary);
+  --color-seller-border: var(--seller-border);
+  --color-seller-accent: #F28C28;
+  --color-seller-accent-soft: var(--seller-accent-soft);
+  --color-seller-accent-ink: var(--seller-accent-ink);
+}
+.seller-theme {
+  --seller-base:#F8F4EC; --seller-card:#fffdf9; --seller-muted:#f0ebe2;
+  --seller-text:#262421; --seller-secondary:#625b51; --seller-border:#ddd5c8;
+  --seller-accent-soft:#fce6cd; --seller-accent-ink:#934500;
+  background:var(--seller-base); color:var(--seller-text);
+  color-scheme:light;
+}
+.dark .seller-theme {
+  --seller-base:#111315; --seller-card:#1b1e21; --seller-muted:#24282c;
+  --seller-text:#f8f4ec; --seller-secondary:#c6bfb4; --seller-border:#383c40;
+  --seller-accent-soft:#392818; --seller-accent-ink:#F28C28;
+  color-scheme:dark;
+}
+.seller-theme .bg-seller-accent { color:#24180b; }
+.seller-theme :is(button,a):focus-visible { outline:2px solid #F28C28; outline-offset:3px; }
+.seller-theme :is(input,select,textarea) { background:var(--seller-card); color:var(--seller-text); border-color:var(--seller-border); }
+.seller-theme :is(input,select,textarea):focus { outline-color:#F28C28; }
+/* Shared components retain their customer appearance outside SellerLayout. */
+.seller-theme .bg-white { background-color:var(--seller-card); }
+.seller-theme :is(.text-gray-900,.text-gray-800,.text-gray-700) { color:var(--seller-text); }
+.seller-theme :is(.text-gray-600,.text-gray-500,.text-gray-400) { color:var(--seller-secondary); }
+.seller-theme :is(.border-gray-200,.border-gray-100,.border-gray-300) { border-color:var(--seller-border); }
+.dark .seller-theme :is(.bg-emerald-50,.bg-green-50) { background-color:#163127; }
+.dark .seller-theme :is(.text-emerald-900,.text-emerald-800,.text-emerald-700) { color:#8dd8b2; }
+.seller-theme main { min-width:0; }

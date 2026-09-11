@@ -9,7 +9,6 @@ import {
   IndianRupee,
   Users,
   ShieldCheck,
-  MessageSquare,
   Settings,
   LogOut,
   X,
@@ -35,8 +34,7 @@ export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
     { name: t('nav.orders'), path: '/seller/orders', icon: ShoppingBag, count: profile.totalOrders },
     { name: t('nav.earnings'), path: '/seller/earnings', icon: IndianRupee },
     { name: t('nav.customers'), path: '/seller/customers', icon: Users },
-    { name: t('nav.verification'), path: '/seller/verification', icon: ShieldCheck, verifiedDot: true },
-    { name: t('nav.messages'), path: '/seller/messages', icon: MessageSquare, badge: '2' },
+    { name: t('nav.verification'), path: '/seller/verification', icon: ShieldCheck, verifiedDot: false },
     { name: t('nav.myProfile'), path: '/seller/profile', icon: User },
     { name: t('nav.settings'), path: '/seller/settings', icon: Settings },
   ];
@@ -53,7 +51,7 @@ export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
   };
 
   const sidebarContent = (
-    <div className="flex flex-col h-full bg-white dark:bg-[#0F172A] border-r border-gray-200/90 dark:border-gray-800 text-sm select-none transition-colors">
+    <div className="flex flex-col h-full bg-seller-card  border-r border-gray-200/90 dark:border-gray-800 text-sm select-none transition-colors">
       {/* Brand / Logo */}
       <div className="h-20 px-4 sm:px-5 flex items-center justify-between border-b border-gray-100 dark:border-gray-800/80">
         <RouterNavLink to="/seller/dashboard" className="flex items-center group">
@@ -71,7 +69,7 @@ export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
           <button
             type="button"
             onClick={() => setIsMobileOpen(false)}
-            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-800 md:hidden"
+            className="p-1.5 rounded-lg text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 hover:bg-seller-muted dark:hover:bg-gray-800 md:hidden"
             aria-label="Close Sidebar"
           >
             <X className="w-5 h-5" />
@@ -97,15 +95,15 @@ export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
               onClick={() => setIsMobileOpen && setIsMobileOpen(false)}
               className={`flex items-center justify-between px-3 py-2.5 rounded-xl font-medium transition-all duration-150 group ${
                 isActive
-                  ? 'bg-[#FFF5ED] dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 font-semibold'
-                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-[#1E293B]'
+                  ? 'bg-seller-accent-soft  text-seller-accent-ink text-seller-accent-ink font-semibold'
+                  : 'text-gray-600 dark:text-gray-300 hover:text-gray-900 dark:hover:text-white hover:bg-seller-muted dark:hover:bg-seller-card'
               }`}
             >
               <div className="flex items-center gap-3">
                 <Icon
                   className={`w-5 h-5 flex-shrink-0 transition-colors ${
                     isActive
-                      ? 'text-orange-600 dark:text-orange-400'
+                      ? 'text-seller-accent-ink text-seller-accent-ink'
                       : 'text-gray-400 dark:text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-200'
                   }`}
                   strokeWidth={isActive ? 2.2 : 1.8}
@@ -118,8 +116,8 @@ export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
                   <span
                     className={`text-[10px] px-1.5 py-0.5 rounded-full font-bold ${
                       isActive
-                        ? 'bg-orange-600 text-white'
-                        : 'bg-orange-100 dark:bg-orange-900/60 text-orange-700 dark:text-orange-300'
+                        ? 'bg-seller-accent text-white'
+                        : 'bg-seller-accent-soft  text-seller-accent-ink text-seller-accent-ink'
                     }`}
                   >
                     {item.badge}
@@ -154,15 +152,15 @@ export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
                 onClick={() => setIsMobileOpen && setIsMobileOpen(false)}
                 className={`flex items-center justify-between px-3 py-2 rounded-xl text-xs font-medium transition-all duration-150 group ${
                   isActive
-                    ? 'bg-[#FFF5ED] dark:bg-orange-950/40 text-orange-600 dark:text-orange-400 font-semibold'
-                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-gray-50 dark:hover:bg-[#1E293B]'
+                    ? 'bg-seller-accent-soft  text-seller-accent-ink text-seller-accent-ink font-semibold'
+                    : 'text-gray-500 dark:text-gray-400 hover:text-gray-900 dark:hover:text-white hover:bg-seller-muted dark:hover:bg-seller-card'
                 }`}
               >
                 <div className="flex items-center gap-3">
                   <Icon
                     className={`w-4 h-4 flex-shrink-0 transition-colors ${
                       isActive
-                        ? 'text-orange-600 dark:text-orange-400'
+                        ? 'text-seller-accent-ink text-seller-accent-ink'
                         : 'text-gray-400 group-hover:text-gray-600 dark:group-hover:text-gray-300'
                     }`}
                     strokeWidth={1.8}
@@ -181,7 +179,7 @@ export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
           <span className="font-bold text-emerald-900 dark:text-emerald-200 flex items-center gap-1">
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> {t('nav.trustScore')}
           </span>
-          <span className="font-extrabold text-emerald-700 dark:text-emerald-300 bg-white dark:bg-[#1F2937] px-1.5 py-0.2 rounded border border-emerald-200 dark:border-emerald-700 shadow-2xs">
+          <span className="font-extrabold text-emerald-700 dark:text-emerald-300 bg-seller-card  px-1.5 py-0.2 rounded border border-emerald-200 dark:border-emerald-700 shadow-2xs">
             4.8 / 5
           </span>
         </div>

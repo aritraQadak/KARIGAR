@@ -10,7 +10,7 @@ import SellerLayout from './layouts/SellerLayout';
 import BuyerLayout from './layouts/BuyerLayout';
 import ProtectedRoute from './components/ProtectedRoute';
 
-import Login from './pages/Login';
+import LoginEntry from './components/LoginEntry';
 
 // Seller Pages
 import Dashboard from './pages/seller/Dashboard';
@@ -20,7 +20,6 @@ import Orders from './pages/seller/Orders';
 import Earnings from './pages/seller/Earnings';
 import Customers from './pages/seller/Customers';
 import Verification from './pages/seller/Verification';
-import Messages from './pages/seller/Messages';
 import Settings from './pages/seller/Settings';
 import Profile from './pages/seller/Profile';
 
@@ -107,7 +106,7 @@ export default function App() {
                 <Route path="/" element={<Navigate to="/login" replace />} />
 
                 {/* Public Authentication Route */}
-                <Route path="/login" element={<Login />} />
+                <Route path="/login" element={<LoginEntry />} />
                 <Route path="/auth" element={<Navigate to="/login" replace />} />
 
                 {/* Smart Unified Profile Route */}
@@ -167,7 +166,6 @@ export default function App() {
                   <Route path="earnings" element={<Earnings />} />
                   <Route path="customers" element={<Customers />} />
                   <Route path="verification" element={<Verification />} />
-                  <Route path="messages" element={<Messages />} />
                   <Route path="settings" element={<Settings />} />
                   <Route path="profile" element={<Profile />} />
                   <Route path="about" element={<About />} />
@@ -228,14 +226,6 @@ export default function App() {
                   element={
                     <ProtectedRoute requiredRole="ARTISAN">
                       <Navigate to="/seller/verification" replace />
-                    </ProtectedRoute>
-                  }
-                />
-                <Route
-                  path="/messages"
-                  element={
-                    <ProtectedRoute requiredRole="ARTISAN">
-                      <Navigate to="/seller/messages" replace />
                     </ProtectedRoute>
                   }
                 />

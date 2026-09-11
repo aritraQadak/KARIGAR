@@ -19,7 +19,7 @@ export default function SellerLayout() {
     location.pathname === '/seller/contact';
 
   return (
-    <div className="min-h-screen bg-[#F8F9FA] dark:bg-[#111827] flex text-gray-800 dark:text-[#F9FAFB] transition-colors">
+    <div className="seller-theme min-h-screen bg-seller-base flex text-gray-800  transition-colors">
       {/* Sidebar */}
       <SellerSidebar
         isMobileOpen={isMobileOpen}
@@ -40,7 +40,7 @@ export default function SellerLayout() {
 
         {/* Compact Footer for dashboard pages (hidden on pages with full 5-column footer) */}
         {!hasFullFooter && (
-          <footer className="py-4 px-6 border-t border-gray-200/70 dark:border-gray-800 text-center text-xs text-gray-400 dark:text-gray-500 bg-white dark:bg-[#0F172A] transition-colors">
+          <footer className="py-4 px-6 border-t border-gray-200/70 dark:border-gray-800 text-center text-xs text-gray-400 dark:text-gray-500 bg-seller-card  transition-colors">
             <div className="flex flex-col sm:flex-row items-center justify-between gap-2 max-w-7xl mx-auto">
               <span>{t('footer.compactDesc', 'Karigar Direct Artisan Marketplace © 2026. Empowering Indian Craftsmanship.')}</span>
               <div className="flex items-center gap-4 text-gray-500 dark:text-gray-400">

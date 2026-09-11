@@ -9,12 +9,14 @@ import {
 } from '../data/sellerData';
 import i18n from '../i18n/i18n';
 import { useAuth } from './AuthContext';
+import useSellerProducts from '../hooks/useSellerProducts';
 import { formatCurrency } from '../utils/formatters';
 
 const SellerContext = createContext();
 
 export const SellerProvider = ({ children }) => {
-  const { user, updateUserProfile } = useAuth();
+  const { user, token, updateUserProfile } = useAuth();
+  const {products,productsLoading,productsError,refreshProducts}=useSellerProducts(user?.role==='ARTISAN'?token:null);
 
   // Language (synced with i18n and localStorage 'karigar-language')
   const [lang, setLangState] = useState(() => localStorage.getItem('karigar-language') || i18n.language || 'en');
@@ -77,7 +79,7 @@ export const SellerProvider = ({ children }) => {
   }, [user]);
 
   // Products
-  const [products, setProducts] = useState(() => {
+  const [legacyProducts, setProducts] = useState(() => {
     const saved = localStorage.getItem('karigar_products');
     return saved ? JSON.parse(saved) : initialProducts;
   });
@@ -118,8 +120,8 @@ export const SellerProvider = ({ children }) => {
   }, [lang]);
 
   useEffect(() => {
-    localStorage.setItem('karigar_products', JSON.stringify(products));
-  }, [products]);
+    localStorage.setItem('karigar_products', JSON.stringify(legacyProducts));
+  }, [legacyProducts]);
 
   useEffect(() => {
     localStorage.setItem('karigar_profile', JSON.stringify(profile));
@@ -151,10 +153,6 @@ export const SellerProvider = ({ children }) => {
       authenticityScore: newProduct.authenticityScore || 92
     };
     setProducts((prev) => [created, ...prev]);
-    setProfile((prev) => ({
-      ...prev,
-      totalProducts: prev.totalProducts + 1
-    }));
     addToast('Product published successfully to Karigar global catalog!', 'success');
   };
 
@@ -165,10 +163,6 @@ export const SellerProvider = ({ children }) => {
 
   const deleteProduct = (id) => {
     setProducts((prev) => prev.filter((p) => p.id !== id));
-    setProfile((prev) => ({
-      ...prev,
-      totalProducts: Math.max(0, prev.totalProducts - 1)
-    }));
     addToast('Product removed from catalog', 'info');
   };
 
@@ -250,9 +244,10 @@ export const SellerProvider = ({ children }) => {
         lang,
         setLang,
         t,
-        profile,
+        profile: {...profile,totalProducts:products.length,totalOrders:orders.length},
         updateProfile,
         products,
+        productsLoading,productsError,refreshProducts,
         addProduct,
         updateProduct,
         deleteProduct,

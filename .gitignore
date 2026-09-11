@@ -24,4 +24,25 @@ dist-ssr
 *.sw?
 
 log.md
+public/uploads/products/
 
+# Environment / secrets
+.env
+.env.*
+!.env.example
+
+# Python virtual environment
+.venv/
+venv/
+
+# Python cache
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# AI service cache / local generated files
+ai-service/.cache/
+
+# Local database
+prisma/dev.db

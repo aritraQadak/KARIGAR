@@ -1,3 +1,4 @@
+import { CRAFT_CATEGORIES,normalizeCraftCategory } from '../../constants/craftCategories.js';
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Search } from 'lucide-react';
@@ -15,9 +16,9 @@ export default function Browse({ makers = false }) {
   const [craft, setCraft] = useState('');
   const items = makers ? artisans : PRODUCTS;
   const stateName = item => makers ? item.state : item.stateName;
-  const craftName = item => makers ? item.craftType : item.craftCategory;
+  const craftName = item => normalizeCraftCategory(makers ? item.craftType : item.craftCategory);
   const states = [...new Set(items.map(stateName).filter(Boolean))].sort();
-  const crafts = [...new Set(items.map(craftName).filter(Boolean))].sort();
+  const crafts = CRAFT_CATEGORIES;
   const results = items.filter(item =>
     (!state || stateName(item) === state) && (!craft || craftName(item) === craft) &&
     [item.name, stateName(item), craftName(item), item.artisanName, item.district, item.craftLineage]
