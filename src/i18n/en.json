@@ -433,7 +433,20 @@
     "badgeGIVerified": "GI Verified (GI-452)",
     "badgeAuthenticImage": "Authentic Image (92%)",
     "badgeClusterVerified": "Cluster Verified",
-    "badgeProcessProof": "Process Proof"
+    "badgeProcessProof": "Process Proof",
+    "craftYourStory": "Your craft, your story",
+    "addProduct": "Add a product",
+    "prepareSteps": "Prepare your photos, craft evidence and listing details in four simple steps.",
+    "publishedSuccess": "Product published successfully",
+    "listingAvailable": "Your listing is now available in My Products.",
+    "goToProducts": "Go to My Products",
+    "addAtLeastPhoto": "Add at least one product photo before continuing.",
+    "priceStockError": "Enter a positive price and a whole-number stock quantity of zero or more.",
+    "publishError": "Your draft is still here; you can retry.",
+    "certificationSupplied": "Certification supplied",
+    "noProcessEvidence": "No process evidence",
+    "capturedThrough": "Captured through KARIGAR",
+    "uploadedVideo": "Uploaded process video"
   },
   "voice": {
     "assistantTitle": "Regional Voice Assistant",
@@ -564,7 +577,44 @@
     "item3Desc": "Active membership verified in the local community cluster with peer endorsement from fellow master artisans.",
     "item4Title": "Process Proof & Workshop Firing Audit",
     "item4Authority": "Karigar Independent Craft Verification Team",
-    "item4Desc": "Raw alluvial clay preparation, traditional manual wheel throwing, and wood-fired kiln proof inspected and cataloged."
+    "item4Desc": "Raw alluvial clay preparation, traditional manual wheel throwing, and wood-fired kiln proof inspected and cataloged.",
+    "pehchanCard": "Pehchan Card",
+    "giAuthorization": "GI Authorization",
+    "cooperativeCred": "Cooperative Credential",
+    "notConnected": "Not connected",
+    "orgSupplied": "Organization supplied",
+    "notAdded": "Not added",
+    "govIdentityHelp": "Government identity checks are not connected.",
+    "pehchanHelp": "No verified Pehchan record is available.",
+    "membershipHelp": "Membership verification is not connected.",
+    "credentialNote": "Supplied profile information comes from your account. No external credential verification is implied.",
+    "suppliedNote": "A supplied registration number is not proof of authorization.",
+    "giAuthText": "Details supplied",
+    "trustProfileTitle": "Seller Trust Profile",
+    "demoRating": "Demo profile rating",
+    "ratingNote": "This is the existing sample seller rating shown by the prototype. A live seller-rating service is not connected.",
+    "verificationBadgesTitle": "Verification Badges",
+    "verifiedByKarigar": "Account marked verified by KARIGAR",
+    "pendingVerification": "Account verification pending",
+    "badgesNote": "Account status is recorded by KARIGAR; it does not establish KYC, Pehchan, GI authorization or cooperative membership.",
+    "productHistoryTitle": "Product Verification History",
+    "loadingProducts": "Loading your published products...",
+    "historyNote": "History comes from your saved product records. Evidence snapshots were submitted when publishing; they are not independent verification.",
+    "noPublishedHistory": "No published product history yet.",
+    "processHistoryTitle": "Process Evidence History",
+    "noProcessHistory": "No published process history yet.",
+    "docStatusTitle": "Document Status & Renewal",
+    "docStatusNote": "Document review, expiry dates and renewal reminders are not yet connected.",
+    "artisanVerificationStatus": "Artisan Verification Status",
+    "credentialsTitle": "Your credentials and listing history",
+    "evidenceScore": "Evidence",
+    "analysisDate": "Analysis date",
+    "notRecorded": "Not recorded",
+    "levelUnavailable": "Level unavailable",
+    "productPublished": "Products published",
+    "evidenceSnapshots": "Evidence snapshots",
+    "withMakingEvidence": "With making evidence",
+    "withLiveCapture": "With live capture status"
   },
   "messages": {
     "pageTitle": "Artisan-Buyer Direct Messaging",
@@ -1676,5 +1726,17 @@
   "home": {
     "heroProvenanceText": "Direct from India’s master craftspeople to your sanctuary. Verified Geographical Indication provenance, protected by fair-wage artisan escrow.",
     "exploreCraftClusters": "Explore Craft Clusters"
+  },
+  "sellerSidebar": {
+    "onTimeArtisan": "On-Time Artisan"
+  },
+  "sellerToasts": {
+    "productPublished": "Product published successfully to Karigar global catalog!",
+    "productUpdated": "Product updated successfully",
+    "productRemoved": "Product removed from catalog",
+    "profileUpdated": "Artisan profile updated successfully",
+    "withdrawalExceeds": "Withdrawal amount exceeds available balance",
+    "replySent": "Reply sent to customer",
+    "loadingHistory": "Loading history..."
   }
 }

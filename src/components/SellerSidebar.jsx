@@ -186,7 +186,7 @@ export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
           </span>
         </div>
         <p className="text-[11px] text-gray-600 dark:text-gray-300 leading-snug">
-          {t('nav.giAuthorized')} &amp; {formatNumber(95, i18n.language)}% On-Time Artisan.
+          {t('nav.giAuthorized')} &amp; {formatNumber(95, i18n.language)}% {t('sellerSidebar.onTimeArtisan')}.
         </p>
       </div>
 

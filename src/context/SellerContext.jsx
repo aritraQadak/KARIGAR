@@ -153,17 +153,17 @@ export const SellerProvider = ({ children }) => {
       authenticityScore: newProduct.authenticityScore || 92
     };
     setProducts((prev) => [created, ...prev]);
-    addToast('Product published successfully to Karigar global catalog!', 'success');
+    addToast(i18n.t('sellerToasts.productPublished'), 'success');
   };
 
   const updateProduct = (id, updated) => {
     setProducts((prev) => prev.map((p) => (p.id === id ? { ...p, ...updated } : p)));
-    addToast('Product updated successfully', 'success');
+    addToast(i18n.t('sellerToasts.productUpdated'), 'success');
   };
 
   const deleteProduct = (id) => {
     setProducts((prev) => prev.filter((p) => p.id !== id));
-    addToast('Product removed from catalog', 'info');
+    addToast(i18n.t('sellerToasts.productRemoved'), 'info');
   };
 
   const updateProfile = async (updated) => {
@@ -186,12 +186,12 @@ export const SellerProvider = ({ children }) => {
         console.warn('Backend profile sync error:', err);
       }
     }
-    addToast('Artisan profile updated successfully', 'success');
+    addToast(i18n.t('sellerToasts.profileUpdated'), 'success');
   };
 
   const withdrawFunds = (amount) => {
     if (amount > profile.availableBalance) {
-      addToast('Withdrawal amount exceeds available balance', 'error');
+      addToast(i18n.t('sellerToasts.withdrawalExceeds'), 'error');
       return false;
     }
     const newTxn = {
@@ -231,7 +231,7 @@ export const SellerProvider = ({ children }) => {
         return conv;
       })
     );
-    addToast('Reply sent to customer', 'success');
+    addToast(i18n.t('sellerToasts.replySent'), 'success');
   };
 
   const t = (key) => {

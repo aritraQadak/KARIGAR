@@ -97,11 +97,11 @@ export default function ProductTable({ products, onViewProduct, onEditProduct })
                   </div>
                   <div>
                     <p className="font-semibold text-gray-900  leading-tight">{translateCollectionTitle(item.name, i18n.language)}</p>
-                    {item.persisted&&<p className="text-xs text-emerald-800 mt-1">Evidence: {formatEvidenceScore(item.evidence.score)} / 100</p>}
+                    {item.persisted&&<p className="text-xs text-emerald-800 dark:text-emerald-400 mt-1">{t('verification.evidenceScore')}: {formatEvidenceScore(item.evidence.score)} / {formatNumber(100, i18n.language)}</p>}
                     <div className="flex items-center gap-1.5 mt-0.5">
                       {item.giTag && (
                         <span className="text-[10px] bg-seller-accent-soft  text-seller-accent-ink text-seller-accent-ink border border-seller-accent border-seller-accent px-1.5 py-0.2 rounded font-medium inline-flex items-center gap-0.5">
-                          <Award className="w-2.5 h-2.5" /> {item.persisted?'Certification supplied':t('nav.giAuthorized')}
+                          <Award className="w-2.5 h-2.5" /> {item.persisted ? t('addProduct.certificationSupplied', 'Certification supplied') : t('nav.giAuthorized')}
                         </span>
                       )}
                       <span className="text-xs text-gray-400 dark:text-gray-500">
