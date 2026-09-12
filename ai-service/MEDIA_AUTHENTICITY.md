@@ -1,5 +1,25 @@
 # Media authenticity
 
+## Local startup
+
+From the project root, create a Python environment once and install dependencies:
+
+```powershell
+python -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r ai-service/requirements.txt
+```
+
+Set `SIGHTENGINE_API_USER` and `SIGHTENGINE_API_SECRET` in the project-root
+`.env` (use `.env.example` as a template; never commit credentials). Run
+`npm run dev:ai` in one terminal and `npm run dev` in another. Keep both running.
+Check `http://127.0.0.1:8000/health` for `{"status":"ok"}`. This confirms the
+service is reachable; it does not validate the Sightengine credentials or quota.
+
+An empty HTTP 502 from `/ai-service/verify/media-authenticity` usually means
+the Python service is stopped. Start it, then use **Retry** on the media card.
+Missing credentials, rejected credentials, or exhausted quota must be resolved
+before real detection can succeed.
+
 The Add Product flow checks photos and videos through Sightengine's `genai`
 image endpoint: https://sightengine.com/docs/ai-generated-image-detection .
 The paid video endpoint is not used. Credentials remain in the AI backend;

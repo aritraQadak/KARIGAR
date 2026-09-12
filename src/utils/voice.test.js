@@ -21,6 +21,14 @@ test('audio API sends actual file and language; handles provider failure',async(
   });assert.equal(data.transcript,result().transcript);
   await assert.rejects(generateVoiceDetails(file,'en',15,undefined,async()=>({ok:false})));
 });
+test('voice API preserves actionable errors and handles empty proxy responses',async()=>{
+  const file=new File(['audio'],'voice.webm',{type:'audio/webm'});
+  await assert.rejects(generateVoiceDetails(file,'en',15,undefined,async()=>Response.json(
+    {detail:'Gemini API key is not configured.'},{status:503})),/Gemini API key is not configured/);
+  await assert.rejects(generateVoiceDetails(file,'en',15,undefined,async()=>new Response('',{status:502})),/temporarily unavailable/);
+  await assert.rejects(generateVoiceDetails(file,'en',0,undefined,async()=>Response.json(
+    {detail:[{msg:'duration too short'}]},{status:422})),/at least one second/);
+});
 test('recorder preserves method owners, collects final chunk, stops all tracks and keeps actual MIME',async()=>{
   let stopped=0,last;
   const stream={getTracks(){assert.equal(this,stream);return [{stop(){stopped++;}},{stop(){stopped++;}}];}};

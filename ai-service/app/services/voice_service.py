@@ -4,6 +4,7 @@ import json
 import os
 import logging
 import socket
+import time
 import urllib.error
 import urllib.request
 from pathlib import Path
@@ -27,9 +28,10 @@ def load_voice_config():
 
 
 class VoiceProviderError(Exception):
-    def __init__(self, category, detail, status=502):
+    def __init__(self, category, detail, status=502, provider_status=None):
         super().__init__(detail)
         self.category, self.status = category, status
+        self.provider_status = provider_status
 
 
 def provider_http_error(error, key):
@@ -39,12 +41,13 @@ def provider_http_error(error, key):
     except (ValueError, AttributeError):
         detail = body
     lower = str(detail).lower()
-    category = ('authentication_failure' if error.code in (401, 403) or 'api key' in lower else
+    category = ('provider_unavailable' if error.code in (500, 502, 503, 504) else
+                'authentication_failure' if error.code in (401, 403) or 'api key' in lower else
                 'quota_rate_limit' if error.code == 429 else
                 'invalid_model' if error.code == 404 or 'model' in lower and 'not found' in lower else
                 'unsupported_audio' if 'audio' in lower or 'mime' in lower else 'provider_request_failure')
     return VoiceProviderError(category, f'HTTP {error.code}: {str(detail)[:2000]}',
-                              429 if error.code == 429 else 502)
+                              429 if error.code == 429 else 502, provider_status=error.code)
 
 CATEGORIES = ('Pottery', 'Bamboo & Cane', 'Woodcraft', 'Folk Painting', 'Metal Craft')
 MAX_AUDIO_BYTES = 10 * 1024 * 1024
@@ -93,11 +96,30 @@ def generate(parts, schema):
     logger.warning('Gemini stage=%s model=%s audio_mime=%s', schema.__name__, payload['model'],
                    next((part.get('mime_type') for part in parts if part.get('type') == 'audio'), 'none'))
     try:
-        with urllib.request.urlopen(request, timeout=60) as response:
-            result = json.loads(response.read(1024 * 1024))
+        # Retry transient HTTP failures once without extending the existing
+        # 60-second stage budget or shortening normal audio processing time.
+        deadline = time.monotonic() + 60
+        for attempt in range(2):
+            try:
+                with urllib.request.urlopen(request, timeout=max(.1, deadline - time.monotonic())) as response:
+                    result = json.loads(response.read(1024 * 1024))
+                break
+            except urllib.error.HTTPError as error:
+                if attempt == 0 and error.code in (500, 502, 503, 504) and deadline - time.monotonic() > 1:
+                    logger.warning('Gemini stage=%s transient_http=%s retry=1', schema.__name__, error.code)
+                    error.close()
+                    time.sleep(.5)
+                    continue
+                raise
         if result.get('status') != 'completed':
             raise VoiceProviderError('incomplete_response', f"Provider status={result.get('status')}")
-        text = ''.join(item.get('text', '') for item in result.get('outputs', [])
+        # Interactions returns final text inside model_output steps. Ignore
+        # thoughts and tool results; only validate the final model output.
+        outputs = result.get('outputs', [])
+        if 'steps' in result:
+            outputs = next((step.get('content', []) for step in reversed(result['steps'])
+                            if step.get('type') == 'model_output'), [])
+        text = ''.join(item.get('text', '') for item in outputs
                        if item.get('type') == 'text')
         return schema.model_validate_json(text)
     except urllib.error.HTTPError as error:

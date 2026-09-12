@@ -21,7 +21,10 @@ export default function ProductVoiceInput({voice,onGenerated,onBusy=noop}) {
       if(alive.current&&!controller.signal.aborted){onGenerated(result);setCapture(old=>({...old,state:'completed'}));}
     } catch(error) {
       console.error('[KARIGAR voice processing]',error);
-      if(alive.current)setCapture(old=>({...old,state:'error',error:'We could not process that recording. Try again or fill the details manually.'}));
+      if(alive.current)setCapture(old=>({...old,state:'error',error:error.name==='AbortError'
+        ? 'Voice generation timed out. Try a shorter recording or fill the details manually.'
+        : error.name==='TypeError' ? 'The voice service could not be reached. Try again shortly or fill the details manually.'
+          : error.message || 'We could not process that recording. Try again or fill the details manually.'}));
     }finally{clearTimeout(timeout);}
   }
   const button='min-h-11 rounded-xl border border-seller-accent px-4 py-3 text-sm font-semibold disabled:opacity-50';

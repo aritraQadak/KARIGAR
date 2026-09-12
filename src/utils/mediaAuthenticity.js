@@ -18,11 +18,27 @@ export async function detectMedia(file) {
     const response = await fetch(`${AI_SERVICE_URL}/verify/media-authenticity`, {
       method:'POST', body, signal:AbortSignal.timeout(120000),
     });
-    const data = await response.json();
-    if (!response.ok) throw new Error(data.detail || 'Detection failed. Please retry.');
+    // A disconnected reverse proxy can return an empty or HTML error page.
+    // Do not expose a JSON parser exception as the detection result.
+    const text = await response.text();
+    let data;
+    try { data = JSON.parse(text); } catch { /* Handle transport errors below. */ }
+    if (!response.ok) {
+      const detail = typeof data?.detail === 'string' ? data.detail : null;
+      throw new Error(detail || ([502, 503, 504].includes(response.status)
+        ? 'Detection unavailable. The AI service could not be reached. Please retry shortly.'
+        : `Detection failed (HTTP ${response.status}). Please retry.`));
+    }
+    if (!data || !['success', 'error', 'unsupported', 'unavailable'].includes(data.status)
+      || (data.status === 'success' && !['Likely camera-captured', 'Likely AI-generated', 'Inconclusive'].includes(data.label))) {
+      throw new Error('The detection service returned an invalid response. Please retry.');
+    }
     return data;
   } catch (error) {
-    return {status:'error', review_required:true, message:error.name === 'TypeError'
-      ? 'Detection unavailable. Check that the AI service is running.' : error.message};
+    return {status:'error', review_required:true, message:
+      ['TimeoutError', 'AbortError'].includes(error.name)
+        ? 'Detection timed out. Please retry.'
+        : error.name === 'TypeError'
+          ? 'Detection unavailable. The AI service could not be reached. Please retry shortly.' : error.message};
   }
 }

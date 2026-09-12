@@ -28,8 +28,19 @@ async def product_from_voice(
         try:
             return await run_in_threadpool(service.product_from_voice, data, mime, selected_language)
         except service.VoiceProviderError as error:
-            logger.error('Voice onboarding category=%s detail=%s', error.category, error)
-            raise HTTPException(error.status, "We couldn't process that recording. Try again or fill the details manually.") from None
+            logger.error('Voice onboarding category=%s provider_http=%s', error.category, error.provider_status)
+            messages = {
+                'missing_api_key': 'Voice generation is unavailable because the Gemini API key is not configured. Contact support or fill the details manually.',
+                'authentication_failure': 'Gemini could not authenticate voice generation. Contact support or fill the details manually.',
+                'quota_rate_limit': 'Voice generation has reached its usage limit. Try later or fill the details manually.',
+                'invalid_model': 'The voice generation model is unavailable. Contact support or fill the details manually.',
+                'network_failure': 'The voice service could not reach Gemini. Try again shortly or fill the details manually.',
+                'provider_timeout': 'Voice generation timed out. Try a shorter recording or fill the details manually.',
+                'provider_unavailable': 'Gemini is temporarily unavailable. Please try Generate Product Details again shortly; you do not need to record again.',
+                'unsupported_audio': 'Gemini could not read this recording. Record again or fill the details manually.',
+            }
+            raise HTTPException(error.status, messages.get(error.category,
+                "We couldn't process that recording. Try again or fill the details manually.")) from None
         except Exception as error:
             # Do not log credentials, provider response bodies or private transcripts.
             logger.error('Voice onboarding failed (%s)', type(error).__name__)

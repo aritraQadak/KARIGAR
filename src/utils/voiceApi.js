@@ -23,6 +23,10 @@ export async function generateVoiceDetails(file, language, duration, signal, fet
   const body = new FormData();
   body.append('audio', file); body.append('selected_language',language); body.append('duration_seconds',String(duration));
   const response = await fetcher(`${AI_SERVICE_URL}/onboarding/product-from-voice`, {method:'POST',body,signal});
-  if (!response.ok) throw new Error('We could not process that recording. Try again or fill the details manually.');
-  return validateVoiceResult(await response.json());
+  let data;
+  try { data = await response.json(); } catch { /* Proxies may return empty or HTML errors. */ }
+  if (!response.ok) throw new Error(typeof data?.detail === 'string' ? data.detail
+    : response.status === 422 ? 'The recording is invalid or too short. Record at least one second and try again.'
+      : 'Voice generation is temporarily unavailable. Try again or fill the details manually.');
+  return validateVoiceResult(data);
 }

@@ -44,6 +44,14 @@ class VoiceTests(unittest.TestCase):
         self.assertEqual(response.status_code, 503)
         self.assertNotIn('private provider details', response.text)
 
+    def test_missing_key_is_actionable_without_exposing_provider_details(self):
+        with patch.object(voice, 'product_from_voice', side_effect=voice.VoiceProviderError(
+                'missing_api_key', 'private provider details', 503)):
+            response = self.post()
+        self.assertEqual(response.status_code, 503)
+        self.assertIn('Gemini API key is not configured', response.json()['detail'])
+        self.assertNotIn('private provider details', response.text)
+
     def test_strict_schema(self):
         values = dict.fromkeys(voice.Details.model_fields)
         values.update(materials='clay')
@@ -75,6 +83,48 @@ class VoiceTests(unittest.TestCase):
     def test_oversize_audio(self):
         with patch.object(voice, 'MAX_AUDIO_BYTES', 4):
             self.assertEqual(self.post().status_code, 413)
+
+    def test_transient_provider_failure_retries_once(self):
+        output = {'status': 'completed', 'steps': [{'type': 'model_output', 'content': [
+            {'type': 'text', 'text': json.dumps({'transcript': 'clay pot', 'source_language': 'en', 'duration_seconds': 5.0})}]}]}
+        failure = urllib.error.HTTPError('https://example.test', 503, 'unavailable', {}, io.BytesIO(b'{}'))
+        with patch.dict('os.environ', {'GEMINI_API_KEY': 'test'}), patch.object(voice.time, 'sleep'), \
+                patch('urllib.request.urlopen', side_effect=[failure, io.BytesIO(json.dumps(output).encode())]) as send:
+            self.assertEqual(voice.transcribe(b'audio', 'audio/webm', 'en').transcript, 'clay pot')
+        self.assertEqual(send.call_count, 2)
+
+    def test_retries_are_bounded_and_credentials_or_quota_are_not_retried(self):
+        for status, count, category in [(503, 2, 'provider_unavailable'),
+                                        (403, 1, 'authentication_failure'), (429, 1, 'quota_rate_limit')]:
+            failures = [urllib.error.HTTPError('https://example.test', status, 'error', {}, io.BytesIO(b'{}')) for _ in range(2)]
+            with patch.dict('os.environ', {'GEMINI_API_KEY': 'test'}), patch.object(voice.time, 'sleep'), \
+                    patch('urllib.request.urlopen', side_effect=failures) as send:
+                with self.assertRaises(voice.VoiceProviderError) as caught:
+                    voice.transcribe(b'audio', 'audio/webm', 'en')
+            self.assertEqual(send.call_count, count)
+            self.assertEqual(caught.exception.category, category)
+            self.assertEqual(caught.exception.provider_status, status)
+
+    def test_current_interactions_steps_parse_final_output_only(self):
+        text = json.dumps({'transcript': 'clay pot', 'source_language': 'en', 'duration_seconds': 5.0})
+        output = {'status': 'completed', 'steps': [
+            {'type': 'model_output', 'content': [{'type': 'text', 'text': 'earlier output'}]},
+            {'type': 'thought', 'content': [{'type': 'text', 'text': 'ignore thoughts'}]},
+            {'type': 'model_output', 'content': [
+                {'type': 'text', 'text': text[:20]}, {'type': 'text', 'text': text[20:]}]},
+        ]}
+        with patch.dict('os.environ', {'GEMINI_API_KEY': 'unit-test-placeholder'}), \
+                patch('urllib.request.urlopen', return_value=io.BytesIO(json.dumps(output).encode())):
+            result = voice.transcribe(b'audio', 'audio/webm', 'en')
+        self.assertEqual(result.transcript, 'clay pot')
+
+    def test_completed_response_without_model_output_fails_closed(self):
+        output = {'status': 'completed', 'steps': [{'type': 'thought', 'content': []}]}
+        with patch.dict('os.environ', {'GEMINI_API_KEY': 'unit-test-placeholder'}), \
+                patch('urllib.request.urlopen', return_value=io.BytesIO(json.dumps(output).encode())):
+            with self.assertRaises(voice.VoiceProviderError) as caught:
+                voice.transcribe(b'audio', 'audio/webm', 'en')
+        self.assertEqual(caught.exception.category, 'malformed_ai_response')
 
     def test_provider_errors_are_classified_and_key_redacted(self):
         for status, message, category in [(403, 'invalid API key secret', 'authentication_failure'),
