@@ -914,20 +914,20 @@
       "myProfileSub": "अपनी व्यक्तिगत प्रोफ़ाइल देखें और संपादित करें"
     },
     "home": {
-      "archiveBadge": "National Handloom & Guild Archives • Verified GI Registry",
-      "heroBadge": "National Handloom & Guild Archives • Verified GI Registry",
-      "heroTitleLine1": "Where Every Thread",
-      "heroTitleLine2": "Has a Sovereign Story",
-      "heroSubtitle": "Direct from India’s master craftspeople to your sanctuary. Verified Geographical Indication provenance, protected by fair-wage artisan escrow.",
-      "exploreClusters": "Explore Craft Clusters",
-      "exploreClustersCta": "Explore Craft Clusters",
-      "watchStories": "Watch Artisan Stories",
-      "watchStoriesCta": "Watch Artisan Stories",
-      "registeredMasters": "Registered Guild Masters",
-      "certifiedClusters": "Certified GI Clusters",
-      "escrowPayout": "Escrow Protected Payout",
-      "artisanHonorarium": "Direct Artisan Honorarium",
-      "tickerMasters": "Registered Guild Masters",
+      "archiveBadge": "राष्ट्रीय हथकरघा एवं गिल्ड अभिलेखागार • सत्यापित जीआई रजिस्ट्री",
+      "heroBadge": "राष्ट्रीय हथकरघा एवं गिल्ड अभिलेखागार • सत्यापित जीआई रजिस्ट्री",
+      "heroTitleLine1": "जहाँ हर धागा",
+      "heroTitleLine2": "एक संप्रभु गाथा सुनाता है",
+      "heroSubtitle": "भारत के श्रेष्ठ शिल्पकारों से सीधे आपके घर तक। सत्यापित भौगोलिक संकेत (GI) मूल प्रमाण, निष्पक्ष मजदूरी वाले कारीगर एस्क्रो द्वारा संरक्षित।",
+      "exploreClusters": "शिल्प समूहों का अन्वेषण करें",
+      "exploreClustersCta": "शिल्प समूहों का अन्वेषण करें",
+      "watchStories": "कारीगरों की कहानियाँ देखें",
+      "watchStoriesCta": "कारीगरों की कहानियाँ देखें",
+      "registeredMasters": "पंजीकृत गिल्ड मास्टर्स",
+      "certifiedClusters": "प्रमाणित जीआई समूह",
+      "escrowPayout": "एस्क्रो संरक्षित भुगतान",
+      "artisanHonorarium": "प्रत्यक्ष कारीगर मानदेय",
+      "tickerMasters": "पंजीकृत गिल्ड मास्टर्स",
       "tickerClusters": "Certified GI Clusters",
       "tickerEscrow": "Escrow Protected Payout",
       "tickerHonorarium": "Direct Artisan Honorarium",
@@ -1014,7 +1014,9 @@
       "directArtisanPayoutBadge": "प्रत्यक्ष कारीगर भुगतान",
       "artisanDirect": "सीधा कारीगर",
       "filmRuntime": "अवधि: ०६:४५ • उच्च-परिभाषा हेरिटेज फिल्म",
-      "storyVideoPreview": "कहानी वीडियो पूर्वावलोकन"
+      "storyVideoPreview": "कहानी वीडियो पूर्वावलोकन",
+      "heroProvenanceText": "भारत के श्रेष्ठ शिल्पकारों से सीधे आपके घर तक। सत्यापित भौगोलिक संकेत (GI) मूल प्रमाण, निष्पक्ष मजदूरी वाले कारीगर एस्क्रो द्वारा संरक्षित।",
+      "exploreCraftClusters": "शिल्प समूहों का अन्वेषण करें"
     },
     "stateExplore": {
       "home": "Home",
@@ -1670,5 +1672,9 @@
     "heritage": {
       "about": "परिचय"
     }
+  },
+  "home": {
+    "heroProvenanceText": "भारत के श्रेष्ठ शिल्पकारों से सीधे आपके घर तक। सत्यापित भौगोलिक संकेत (GI) मूल प्रमाण, निष्पक्ष मजदूरी वाले कारीगर एस्क्रो द्वारा संरक्षित।",
+    "exploreCraftClusters": "शिल्प समूहों का अन्वेषण करें"
   }
 }

@@ -10,7 +10,7 @@ import {
   Building2
 } from 'lucide-react';
 import { useSeller } from '../../context/SellerContext';
-import { formatCurrency, formatNumber } from '../../utils/formatters';
+import { formatCurrency, formatNumber, toLocaleDigits } from '../../utils/formatters';
 
 export default function Earnings() {
   const { t, i18n } = useTranslation();
@@ -200,13 +200,13 @@ export default function Earnings() {
                 return (
                   <tr key={tx.id} className="hover:bg-seller-muted/70 dark:hover:bg-seller-card transition-colors">
                     <td className="py-3.5 px-4 font-mono font-medium text-gray-700 dark:text-gray-300">
-                      {tx.id}
+                      {toLocaleDigits(tx.id, i18n.language)}
                     </td>
                     <td className="py-3.5 px-4 text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                      {tx.date}
+                      {toLocaleDigits(tx.date, i18n.language)}
                     </td>
                     <td className="py-3.5 px-4 text-gray-800 dark:text-gray-200 font-medium max-w-xs truncate">
-                      {tx.description}
+                      {toLocaleDigits(tx.description, i18n.language)}
                     </td>
                     <td className="py-3.5 px-4">
                       <span

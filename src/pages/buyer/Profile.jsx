@@ -21,7 +21,8 @@ import {
   ArrowRight
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
-import { formatDate, getInitials } from '../../utils/formatters';
+import { formatDate, getInitials, toLocaleDigits } from '../../utils/formatters';
+import { translatePersonName, translateState, translateDistrict } from '../../utils/localizedDisplay';
 
 export default function PatronProfile() {
   const { t, i18n } = useTranslation();
@@ -201,7 +202,7 @@ export default function PatronProfile() {
           <div className="flex-1 space-y-3">
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2.5">
               <h2 className="font-garamond text-2xl sm:text-3xl text-stone-900 dark:text-stone-100 font-bold">
-                {user?.fullName || notProvided}
+                {user?.fullName ? translatePersonName(user.fullName, i18n.language) : notProvided}
               </h2>
               <span className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full text-xs font-bold bg-emerald-50 dark:bg-emerald-950/40 text-[#14532D] dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60 uppercase tracking-wider">
                 <BadgeCheck className="w-3.5 h-3.5" />
@@ -216,11 +217,16 @@ export default function PatronProfile() {
               </span>
               <span className="flex items-center gap-1.5">
                 <Phone className="w-4 h-4 text-stone-400" />
-                <span>{user?.mobile ? `+91 ${user.mobile}` : notProvided}</span>
+                <span>{user?.mobile ? toLocaleDigits(`+91 ${user.mobile}`, i18n.language) : notProvided}</span>
               </span>
               <span className="flex items-center gap-1.5">
                 <MapPin className="w-4 h-4 text-stone-400" />
-                <span>{[user?.district, user?.state].filter(Boolean).join(', ') || notProvided}</span>
+                <span>
+                  {[
+                    user?.district ? translateDistrict(user.district, i18n.language) : null,
+                    user?.state ? translateState(user.state, i18n.language) : null
+                  ].filter(Boolean).join(', ') || notProvided}
+                </span>
               </span>
               <span className="flex items-center gap-1.5">
                 <Calendar className="w-4 h-4 text-stone-400" />

@@ -4,6 +4,9 @@ import { useTranslation } from 'react-i18next';
 import { ChevronDown, Search, MapPin, ChevronRight } from 'lucide-react';
 import { STATES_CRAFTS, REGIONS } from '../data/statesCrafts';
 
+import { formatNumber } from '../utils/formatters';
+import { translateState, translateCraftType } from '../utils/localizedDisplay';
+
 export default function StateSelectorDropdown({ className = '' }) {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -19,7 +22,7 @@ export default function StateSelectorDropdown({ className = '' }) {
 
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   // Close dropdown on click outside
   useEffect(() => {
@@ -32,7 +35,7 @@ export default function StateSelectorDropdown({ className = '' }) {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  // Filter states by search query
+  // Filter states by search query (multilingual)
   const filteredGroupedStates = useMemo(() => {
     const query = searchQuery.trim().toLowerCase();
     const result = {};
@@ -42,10 +45,13 @@ export default function StateSelectorDropdown({ className = '' }) {
       if (!query) {
         result[region] = statesInRegion;
       } else {
-        const matched = statesInRegion.filter(s =>
-          s.name.toLowerCase().includes(query) ||
-          s.crafts.some(c => c.items.some(i => i.toLowerCase().includes(query)))
-        );
+        const matched = statesInRegion.filter(s => {
+          const stateEn = s.name.toLowerCase();
+          const stateTrans = translateState(s.name, i18n.language).toLowerCase();
+          const craftsEn = s.crafts.some(c => c.items.some(i => i.toLowerCase().includes(query)));
+          const craftsTrans = s.crafts.some(c => c.items.some(i => translateCraftType(i, i18n.language).toLowerCase().includes(query)));
+          return stateEn.includes(query) || stateTrans.includes(query) || craftsEn || craftsTrans;
+        });
         if (matched.length > 0) {
           result[region] = matched;
         }
@@ -53,7 +59,7 @@ export default function StateSelectorDropdown({ className = '' }) {
     });
 
     return result;
-  }, [searchQuery, t]);
+  }, [searchQuery, i18n.language, t]);
 
   const toggleRegion = (region) => {
     setExpandedRegions(prev => ({
@@ -124,7 +130,7 @@ export default function StateSelectorDropdown({ className = '' }) {
                       className="w-full px-3 py-1.5 bg-surface-container-low/70 hover:bg-surface-container-low flex items-center justify-between text-left transition-colors"
                     >
                       <span className="font-label-sm text-[11px] uppercase tracking-[0.16em] font-bold text-secondary">
-                        {region} {region === 'Union Territory' ? 'Territories' : 'Guilds'} ({states.length})
+                        {t(`buyer.nav.region_${region.toLowerCase().replace(/\s+/g, '_')}`, region)} {region === 'Union Territory' ? t('buyer.nav.territories', 'Territories') : t('buyer.nav.guilds', 'Guilds')} ({formatNumber(states.length, i18n.language)})
                       </span>
                       <ChevronRight
                         className={`w-3.5 h-3.5 text-outline transition-transform duration-200 ${isExpanded ? 'rotate-90 text-secondary' : ''}`}
@@ -144,10 +150,10 @@ export default function StateSelectorDropdown({ className = '' }) {
                             <MapPin className="w-3.5 h-3.5 text-secondary shrink-0 mt-0.5 group-hover:scale-110 transition-transform" />
                             <div className="min-w-0 flex-1">
                               <div className="font-label-sm text-[12px] uppercase tracking-[0.1em] font-semibold text-on-surface group-hover:text-secondary truncate">
-                                {state.name}
+                                {translateState(state.name, i18n.language)}
                               </div>
                               <div className="font-body-sm text-[11px] text-outline truncate leading-tight">
-                                {state.crafts.map(c => c.items.slice(0, 1).join('')).slice(0, 2).join(' • ')}
+                                {state.crafts.map(c => c.items.slice(0, 1).map(item => translateCraftType(item, i18n.language)).join('')).slice(0, 2).join(' • ')}
                               </div>
                             </div>
                           </button>

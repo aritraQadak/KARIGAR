@@ -2,10 +2,11 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Search, CheckCircle2 } from 'lucide-react';
 import { useSeller } from '../../context/SellerContext';
+import { formatNumber } from '../../utils/formatters';
 import OrderTable from '../../components/OrderTable';
 
 export default function Orders() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { orders } = useSeller();
   const [searchTerm, setSearchTerm] = useState('');
   const [activeTab, setActiveTab] = useState('All');
@@ -79,7 +80,7 @@ export default function Orders() {
                       : 'bg-gray-200 dark:bg-gray-800 text-gray-600 dark:text-gray-400'
                   }`}
                 >
-                  {getStatusCount(tab.value)}
+                  {formatNumber(getStatusCount(tab.value), i18n.language)}
                 </span>
               </button>
             ))}

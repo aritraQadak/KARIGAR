@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import { useBuyer } from '../../context/BuyerContext';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
+import { translateCategory, translateCraftType, translateState, translatePersonName, translateCollectionTitle } from '../../utils/localizedDisplay';
 import Button from '../../components/Button';
 
 export default function Cart() {
@@ -109,16 +110,16 @@ export default function Cart() {
                     {/* Details */}
                     <div className="flex-1 min-w-0 space-y-1">
                       <div className="font-label-sm text-[11px] uppercase tracking-wider text-[#C2410C] font-bold">
-                        {p.craftCategory || p.craft} • {p.stateName || 'Master Guild'}
+                        {(p.craftCategory ? translateCategory(p.craftCategory, i18n.language) : (p.craft ? translateCraftType(p.craft, i18n.language) : ''))} • {p.stateName ? translateState(p.stateName, i18n.language) : t('buyer.cart.masterGuild', 'Master Guild')}
                       </div>
                       <Link
                         to={`/product/${p.id}`}
                         className="font-garamond text-xl text-stone-900 dark:text-stone-100 hover:text-[#14532D] dark:hover:text-emerald-400 transition-colors block truncate font-bold"
                       >
-                        {p.name}
+                        {translateCollectionTitle(p.name, i18n.language)}
                       </Link>
                       <div className="font-body-sm text-xs text-stone-600 dark:text-stone-400">
-                        {t('buyer.cart.artisan', 'Master Artisan')}: <span className="text-stone-900 dark:text-stone-100 font-semibold">{p.artisanName}</span>
+                        {t('buyer.cart.artisan', 'Master Artisan')}: <span className="text-stone-900 dark:text-stone-100 font-semibold">{translatePersonName(p.artisanName, i18n.language)}</span>
                       </div>
 
                       {/* Artisan Direct Payout Badge */}

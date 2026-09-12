@@ -9,11 +9,11 @@ import {
   PackageCheck,
 } from 'lucide-react';
 import { useSeller } from '../context/SellerContext';
-
+import { translateDistrict } from '../utils/localizedDisplay';
 import SellerProfileDropdown from './SellerProfileDropdown';
 
 export default function SellerHeader({ onToggleMobileMenu }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { profile, lang, setLang, addToast } = useSeller();
   const [showNotifications, setShowNotifications] = useState(false);
   const [notificationsRead, setNotificationsRead] = useState(false);
@@ -78,7 +78,7 @@ export default function SellerHeader({ onToggleMobileMenu }) {
           <span className="font-semibold text-gray-900 dark:text-gray-100">{t('nav.artisanStudio')}</span>
           <span className="text-gray-300 dark:text-gray-600">/</span>
           <span className="text-emerald-700 dark:text-emerald-300 bg-emerald-50 dark:bg-emerald-950/50 font-medium px-2 py-0.5 rounded-full border border-emerald-200 dark:border-emerald-800">
-            {profile.cluster || t('dashboard.bankuraCluster')}
+            {profile.cluster ? translateDistrict(profile.cluster, i18n.language) : t('dashboard.bankuraCluster')}
           </span>
         </div>
       </div>

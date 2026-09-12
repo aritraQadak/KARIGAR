@@ -10,8 +10,18 @@ import { STATES_CRAFTS } from "../../data/statesCrafts";
 import { stateArtwork, normalizeState } from "../../data/heritage";
 import { useArtisanDirectory } from "../../hooks/useArtisanDirectory";
 import CraftCard from "../../components/CraftCard";
+import {
+  translateState,
+  translateCategory,
+  translateCraftType,
+  translateDistrict,
+  translatePersonName,
+  translateCollectionTitle,
+  formatLocalizedNumber
+} from "../../utils/localizedDisplay.js";
+
 export default function Home() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { artisans } = useArtisanDirectory();
   const video = useRef(null);
   const [query, setQuery] = useState(""),
@@ -81,7 +91,26 @@ export default function Home() {
 
       if (query.trim()) {
         const q = query.trim().toLowerCase();
-        const text = `${item.name || ''} ${item.artisanName || ''} ${item.stateName || ''} ${item.craftLineage || ''} ${item.craftType || ''} ${item.district || ''}`.toLowerCase();
+        const sEn = item.stateName || item.state || '';
+        const sHi = translateState(sEn, 'hi');
+        const sBn = translateState(sEn, 'bn');
+
+        const cEn = item.craftType || item.craftLineage || '';
+        const cHi = translateCraftType(cEn, 'hi');
+        const cBn = translateCraftType(cEn, 'bn');
+
+        const aEn = item.artisanName || '';
+        const aHi = translatePersonName(aEn, 'hi');
+        const aBn = translatePersonName(aEn, 'bn');
+
+        const dEn = item.district || '';
+        const dHi = translateDistrict(dEn, 'hi');
+        const dBn = translateDistrict(dEn, 'bn');
+
+        const tHi = translateCollectionTitle(item.name || item.title, 'hi');
+        const tBn = translateCollectionTitle(item.name || item.title, 'bn');
+
+        const text = `${item.name || ''} ${tHi} ${tBn} ${aEn} ${aHi} ${aBn} ${sEn} ${sHi} ${sBn} ${cEn} ${cHi} ${cBn} ${dEn} ${dHi} ${dBn}`.toLowerCase();
         if (!text.includes(q)) {
           return false;
         }
@@ -114,27 +143,33 @@ export default function Home() {
           <h1 className="home-hero-quote"><span>{t('buyer.premium.heroLead', 'Stories you can hold.')}</span><strong>{t('buyer.premium.heroEmphasis', 'Indian, handmade.')}</strong><em>{t('buyer.premium.heroClose', 'Treasures you can call your own.')}</em></h1>
           <p className="home-film-description">
             {t(
-              "buyer.home.heroSubtitle",
-              "Direct from India’s master craftspeople to your sanctuary.",
+              "home.heroProvenanceText",
+              t(
+                "buyer.home.heroSubtitle",
+                "Direct from India’s master craftspeople to your sanctuary. Verified Geographical Indication provenance, protected by fair-wage artisan escrow."
+              )
             )}
           </p>
           <div className="heritage-actions">
             <a className="heritage-button" href="#clusters">
-              {t("buyer.home.exploreClustersCta", "Explore Craft Clusters")}
+              {t(
+                "home.exploreCraftClusters",
+                t("buyer.home.exploreClustersCta", "Explore Craft Clusters")
+              )}
               <ArrowRight size={18} />
             </a>
           </div>
           <div className="home-film-stats">
             <span>
-              <strong>{PRODUCTS.length}</strong>
+              <strong>{formatLocalizedNumber(PRODUCTS.length, i18n.language)}</strong>
               {t("buyer.premium.availableCrafts", "Available pieces")}
             </span>
             <span>
-              <strong>{artisans.length}</strong>
+              <strong>{formatLocalizedNumber(artisans.length, i18n.language)}</strong>
               {t("buyer.premium.artisans", "Artisans")}
             </span>
             <span>
-              <strong>{new Set(PRODUCTS.map((p) => p.stateSlug)).size}</strong>
+              <strong>{formatLocalizedNumber(new Set(PRODUCTS.map((p) => p.stateSlug)).size, i18n.language)}</strong>
               {t("buyer.premium.representedStates", "States with listings")}
             </span>
           </div>
@@ -180,9 +215,9 @@ export default function Home() {
               )}
               <div>
                 <span>{state.region}</span>
-                <h3>{state.name}</h3>
+                <h3>{translateState(state.name, i18n.language)}</h3>
                 <p>
-                  {PRODUCTS.filter((p) => p.stateSlug === state.slug).length}{" "}
+                  {formatLocalizedNumber(PRODUCTS.filter((p) => p.stateSlug === state.slug).length, i18n.language)}{" "}
                   {t("buyer.premium.availableCrafts", "available pieces")}
                 </p>
               </div>
@@ -246,7 +281,7 @@ export default function Home() {
               aria-pressed={category === c}
               onClick={() => setCategory(c)}
             >
-              {c}
+              {translateCategory(c, i18n.language)}
             </button>
           ))}
         </div>
@@ -297,9 +332,9 @@ export default function Home() {
                 }}
               />
               <div>
-                <small>{a.state}</small>
-                <h3>{a.name}</h3>
-                <p>{a.craftType}</p>
+                <small>{translateState(a.state, i18n.language)}</small>
+                <h3>{translatePersonName(a.name, i18n.language)}</h3>
+                <p>{translateCraftType(a.craftType, i18n.language)}</p>
                 {a.products[0] ? (
                   <Link to={`/product/${a.products[0].id}`}>
                     {t("buyer.premium.viewCraft", "View craft")} →

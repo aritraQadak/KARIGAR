@@ -3,7 +3,8 @@ import React from 'react';
 import { useTranslation } from 'react-i18next';
 import { Eye, ShieldCheck } from 'lucide-react';
 import { useSeller } from '../context/SellerContext';
-import { formatCurrency } from '../utils/formatters';
+import { formatCurrency, toLocaleDigits } from '../utils/formatters';
+import { translatePersonName, transliterateText } from '../utils/localizedDisplay';
 
 export default function OrderTable({ orders, showCustomer = false, limit, onViewOrder }) {
   const { t, i18n } = useTranslation();
@@ -76,7 +77,7 @@ export default function OrderTable({ orders, showCustomer = false, limit, onView
               className="hover:bg-seller-muted/80 dark:hover:bg-seller-card transition-colors duration-150 cursor-pointer group"
             >
               <td className="py-3.5 px-4 font-semibold text-gray-900  flex items-center gap-1.5">
-                <span>{order.id}</span>
+                <span>{toLocaleDigits(order.id, i18n.language)}</span>
                 {order.escrowStage === 'Payment Secured' && (
                   <span title={t('orderTable.escrowSecured')}>
                     <ShieldCheck className="w-3.5 h-3.5 text-seller-accent-ink" />
@@ -105,8 +106,8 @@ export default function OrderTable({ orders, showCustomer = false, limit, onView
 
               {showCustomer && (
                 <td className="py-3.5 px-4">
-                  <div className="font-medium text-gray-900 ">{order.customer}</div>
-                  <div className="text-[11px] text-gray-400 dark:text-gray-500 truncate max-w-[140px]">{order.customerLocation}</div>
+                  <div className="font-medium text-gray-900 ">{translatePersonName(order.customer, i18n.language)}</div>
+                  <div className="text-[11px] text-gray-400 dark:text-gray-500 truncate max-w-[140px]">{transliterateText(order.customerLocation, i18n.language)}</div>
                 </td>
               )}
 
@@ -119,7 +120,7 @@ export default function OrderTable({ orders, showCustomer = false, limit, onView
               </td>
 
               <td className="py-3.5 px-4 text-xs text-gray-500 dark:text-gray-400 whitespace-nowrap">
-                {order.date}
+                {toLocaleDigits(order.date, i18n.language)}
               </td>
 
               <td className="py-3.5 px-4 text-right">

@@ -18,7 +18,8 @@ import Logo from "./Logo";
 import StateSelectorDropdown from "./StateSelectorDropdown";
 import { useBuyer } from "../context/BuyerContext";
 import { useAuth } from "../context/AuthContext";
-import { getInitials } from "../utils/formatters";
+import { getInitials, toLocaleDigits } from "../utils/formatters";
+import { translatePersonName } from "../utils/localizedDisplay";
 export default function BuyerHeader() {
   const { pathname } = useLocation();
   const isHome = ["/patron", "/patron/dashboard", "/user", "/marketplace"].includes(pathname);
@@ -53,7 +54,7 @@ export default function BuyerHeader() {
     const active = isHome ? activeSection === section : pathname === `/${section}`;
     return { className: active ? "active" : undefined, "aria-current": active ? (isHome ? "location" : "page") : undefined };
   };
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { cartItemCount } = useBuyer();
   const { user, logout } = useAuth();
   const navigate = useNavigate();
@@ -116,10 +117,10 @@ export default function BuyerHeader() {
           <Link
             className="buyer-icon-button cart-action"
             to="/cart"
-            aria-label={`${t("buyer.nav.cart", "Cart")}: ${cartItemCount}`}
+            aria-label={`${t("buyer.nav.cart", "Cart")}: ${toLocaleDigits(cartItemCount, i18n.language)}`}
           >
             <ShoppingBag size={21} />
-            {cartItemCount > 0 && <span>{cartItemCount}</span>}
+            {cartItemCount > 0 && <span>{toLocaleDigits(cartItemCount, i18n.language)}</span>}
           </Link>
           <div ref={menu} className="buyer-account">
             <button
@@ -144,7 +145,7 @@ export default function BuyerHeader() {
               <div className="account-panel" id="buyer-account-panel">
                 <div className="account-greeting">
                   <small>{t("buyer.premium.welcome", "Welcome back")}</small>
-                  <strong>{user?.fullName}</strong>
+                  <strong>{user?.fullName ? translatePersonName(user.fullName, i18n.language) : ''}</strong>
                 </div>
                 {links.map(([to, Icon, label]) => (
                   <Link key={to} to={to} onClick={() => setOpen(false)}>

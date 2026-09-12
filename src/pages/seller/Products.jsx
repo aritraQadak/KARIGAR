@@ -4,24 +4,32 @@ import { useTranslation } from 'react-i18next';
 import { Plus, Search, Filter } from 'lucide-react';
 import { useSeller } from '../../context/SellerContext';
 import { CRAFT_CATEGORIES,normalizeCraftCategory } from '../../constants/craftCategories.js';
+import { formatNumber } from '../../utils/formatters';
+import { translateCategory } from '../../utils/localizedDisplay';
 import ProductTable from '../../components/ProductTable';
 
 export default function Products() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const {products,productsLoading:loading,productsError:loadError}=useSeller();
   const [searchTerm, setSearchTerm] = useState('');
   const [categoryFilter, setCategoryFilter] = useState('All');
   const [statusFilter, setStatusFilter] = useState('All');
 
   const filteredProducts = products.filter((p) => {
-    const matchesSearch = p.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      p.category.toLowerCase().includes(searchTerm.toLowerCase());
+    const q = searchTerm.toLowerCase();
+    const catTrans = translateCategory(p.category, i18n.language).toLowerCase();
+    const matchesSearch = p.name.toLowerCase().includes(q) ||
+      catTrans.includes(q) ||
+      p.category.toLowerCase().includes(q);
     const matchesCategory = categoryFilter === 'All' || normalizeCraftCategory(p.category) === categoryFilter;
     const matchesStatus = statusFilter === 'All' || p.status === statusFilter;
     return matchesSearch && matchesCategory && matchesStatus;
   });
 
-  const categoryOptions = [{value:'All',label:t('common.all')},...CRAFT_CATEGORIES.map(value=>({value,label:value}))];
+  const categoryOptions = [
+    { value: 'All', label: t('common.all') },
+    ...CRAFT_CATEGORIES.map(value => ({ value, label: translateCategory(value, i18n.language) }))
+  ];
 
   const statusOptions = [
     { value: 'All', label: t('common.all') },
@@ -36,7 +44,7 @@ export default function Products() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-seller-card  p-5 sm:p-6 rounded-2xl border border-gray-200/90 dark:border-gray-700/80 shadow-2xs transition-colors">
         <div>
           <h1 className="text-xl sm:text-2xl font-bold text-gray-900  tracking-tight">
-            {t('nav.myProducts')} ({products.length})
+            {t('nav.myProducts')} ({formatNumber(products.length, i18n.language)})
           </h1>
           <p className="text-xs sm:text-sm text-gray-500  mt-1">
             {t('products.pageSubtitle')}

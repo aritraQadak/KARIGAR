@@ -5,6 +5,7 @@ import { Bookmark, Trash2, ArrowRight, ShoppingBag } from 'lucide-react';
 import { useBuyer } from '../../context/BuyerContext';
 import { PRODUCTS } from '../../data/products';
 import { formatCurrency } from '../../utils/formatters';
+import { translateCategory, translateState, translatePersonName, translateCollectionTitle } from '../../utils/localizedDisplay';
 
 export default function Saved() {
   const { t, i18n } = useTranslation();
@@ -73,16 +74,16 @@ export default function Saved() {
                 <div className="p-space-md flex-1 flex flex-col justify-between space-y-space-md">
                   <div>
                     <div className="font-label-sm text-label-sm uppercase tracking-wider text-secondary mb-1">
-                      {p.craftCategory} • {p.stateName}
+                      {translateCategory(p.craftCategory, i18n.language)} • {translateState(p.stateName, i18n.language)}
                     </div>
                     <Link
                       to={`/product/${p.id}`}
                       className="font-title-lg text-title-lg text-on-surface hover:text-secondary transition-colors block font-semibold"
                     >
-                      {p.name}
+                      {translateCollectionTitle(p.name, i18n.language)}
                     </Link>
                     <div className="text-body-sm text-on-surface-variant mt-1">
-                      {t('buyer.saved.byArtisan', 'By')} {p.artisanName}
+                      {t('buyer.saved.byArtisan', 'By')} {translatePersonName(p.artisanName, i18n.language)}
                     </div>
                   </div>
 

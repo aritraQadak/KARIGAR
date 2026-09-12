@@ -3,10 +3,11 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Heart, BadgeCheck, Store, Building2 } from 'lucide-react';
 import { FacebookIcon, InstagramIcon, LinkedInIcon, YouTubeIcon } from './SocialIcons';
+import { toLocaleDigits } from '../utils/formatters';
 import Logo from './Logo';
 
 export default function Footer({ className = '', variant = 'seller' }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   if (variant === 'buyer') {
     return (
@@ -124,7 +125,7 @@ export default function Footer({ className = '', variant = 'seller' }) {
           {/* Bottom Bar */}
           <div className="pt-6 flex flex-col md:flex-row items-center justify-between gap-4 text-stone-500 dark:text-stone-400 font-label-sm text-xs tracking-wider">
             <div>
-              © 2026 KARIGAR Artisanal Heritage Platform. {t('buyer.footer.allRightsReserved', 'All rights reserved under National Handloom Archives.')}
+              © {toLocaleDigits(2026, i18n.language)} KARIGAR Artisanal Heritage Platform. {t('buyer.footer.allRightsReserved', 'All rights reserved under National Handloom Archives.')}
             </div>
             <div className="flex gap-6">
               <Link className="hover:text-stone-900 dark:hover:text-stone-200 transition-colors" to="/buyer/certificates">{t('buyer.footer.compliance', 'GI Compliance')}</Link>
@@ -160,9 +161,9 @@ export default function Footer({ className = '', variant = 'seller' }) {
   ];
 
   const legalLinks = [
-    { name: 'Privacy Policy', path: '#' },
-    { name: 'Terms & Conditions', path: '#' },
-    { name: 'Cookie Policy', path: '#' },
+    { name: t('footer.privacyPolicy', 'Privacy Policy'), path: '#' },
+    { name: t('footer.termsConditions', 'Terms & Conditions'), path: '#' },
+    { name: t('footer.cookiePolicy', 'Cookie Policy'), path: '#' },
   ];
 
   return (
@@ -311,7 +312,7 @@ export default function Footer({ className = '', variant = 'seller' }) {
 
         {/* Footer Bottom Bar */}
         <div className="pt-6 border-t border-emerald-800/80 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-emerald-200/70">
-          <p>© 2026 Karigar. {t('footer.allRightsReserved')}</p>
+          <p>© {toLocaleDigits(2026, i18n.language)} Karigar. {t('footer.allRightsReserved')}</p>
           <p className="flex items-center gap-1.5 text-emerald-100/90 font-medium">
             <span>{t('footer.madeWithLove')}</span>
             <Heart className="w-3.5 h-3.5 text-red-400 fill-red-400" />

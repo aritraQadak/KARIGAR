@@ -9,11 +9,33 @@ export const LOCALE_MAP = {
   bn: 'bn-IN'
 };
 
+const DIGIT_MAPS = {
+  hi: ['०', '१', '२', '३', '४', '५', '६', '७', '८', '९'],
+  bn: ['০', '১', '২', '৩', '৪', '৫', '৬', '৭', '৮', '৯']
+};
+
+/**
+ * Replaces Western digits 0-9 with language-specific native numerals (Devanagari for Hindi, Bengali numerals for Bengali).
+ *
+ * @param {string|number} str
+ * @param {string} lang - 'en' | 'hi' | 'bn'
+ * @returns {string}
+ */
+export function toLocaleDigits(str, lang = 'en') {
+  if (str == null) return '';
+  const s = String(str);
+  const cleanLang = (lang || 'en').split('-')[0];
+  const map = DIGIT_MAPS[cleanLang];
+  if (!map) return s;
+  return s.replace(/[0-9]/g, d => map[Number(d)]);
+}
+
 /**
  * Returns the standardized BCP 47 locale tag for the given language code.
  */
 export function getLocale(lang = 'en') {
-  return LOCALE_MAP[lang] || 'en-IN';
+  const cleanLang = (lang || 'en').split('-')[0];
+  return LOCALE_MAP[cleanLang] || 'en-IN';
 }
 
 /**
@@ -23,14 +45,16 @@ export function getLocale(lang = 'en') {
  * @param {number|string} amount
  * @param {string} lang - 'en' | 'hi' | 'bn'
  * @param {Intl.NumberFormatOptions} options
- * @returns {string} e.g. "₹1,250" or "₹১,২৫০"
+ * @returns {string} e.g. "₹1,250", "₹१,२५०", or "₹১,২৫০"
  */
 export function formatCurrency(amount, lang = 'en', options = {}) {
   const num = Number(amount);
-  if (isNaN(num)) return '₹0';
-  const locale = getLocale(lang);
+  const cleanLang = (lang || 'en').split('-')[0];
+  if (isNaN(num)) return toLocaleDigits('₹0', cleanLang);
+  const locale = getLocale(cleanLang);
+  let res;
   try {
-    return new Intl.NumberFormat(locale, {
+    res = new Intl.NumberFormat(locale, {
       style: 'currency',
       currency: 'INR',
       maximumFractionDigits: 0,
@@ -38,9 +62,15 @@ export function formatCurrency(amount, lang = 'en', options = {}) {
     }).format(num);
   } catch (err) {
     console.warn('formatCurrency error:', err);
-    return `₹${num.toLocaleString('en-IN')}`;
+    res = `₹${num.toLocaleString('en-IN')}`;
   }
+  return toLocaleDigits(res, cleanLang);
 }
+
+/**
+ * Alias for formatCurrency as requested in requirements.
+ */
+export const formatLocalizedPrice = formatCurrency;
 
 /**
  * Formats a plain number with localized digits and Indian numbering separators.
@@ -52,14 +82,22 @@ export function formatCurrency(amount, lang = 'en', options = {}) {
  */
 export function formatNumber(value, lang = 'en', options = {}) {
   const num = Number(value);
-  if (isNaN(num)) return String(value);
-  const locale = getLocale(lang);
+  const cleanLang = (lang || 'en').split('-')[0];
+  if (isNaN(num)) return toLocaleDigits(String(value), cleanLang);
+  const locale = getLocale(cleanLang);
+  let res;
   try {
-    return new Intl.NumberFormat(locale, options).format(num);
+    res = new Intl.NumberFormat(locale, options).format(num);
   } catch (err) {
-    return num.toLocaleString('en-IN');
+    res = num.toLocaleString('en-IN');
   }
+  return toLocaleDigits(res, cleanLang);
 }
+
+/**
+ * Alias for formatNumber as requested in requirements.
+ */
+export const formatLocalizedNumber = formatNumber;
 
 /**
  * Formats a date object or ISO date string into a localized date representation.
@@ -72,19 +110,27 @@ export function formatNumber(value, lang = 'en', options = {}) {
 export function formatDate(date, lang = 'en', options = {}) {
   if (!date) return '';
   const d = date instanceof Date ? date : new Date(date);
-  if (isNaN(d.getTime())) return String(date);
-  const locale = getLocale(lang);
+  const cleanLang = (lang || 'en').split('-')[0];
+  if (isNaN(d.getTime())) return toLocaleDigits(String(date), cleanLang);
+  const locale = getLocale(cleanLang);
+  let res;
   try {
-    return new Intl.DateTimeFormat(locale, {
+    res = new Intl.DateTimeFormat(locale, {
       year: 'numeric',
       month: 'short',
       day: 'numeric',
       ...options
     }).format(d);
   } catch (err) {
-    return d.toLocaleDateString();
+    res = d.toLocaleDateString();
   }
+  return toLocaleDigits(res, cleanLang);
 }
+
+/**
+ * Alias for formatDate as requested in requirements.
+ */
+export const formatLocalizedDate = formatDate;
 
 /**
  * Formats relative time (e.g. "2 days ago", "5 minutes ago", "just now").
@@ -95,13 +141,16 @@ export function formatDate(date, lang = 'en', options = {}) {
  * @returns {string}
  */
 export function formatRelativeTime(value, unit, lang = 'en') {
-  const locale = getLocale(lang);
+  const cleanLang = (lang || 'en').split('-')[0];
+  const locale = getLocale(cleanLang);
+  let res;
   try {
     const rtf = new Intl.RelativeTimeFormat(locale, { numeric: 'auto' });
-    return rtf.format(value, unit);
+    res = rtf.format(value, unit);
   } catch (err) {
-    return `${Math.abs(value)} ${unit}s ago`;
+    res = `${Math.abs(value)} ${unit}s ago`;
   }
+  return toLocaleDigits(res, cleanLang);
 }
 
 /**
@@ -118,3 +167,4 @@ export function getInitials(fullName) {
   if (parts.length === 1) return parts[0].slice(0, 2).toUpperCase();
   return (parts[0][0] + parts[parts.length - 1][0]).toUpperCase();
 }
+

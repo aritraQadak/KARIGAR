@@ -914,20 +914,20 @@
       "myProfileSub": "আপনার ব্যক্তিগত প্রোফাইল দেখুন এবং সম্পাদনা করুন"
     },
     "home": {
-      "archiveBadge": "National Handloom & Guild Archives • Verified GI Registry",
-      "heroBadge": "National Handloom & Guild Archives • Verified GI Registry",
-      "heroTitleLine1": "Where Every Thread",
-      "heroTitleLine2": "Has a Sovereign Story",
-      "heroSubtitle": "Direct from India’s master craftspeople to your sanctuary. Verified Geographical Indication provenance, protected by fair-wage artisan escrow.",
-      "exploreClusters": "Explore Craft Clusters",
-      "exploreClustersCta": "Explore Craft Clusters",
-      "watchStories": "Watch Artisan Stories",
-      "watchStoriesCta": "Watch Artisan Stories",
-      "registeredMasters": "Registered Guild Masters",
-      "certifiedClusters": "Certified GI Clusters",
-      "escrowPayout": "Escrow Protected Payout",
-      "artisanHonorarium": "Direct Artisan Honorarium",
-      "tickerMasters": "Registered Guild Masters",
+      "archiveBadge": "জাতীয় হস্ততাঁত ও গিল্ড আর্কাইভ • যাচাইকৃত জিআই রেজিস্ট্রি",
+      "heroBadge": "জাতীয় হস্ততাঁত ও গিল্ড আর্কাইভ • যাচাইকৃত জিআই রেজিস্ট্রি",
+      "heroTitleLine1": "যেখানে প্রতিটি সুতো",
+      "heroTitleLine2": "একটি সার্বভৌম গল্প বলে",
+      "heroSubtitle": "ভারতের দক্ষ কারুশিল্পীদের কাছ থেকে সরাসরি আপনার ঘরে। যাচাইকৃত ভৌগোলিক নির্দেশক (GI) উৎস, ন্যায্য মজুরিভিত্তিক কারিগর এসক্রো ব্যবস্থায় সুরক্ষিত।",
+      "exploreClusters": "কারুশিল্প ক্লাস্টার অন্বেষণ করুন",
+      "exploreClustersCta": "কারুশিল্প ক্লাস্টার অন্বেষণ করুন",
+      "watchStories": "কারিগরদের গল্প দেখুন",
+      "watchStoriesCta": "কারিগরদের গল্প দেখুন",
+      "registeredMasters": "নিবন্ধিত গিল্ড মাস্টার",
+      "certifiedClusters": "প্রত্যয়িত জিআই ক্লাস্টার",
+      "escrowPayout": "এসক্রো সুরক্ষিত অর্থপ্রদান",
+      "artisanHonorarium": "সরাসরি কারিগর সম্মাননা",
+      "tickerMasters": "নিবন্ধিত গিল্ড মাস্টার",
       "tickerClusters": "Certified GI Clusters",
       "tickerEscrow": "Escrow Protected Payout",
       "tickerHonorarium": "Direct Artisan Honorarium",
@@ -1014,7 +1014,9 @@
       "directArtisanPayoutBadge": "সরাসরি কারিগর পাওনা",
       "artisanDirect": "সরাসরি কারিগর",
       "filmRuntime": "দৈর্ঘ্য: ০৬:৪৫ • হাই-ডেফিনিশন ঐতিহ্যবাহী চলচ্চিত্র",
-      "storyVideoPreview": "গল্প ভিডিও প্রাকদর্শন"
+      "storyVideoPreview": "গল্প ভিডিও প্রাকদর্শন",
+      "heroProvenanceText": "ভারতের দক্ষ কারুশিল্পীদের কাছ থেকে সরাসরি আপনার ঘরে। যাচাইকৃত ভৌগোলিক নির্দেশক (GI) উৎস, ন্যায্য মজুরিভিত্তিক কারিগর এসক্রো ব্যবস্থায় সুরক্ষিত।",
+      "exploreCraftClusters": "কারুশিল্প ক্লাস্টার অন্বেষণ করুন"
     },
     "stateExplore": {
       "home": "Home",
@@ -1670,5 +1672,9 @@
     "heritage": {
       "about": "সম্পর্কে"
     }
+  },
+  "home": {
+    "heroProvenanceText": "ভারতের দক্ষ কারুশিল্পীদের কাছ থেকে সরাসরি আপনার ঘরে। যাচাইকৃত ভৌগোলিক নির্দেশক (GI) উৎস, ন্যায্য মজুরিভিত্তিক কারিগর এসক্রো ব্যবস্থায় সুরক্ষিত।",
+    "exploreCraftClusters": "কারুশিল্প ক্লাস্টার অন্বেষণ করুন"
   }
 }

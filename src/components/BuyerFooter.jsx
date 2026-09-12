@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import Logo from "./Logo";
+import { toLocaleDigits } from "../utils/formatters";
+
 export default function BuyerFooter() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   return (
     <footer className="buyer-footer">
       <div>
@@ -22,7 +24,7 @@ export default function BuyerFooter() {
         </Link>
         <Link to="/contact">{t("buyer.premium.help", "Help & contact")}</Link>
       </nav>
-      <small>© {new Date().getFullYear()} KARIGAR</small>
+      <small>© {toLocaleDigits(new Date().getFullYear(), i18n.language)} KARIGAR</small>
     </footer>
   );
 }

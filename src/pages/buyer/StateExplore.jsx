@@ -9,12 +9,22 @@ import { PRODUCTS } from "../../data/products";
 import HeritageHero from "../../components/HeritageHero";
 import CraftCard from "../../components/CraftCard";
 import { useArtisanDirectory } from "../../hooks/useArtisanDirectory";
+import {
+  translateState,
+  translateCategory,
+  translateCraftType,
+  translateDistrict,
+  translatePersonName,
+  formatLocalizedNumber,
+  toLocaleDigits
+} from "../../utils/localizedDisplay.js";
+
 export default function StateExplore() {
   const { stateSlug } = useParams();
   return <StateCollection key={stateSlug} stateSlug={stateSlug} />;
 }
 function StateCollection({ stateSlug }) {
-  const { t } = useTranslation(),
+  const { t, i18n } = useTranslation(),
     { artisans } = useArtisanDirectory();
   const state = getStateBySlug(stateSlug);
   const products = PRODUCTS.filter((p) => p.stateSlug === state?.slug);
@@ -70,14 +80,14 @@ function StateCollection({ stateSlug }) {
           {t("buyer.stateExplore.statesOfHeritage", "States of Heritage")}
         </Link>
         <span>/</span>
-        <span aria-current="page">{state.name}</span>
+        <span aria-current="page">{translateState(state.name, i18n.language)}</span>
       </nav>
       <HeritageHero state={state} products={products} />
       <section className="premium-section" id="craft-collection">
         <div className="section-heading">
           <div>
             <span className="eyebrow">
-              {state.name} · {t("buyer.premium.collections", "Collections")}
+              {translateState(state.name, i18n.language)} · {t("buyer.premium.collections", "Collections")}
             </span>
             <h2>
               {t(
@@ -87,7 +97,7 @@ function StateCollection({ stateSlug }) {
             </h2>
           </div>
           <p aria-live="polite">
-            {filtered.length}{" "}
+            {formatLocalizedNumber(filtered.length, i18n.language)}{" "}
             {t("buyer.premium.availableCrafts", "available pieces")}
           </p>
         </div>
@@ -105,7 +115,7 @@ function StateCollection({ stateSlug }) {
                   </option>
                   {CRAFT_CATEGORIES.map(
                     (c) => (
-                      <option key={c}>{c}</option>
+                      <option key={c} value={c}>{translateCategory(c, i18n.language)}</option>
                     ),
                   )}
                 </select>
@@ -122,7 +132,7 @@ function StateCollection({ stateSlug }) {
                   {[
                     ...new Set(products.map((p) => p.district).filter(Boolean)),
                   ].map((d) => (
-                    <option key={d}>{d}</option>
+                    <option key={d} value={d}>{translateDistrict(d, i18n.language)}</option>
                   ))}
                 </select>
               </label>
@@ -231,9 +241,9 @@ function StateCollection({ stateSlug }) {
                   }}
                 />
                 <div>
-                  <small>{a.district || a.state}</small>
-                  <h3>{a.name}</h3>
-                  <p>{a.craftType}</p>
+                  <small>{[translateDistrict(a.district, i18n.language), translateState(a.state, i18n.language)].filter(Boolean).join(', ')}</small>
+                  <h3>{translatePersonName(a.name, i18n.language)}</h3>
+                  <p>{translateCraftType(a.craftType, i18n.language)}</p>
                   {a.products[0] && (
                     <Link to={`/product/${a.products[0].id}`}>
                       {t("buyer.premium.viewCraft", "View craft")} →
@@ -260,10 +270,10 @@ function StateCollection({ stateSlug }) {
           {state.crafts.map((c, i) => (
             <article key={c.category}>
               <span className="tradition-number">
-                {String(i + 1).padStart(2, "0")}
+                {toLocaleDigits(String(i + 1).padStart(2, "0"), i18n.language)}
               </span>
-              <h3>{c.category}</h3>
-              <p>{c.items.join(" · ")}</p>
+              <h3>{translateCategory(c.category, i18n.language)}</h3>
+              <p>{c.items.map(item => translateCraftType(item, i18n.language)).join(" · ")}</p>
             </article>
           ))}
         </div>

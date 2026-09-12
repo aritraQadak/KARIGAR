@@ -230,24 +230,27 @@ export default function Settings() {
               { code: 'en', label: 'English', native: 'English' },
               { code: 'hi', label: 'Hindi', native: 'हिन्दी' },
               { code: 'bn', label: 'Bengali', native: 'বাংলা' }
-            ].map((item) => (
-              <button
-                key={item.code}
-                type="button"
-                onClick={() => {
-                  setLang(item.code);
-                  addToast(t('settings.langChangedToast', { lang: item.native, defaultValue: `Language changed to ${item.native}` }), 'info');
-                }}
-                className={`p-3 rounded-xl border text-center transition-all ${
-                  lang === item.code
-                    ? 'border-seller-accent bg-seller-accent-soft/70  text-seller-accent-ink text-seller-accent-ink font-bold ring-2 ring-orange-200 dark:ring-orange-900'
-                    : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 text-gray-700 dark:text-gray-300'
-                }`}
-              >
-                <span className="block text-sm">{item.native}</span>
-                <span className="text-[10px] text-gray-400">{item.label}</span>
-              </button>
-            ))}
+            ].map((item) => {
+              const active = (lang?.split('-')[0] || 'en') === item.code;
+              return (
+                <button
+                  key={item.code}
+                  type="button"
+                  onClick={() => {
+                    setLang(item.code);
+                    addToast(t('settings.langChangedToast', { lang: item.native, defaultValue: `Language changed to ${item.native}` }), 'info');
+                  }}
+                  className={`p-3 rounded-xl border text-center transition-all ${
+                    active
+                      ? 'border-seller-accent bg-seller-accent-soft/70  text-seller-accent-ink text-seller-accent-ink font-bold ring-2 ring-orange-200 dark:ring-orange-900'
+                      : 'border-gray-200 dark:border-gray-700 hover:border-gray-300 text-gray-700 dark:text-gray-300'
+                  }`}
+                >
+                  <span className="block text-sm">{item.native}</span>
+                  <span className="text-[10px] text-gray-400">{item.label}</span>
+                </button>
+              );
+            })}
           </div>
         </div>
 

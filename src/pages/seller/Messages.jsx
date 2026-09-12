@@ -8,9 +8,11 @@ import {
   MapPin,
 } from 'lucide-react';
 import { useSeller } from '../../context/SellerContext';
+import { toLocaleDigits } from '../../utils/formatters';
+import { translatePersonName, transliterateText } from '../../utils/localizedDisplay';
 
 export default function Messages() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { addToast } = useSeller();
 
   const [activeThreadId, setActiveThreadId] = useState('t1');
@@ -153,10 +155,10 @@ export default function Messages() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-baseline justify-between mb-0.5">
                       <h4 className="text-xs font-bold text-gray-900 dark:text-white truncate">
-                        {thread.buyerName}
+                        {translatePersonName(thread.buyerName, i18n.language)}
                       </h4>
                       <span className="text-[10px] text-gray-400 dark:text-gray-500 shrink-0">
-                        {lastMsg.time}
+                        {toLocaleDigits(lastMsg.time, i18n.language)}
                       </span>
                     </div>
                     <p className="text-[11px] font-medium text-amber-900 dark:text-amber-400 truncate mb-1">
@@ -168,7 +170,7 @@ export default function Messages() {
                   </div>
                   {thread.unreadCount > 0 && (
                     <span className="w-4 h-4 bg-orange-600 text-white rounded-full text-[10px] font-bold flex items-center justify-center shrink-0">
-                      {thread.unreadCount}
+                      {toLocaleDigits(thread.unreadCount, i18n.language)}
                     </span>
                   )}
                 </div>
@@ -189,11 +191,11 @@ export default function Messages() {
               />
               <div>
                 <h3 className="text-xs font-bold text-gray-900 dark:text-white">
-                  {activeThread.buyerName}
+                  {translatePersonName(activeThread.buyerName, i18n.language)}
                 </h3>
                 <span className="text-[11px] text-gray-400 dark:text-gray-400 flex items-center gap-1">
                   <MapPin className="w-3 h-3" />
-                  {activeThread.buyerCity}
+                  {transliterateText(activeThread.buyerCity, i18n.language)}
                 </span>
               </div>
             </div>

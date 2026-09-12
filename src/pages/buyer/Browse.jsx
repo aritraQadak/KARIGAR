@@ -9,9 +9,18 @@ import { getCraftImage, craftCategoryMap, getCraftCategory } from '../../constan
 import { normalizeState } from '../../data/heritage.js';
 import { useArtisanDirectory } from '../../hooks/useArtisanDirectory';
 import CraftCard from '../../components/CraftCard';
+import {
+  translateState,
+  translateCategory,
+  translateCraftType,
+  translateDistrict,
+  translatePersonName,
+  translateCollectionTitle,
+  formatLocalizedNumber
+} from '../../utils/localizedDisplay.js';
 
 export default function Browse({ makers = false }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { artisans, status, refresh } = useArtisanDirectory();
   const [query, setQuery] = useState('');
   const [state, setState] = useState('');
@@ -73,15 +82,30 @@ export default function Browse({ makers = false }) {
     }
     if (query.trim()) {
       const q = query.trim().toLowerCase();
-      const text = [
-        item.name,
-        stateName(item),
-        getParentCategory(item),
-        item.artisanName,
-        item.district,
-        item.craftLineage,
-        item.craftType
-      ].filter(Boolean).join(' ').toLowerCase();
+      const sEn = stateName(item) || '';
+      const sHi = translateState(sEn, 'hi');
+      const sBn = translateState(sEn, 'bn');
+
+      const cEn = item.craftType || item.craftLineage || '';
+      const cHi = translateCraftType(cEn, 'hi');
+      const cBn = translateCraftType(cEn, 'bn');
+
+      const catEn = getParentCategory(item) || '';
+      const catHi = translateCategory(catEn, 'hi');
+      const catBn = translateCategory(catEn, 'bn');
+
+      const aEn = item.artisanName || item.name || '';
+      const aHi = translatePersonName(aEn, 'hi');
+      const aBn = translatePersonName(aEn, 'bn');
+
+      const dEn = item.district || '';
+      const dHi = translateDistrict(dEn, 'hi');
+      const dBn = translateDistrict(dEn, 'bn');
+
+      const tHi = translateCollectionTitle(item.name || item.title, 'hi');
+      const tBn = translateCollectionTitle(item.name || item.title, 'bn');
+
+      const text = `${item.name || ''} ${tHi} ${tBn} ${aEn} ${aHi} ${aBn} ${sEn} ${sHi} ${sBn} ${cEn} ${cHi} ${cBn} ${catEn} ${catHi} ${catBn} ${dEn} ${dHi} ${dBn}`.toLowerCase();
       if (!text.includes(q)) return false;
     }
     return true;
@@ -102,13 +126,13 @@ export default function Browse({ makers = false }) {
       </div>
       <div className="directory-filters">
         <label><span>{t('buyer.premium.searchLabel', 'Search')}</span><div className="directory-search"><Search size={18} /><input type="search" value={query} onChange={e => setQuery(e.target.value)} placeholder={t('buyer.premium.searchCrafts', 'Search crafts, makers, states')} /></div></label>
-        <label><span>{t('buyer.premium.stateLabel', 'State')}</span><select value={state} onChange={e => setState(e.target.value)}><option value="">{t('buyer.premium.allStates', 'All states')}</option>{states.map(value => <option key={value}>{value}</option>)}</select></label>
-        <label><span>{t('buyer.premium.craftLabel', 'Art & craft')}</span><select value={craft} onChange={e => setCraft(e.target.value)}><option value="">{t('buyer.premium.allCrafts', 'All crafts')}</option>{crafts.map(value => <option key={value}>{value}</option>)}</select></label>
+        <label><span>{t('buyer.premium.stateLabel', 'State')}</span><select value={state} onChange={e => setState(e.target.value)}><option value="">{t('buyer.premium.allStates', 'All states')}</option>{states.map(value => <option key={value} value={value}>{translateState(value, i18n.language)}</option>)}</select></label>
+        <label><span>{t('buyer.premium.craftLabel', 'Art & craft')}</span><select value={craft} onChange={e => setCraft(e.target.value)}><option value="">{t('buyer.premium.allCrafts', 'All crafts')}</option>{crafts.map(value => <option key={value} value={value}>{translateCategory(value, i18n.language)}</option>)}</select></label>
         <button className="text-action" onClick={reset} type="button">{t('buyer.premium.resetFilters', 'Reset filters')}</button>
       </div>
       {makers && status === 'loading' && <p role="status">{t('buyer.premium.loadingMakers', 'Updating the artisan directory…')}</p>}
       {makers && status === 'error' && <p role="status">{t('buyer.premium.makersUnavailable', 'Showing catalogue artisans. The live directory is temporarily unavailable.')} <button type="button" className="text-action" onClick={refresh}>{t('buyer.premium.retry', 'Try again')}</button></p>}
-      <p className="directory-count" role="status">{results.length} {makers ? t('buyer.premium.artisans', 'Artisans') : t('buyer.premium.availableCrafts', 'available pieces')}</p>
+      <p className="directory-count" role="status">{formatLocalizedNumber(results.length, i18n.language)} {makers ? t('buyer.premium.artisans', 'Artisans') : t('buyer.premium.availableCrafts', 'available pieces')}</p>
       <div className={makers ? 'maker-grid directory-makers' : 'craft-grid'}>
         {results.map(item => makers ? (
           <article className="maker-card" key={item.id}>
@@ -121,8 +145,8 @@ export default function Browse({ makers = false }) {
                 e.currentTarget.src = "/demo_image/default.jpg";
               }}
             />
-            <div><small>{[item.district, item.state].filter(Boolean).join(', ')}</small><h3>{item.name}</h3><p>{item.craftType}</p>
-              {item.products.length ? <div className="maker-work-links">{item.products.map(product => <Link key={product.id} to={`/product/${product.id}`}>{product.name} <ArrowRight size={14} /></Link>)}</div> : <span className="maker-coming-soon">{t('buyer.premium.craftsComingSoon', 'Craft listings coming soon')}</span>}
+            <div><small>{[translateDistrict(item.district, i18n.language), translateState(item.state, i18n.language)].filter(Boolean).join(', ')}</small><h3>{translatePersonName(item.name || item.fullName, i18n.language)}</h3><p>{translateCraftType(item.craftType, i18n.language)}</p>
+              {item.products && item.products.length ? <div className="maker-work-links">{item.products.map(product => <Link key={product.id} to={`/product/${product.id}`}>{translateCollectionTitle(product.name, i18n.language)} <ArrowRight size={14} /></Link>)}</div> : <span className="maker-coming-soon">{t('buyer.premium.craftsComingSoon', 'Craft listings coming soon')}</span>}
             </div>
           </article>
         ) : <CraftCard key={item.id} product={item} />)}

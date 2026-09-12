@@ -15,19 +15,21 @@ import {
 import { useSeller } from '../context/SellerContext';
 import { useAuth } from '../context/AuthContext';
 import { getInitials } from '../utils/formatters';
+import { translatePersonName } from '../utils/localizedDisplay';
 
 export default function SellerProfileDropdown() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef(null);
   const navigate = useNavigate();
   const { profile, addToast } = useSeller();
   const { user, logout } = useAuth();
 
-  const displayName = user?.fullName || profile.name || t('nav.verifiedBadge');
+  const rawName = user?.fullName || profile.name || '';
+  const displayName = rawName ? translatePersonName(rawName, i18n.language) : t('nav.verifiedBadge');
   const displayEmail = user?.email || profile.email || '';
   const displayAvatar = encodeURI(user?.avatarUrl || getCraftImage(user?.craftType || profile?.craftType || profile?.craft));
-  const initials = getInitials(displayName);
+  const initials = getInitials(rawName || displayName);
 
   // Close dropdown on outside click
   useEffect(() => {

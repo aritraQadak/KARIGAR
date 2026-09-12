@@ -4,7 +4,8 @@ import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { Eye, Edit3, Trash2, Award, CheckCircle2 } from 'lucide-react';
 import { useSeller } from '../context/SellerContext';
-import { formatCurrency, formatNumber } from '../utils/formatters';
+import { formatCurrency, formatNumber, toLocaleDigits } from '../utils/formatters';
+import { translateCategory, translateCraftType, translateState, translateCollectionTitle } from '../utils/localizedDisplay';
 
 export default function ProductTable({ products, onViewProduct, onEditProduct }) {
   const { t, i18n } = useTranslation();
@@ -95,7 +96,7 @@ export default function ProductTable({ products, onViewProduct, onEditProduct })
                     )}
                   </div>
                   <div>
-                    <p className="font-semibold text-gray-900  leading-tight">{item.name}</p>
+                    <p className="font-semibold text-gray-900  leading-tight">{translateCollectionTitle(item.name, i18n.language)}</p>
                     {item.persisted&&<p className="text-xs text-emerald-800 mt-1">Evidence: {formatEvidenceScore(item.evidence.score)} / 100</p>}
                     <div className="flex items-center gap-1.5 mt-0.5">
                       {item.giTag && (
@@ -103,7 +104,9 @@ export default function ProductTable({ products, onViewProduct, onEditProduct })
                           <Award className="w-2.5 h-2.5" /> {item.persisted?'Certification supplied':t('nav.giAuthorized')}
                         </span>
                       )}
-                      <span className="text-xs text-gray-400 dark:text-gray-500">{item.origin || (item.persisted?'Region not provided':'West Bengal')}</span>
+                      <span className="text-xs text-gray-400 dark:text-gray-500">
+                        {item.origin ? translateState(item.origin, i18n.language) : (item.persisted ? t('profile.notProvided', 'Region not provided') : translateState('West Bengal', i18n.language))}
+                      </span>
                     </div>
                   </div>
                 </div>
@@ -111,7 +114,7 @@ export default function ProductTable({ products, onViewProduct, onEditProduct })
 
               <td className="py-3.5 px-4 text-gray-600 dark:text-gray-300">
                 <span className="inline-block bg-seller-muted  px-2 py-0.5 rounded text-xs text-gray-700 dark:text-gray-300 border border-transparent dark:border-gray-700">
-                  {item.category}
+                  {translateCategory(item.category, i18n.language) || translateCraftType(item.craftType, i18n.language) || item.category}
                 </span>
               </td>
 
@@ -130,11 +133,11 @@ export default function ProductTable({ products, onViewProduct, onEditProduct })
               </td>
 
               <td className="py-3.5 px-4 text-gray-600 dark:text-gray-400 text-xs font-medium">
-                {item.views || 0}
+                {formatNumber(item.views || 0, i18n.language)}
               </td>
 
               <td className="py-3.5 px-4 text-gray-600 dark:text-gray-400 text-xs font-medium">
-                {item.orders || 0}
+                {formatNumber(item.orders || 0, i18n.language)}
               </td>
 
               <td className="py-3.5 px-4 text-right">

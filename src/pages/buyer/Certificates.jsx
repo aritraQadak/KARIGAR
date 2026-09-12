@@ -3,27 +3,32 @@ import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Award, ShieldCheck, Download, CheckCircle, ExternalLink } from 'lucide-react';
 
+import { toLocaleDigits } from '../../utils/formatters';
+import { translatePersonName, translateCraftType, translateDistrict, translateState } from '../../utils/localizedDisplay';
+
 export default function Certificates() {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
 
   const certificates = [
     {
       id: 'GI-WB-2024-0082',
-      craft: 'Nakshi Kantha Tapestry',
+      craft: 'Nakshi Kantha',
       artisan: 'Smt. Ananya Devi',
-      cluster: 'Bolpur, Birbhum, West Bengal',
+      district: 'Birbhum',
+      state: 'West Bengal',
       purityScore: '99.4%',
       dateIssued: '12 Oct 2024',
-      status: 'Blockchain Verified'
+      statusKey: 'common.verified'
     },
     {
       id: 'GI-JK-2024-0921',
-      craft: 'Kani Pashmina Shawl',
+      craft: 'Pashmina Shawl',
       artisan: 'Ghulam Hassan Mir',
-      cluster: 'Srinagar, Kashmir',
+      district: 'Srinagar',
+      state: 'Jammu and Kashmir',
       purityScore: '100%',
       dateIssued: '15 Sep 2024',
-      status: 'Blockchain Verified'
+      statusKey: 'common.verified'
     }
   ];
 
@@ -54,20 +59,20 @@ export default function Certificates() {
               <div className="flex items-center justify-between border-b border-outline-variant/30 pb-space-sm">
                 <div className="flex items-center gap-space-xs text-secondary font-bold font-label-sm text-label-sm uppercase tracking-wider">
                   <Award className="w-5 h-5" />
-                  <span>{cert.id}</span>
+                  <span>{toLocaleDigits(cert.id, i18n.language)}</span>
                 </div>
                 <span className="bg-emerald-100 text-emerald-800 dark:bg-emerald-950 dark:text-emerald-300 px-2 py-0.5 rounded text-[11px] font-label-sm uppercase tracking-wider font-bold inline-flex items-center gap-1">
                   <CheckCircle className="w-3.5 h-3.5" />
-                  {cert.status}
+                  {t(cert.statusKey, 'Blockchain Verified')}
                 </span>
               </div>
 
               <div className="space-y-space-xs font-body-sm text-body-sm text-on-surface-variant">
-                <div className="font-title-lg text-title-lg text-on-surface font-semibold">{cert.craft}</div>
-                <div>{t('buyer.certificates.masterArtisan', 'Master Artisan')}: <span className="font-semibold text-on-surface">{cert.artisan}</span></div>
-                <div>{t('buyer.certificates.cluster', 'Origin Cluster')}: <span className="text-on-surface">{cert.cluster}</span></div>
-                <div>{t('buyer.certificates.purity', 'Lab Purity Index')}: <span className="font-semibold text-secondary">{cert.purityScore}</span></div>
-                <div className="text-xs text-outline pt-1">{t('buyer.certificates.issuedOn', 'Issued On')}: {cert.dateIssued}</div>
+                <div className="font-title-lg text-title-lg text-on-surface font-semibold">{translateCraftType(cert.craft, i18n.language)}</div>
+                <div>{t('buyer.certificates.masterArtisan', 'Master Artisan')}: <span className="font-semibold text-on-surface">{translatePersonName(cert.artisan, i18n.language)}</span></div>
+                <div>{t('buyer.certificates.cluster', 'Origin Cluster')}: <span className="text-on-surface">{translateDistrict(cert.district, i18n.language)}, {translateState(cert.state, i18n.language)}</span></div>
+                <div>{t('buyer.certificates.purity', 'Lab Purity Index')}: <span className="font-semibold text-secondary">{toLocaleDigits(cert.purityScore, i18n.language)}</span></div>
+                <div className="text-xs text-outline pt-1">{t('buyer.certificates.issuedOn', 'Issued On')}: {toLocaleDigits(cert.dateIssued, i18n.language)}</div>
               </div>
 
               <div className="pt-space-sm border-t border-outline-variant/30 flex justify-between items-center">

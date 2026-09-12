@@ -22,7 +22,8 @@ import {
 } from 'lucide-react';
 import { useAuth } from '../../context/AuthContext';
 import { useSeller } from '../../context/SellerContext';
-import { formatDate, getInitials } from '../../utils/formatters';
+import { formatDate, getInitials, toLocaleDigits } from '../../utils/formatters';
+import { translatePersonName, translateCraftType, translateDistrict, translateState } from '../../utils/localizedDisplay';
 
 export default function Profile() {
   const { t, i18n } = useTranslation();
@@ -206,7 +207,7 @@ export default function Profile() {
           <div className="flex-1 space-y-2">
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
               <h2 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
-                {user?.fullName || notProvided}
+                {user?.fullName ? translatePersonName(user.fullName, i18n.language) : notProvided}
               </h2>
               <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-800 dark:text-emerald-300 border border-emerald-200 dark:border-emerald-800">
                 <CheckCircle className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" />
@@ -215,7 +216,7 @@ export default function Profile() {
             </div>
 
             <p className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">
-              {user?.businessName || user?.craftType || t('profile.roleArtisan', 'Artisan / Weaver')}
+              {user?.businessName || (user?.craftType ? translateCraftType(user.craftType, i18n.language) : t('profile.roleArtisan', 'Artisan / Weaver'))}
             </p>
 
             <div className="flex flex-wrap items-center justify-center sm:justify-start gap-4 pt-1 text-xs text-gray-600 dark:text-gray-300">
@@ -225,11 +226,16 @@ export default function Profile() {
               </span>
               <span className="flex items-center gap-1">
                 <Phone className="w-3.5 h-3.5 text-gray-400" />
-                <span>{user?.mobile ? `+91 ${user.mobile}` : notProvided}</span>
+                <span>{user?.mobile ? toLocaleDigits(`+91 ${user.mobile}`, i18n.language) : notProvided}</span>
               </span>
               <span className="flex items-center gap-1">
                 <MapPin className="w-3.5 h-3.5 text-gray-400" />
-                <span>{[user?.district, user?.state].filter(Boolean).join(', ') || notProvided}</span>
+                <span>
+                  {[
+                    user?.district ? translateDistrict(user.district, i18n.language) : null,
+                    user?.state ? translateState(user.state, i18n.language) : null
+                  ].filter(Boolean).join(', ') || notProvided}
+                </span>
               </span>
             </div>
           </div>
@@ -248,7 +254,7 @@ export default function Profile() {
             <div>
               <span className="text-gray-500 dark:text-gray-400 block">{t('profile.craftType', 'Craft Type')}</span>
               <span className="font-semibold text-gray-900 dark:text-gray-100 text-sm">
-                {user?.craftType || notProvided}
+                {user?.craftType ? translateCraftType(user.craftType, i18n.language) : notProvided}
               </span>
             </div>
             {user?.craftType && (
@@ -267,7 +273,7 @@ export default function Profile() {
               <span className="text-gray-500 dark:text-gray-400 block">{t('profile.yearsOfExperience', 'Years of Experience')}</span>
               <span className="font-semibold text-gray-900 dark:text-gray-100 text-sm">
                 {user?.yearsOfExperience !== null && user?.yearsOfExperience !== undefined
-                  ? `${user.yearsOfExperience} ${t('profile.years', 'years')}`
+                  ? `${toLocaleDigits(user.yearsOfExperience, i18n.language)} ${t('profile.years', 'years')}`
                   : notProvided}
               </span>
             </div>
@@ -290,7 +296,7 @@ export default function Profile() {
             <div>
               <span className="text-gray-500 dark:text-gray-400 block">{t('profile.giTagNumber', 'GI Tag Number')}</span>
               <span className="font-semibold text-gray-900 dark:text-gray-100 text-sm">
-                {user?.giTagNumber || notProvided}
+                {user?.giTagNumber ? toLocaleDigits(user.giTagNumber, i18n.language) : notProvided}
               </span>
             </div>
             <div>
@@ -302,7 +308,10 @@ export default function Profile() {
             <div>
               <span className="text-gray-500 dark:text-gray-400 block">{t('profile.state', 'State')} / {t('profile.district', 'District')}</span>
               <span className="font-semibold text-gray-900 dark:text-gray-100 text-sm">
-                {[user?.district, user?.state].filter(Boolean).join(', ') || notProvided}
+                {[
+                  user?.district ? translateDistrict(user.district, i18n.language) : null,
+                  user?.state ? translateState(user.state, i18n.language) : null
+                ].filter(Boolean).join(', ') || notProvided}
               </span>
             </div>
           </div>

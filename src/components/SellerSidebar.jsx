@@ -20,10 +20,12 @@ import { useSeller } from '../context/SellerContext';
 import { useAuth } from '../context/AuthContext';
 import logo from '../assets/logo.jpg';
 
+import { formatNumber } from '../utils/formatters';
+
 export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
   const location = useLocation();
   const navigate = useNavigate();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { addToast, profile } = useSeller();
   const { logout } = useAuth();
 
@@ -125,7 +127,7 @@ export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
                 )}
                 {item.count !== undefined && (
                   <span className="text-xs text-gray-400 dark:text-gray-500 font-normal">
-                    {item.count}
+                    {formatNumber(item.count, i18n.language)}
                   </span>
                 )}
                 {item.verifiedDot && (
@@ -180,11 +182,11 @@ export default function SellerSidebar({ isMobileOpen, setIsMobileOpen }) {
             <ShieldCheck className="w-3.5 h-3.5 text-emerald-600 dark:text-emerald-400" /> {t('nav.trustScore')}
           </span>
           <span className="font-extrabold text-emerald-700 dark:text-emerald-300 bg-seller-card  px-1.5 py-0.2 rounded border border-emerald-200 dark:border-emerald-700 shadow-2xs">
-            4.8 / 5
+            {formatNumber(4.8, i18n.language)} / {formatNumber(5, i18n.language)}
           </span>
         </div>
         <p className="text-[11px] text-gray-600 dark:text-gray-300 leading-snug">
-          {t('nav.giAuthorized')} &amp; 95% On-Time Artisan.
+          {t('nav.giAuthorized')} &amp; {formatNumber(95, i18n.language)}% On-Time Artisan.
         </p>
       </div>
 

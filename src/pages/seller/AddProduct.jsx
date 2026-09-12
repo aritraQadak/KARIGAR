@@ -9,9 +9,12 @@ import ProductDetailsStep from '../../components/add-product/ProductDetailsStep.
 import VerificationStep from '../../components/add-product/VerificationStep.jsx';
 import ReviewPublishStep from '../../components/add-product/ReviewPublishStep.jsx';
 import { currentAnalysis } from '../../utils/craftVerification.js';
+import { useTranslation } from 'react-i18next';
+import { formatNumber } from '../../utils/formatters.js';
 import { STEPS, verificationInputs } from '../../utils/productDraft.js';
 
 export default function AddProduct() {
+  const { t, i18n } = useTranslation();
   const model=useProductDraft();
   const [step,setStep]=useState(0),[busy,setBusy]=useState(false),[error,setError]=useState('');
   const auth=useAuth();
@@ -29,7 +32,7 @@ export default function AddProduct() {
   return <div className="space-y-6 min-w-0 text-gray-900">
     <header className="rounded-2xl border border-gray-200 bg-seller-card p-5 sm:p-6"><p className="text-xs font-semibold uppercase tracking-wider text-seller-accent-ink">Your craft, your story</p><h1 className="mt-1 text-2xl font-bold">Add a product</h1><p className="text-sm text-gray-500 mt-2">Prepare your photos, craft evidence and listing details in four simple steps.</p></header>
     <nav aria-label="Product creation steps" className="grid grid-cols-2 md:grid-cols-4 gap-2 rounded-2xl border border-gray-200 bg-seller-card p-3 sm:p-4">
-      {STEPS.map((label,index)=><button key={label} type="button" disabled={locked||index>step} aria-current={index===step?'step':undefined} onClick={()=>{setError('');setStep(index);}} className={`min-h-16 flex items-center gap-2 rounded-xl p-3 text-left text-xs sm:text-sm font-semibold ${index===step?'bg-seller-accent-soft text-seller-accent-ink':index<step?'text-emerald-800':'text-gray-400'}`}><span className={`shrink-0 rounded-full w-7 h-7 flex items-center justify-center ${index===step?'bg-seller-accent text-white':'bg-seller-muted'}`}>{index+1}</span><span>{label}</span></button>)}
+      {STEPS.map((label,index)=><button key={label} type="button" disabled={locked||index>step} aria-current={index===step?'step':undefined} onClick={()=>{setError('');setStep(index);}} className={`min-h-16 flex items-center gap-2 rounded-xl p-3 text-left text-xs sm:text-sm font-semibold ${index===step?'bg-seller-accent-soft text-seller-accent-ink':index<step?'text-emerald-800':'text-gray-400'}`}><span className={`shrink-0 rounded-full w-7 h-7 flex items-center justify-center ${index===step?'bg-seller-accent text-white':'bg-seller-muted'}`}>{formatNumber(index+1, i18n.language)}</span><span>{label}</span></button>)}
     </nav>
     {step===0&&<ProductMediaStep model={model} busy={busy} onBusy={setBusy}/>}
     {step===1&&<ProductDetailsStep details={model.draft.details} voice={model.draft.voice} onGenerated={model.applyVoice} onBusy={setBusy} onChange={model.details}/>}
@@ -38,10 +41,10 @@ export default function AddProduct() {
     {error&&<p role="alert" className="text-sm text-red-700 rounded-xl bg-red-50 p-3">{error}</p>}
     {publishing.status==='error'&&<p role="alert" className="rounded-xl bg-seller-accent-soft p-4">{publishing.error} Your draft is still here; you can retry.</p>}
     <footer className="flex flex-col sm:flex-row sm:justify-between gap-3 pb-6">
-      <button type="button" disabled={step===0||locked} onClick={()=>{setError('');setStep(s=>s-1);}} className="min-h-11 inline-flex items-center gap-2 rounded-xl border border-gray-300 px-5 py-3 text-sm font-semibold disabled:opacity-40"><ArrowLeft size={16}/>Back</button>
-      {step<2&&<button type="button" disabled={busy} onClick={next} className="min-h-11 inline-flex items-center gap-2 rounded-xl bg-seller-accent text-white px-5 py-3 text-sm font-semibold disabled:opacity-50">Continue<ArrowRight size={16}/></button>}
-      {step===2&&<button type="button" disabled={locked||!currentAnalysis(model.draft)} onClick={()=>setStep(3)} className="min-h-11 inline-flex justify-center items-center gap-2 rounded-xl bg-seller-accent text-white px-5 py-3 font-semibold disabled:opacity-50">Continue to Review<ArrowRight size={16}/></button>}
-      {step===3&&<button type="button" disabled={locked||publishIssues(model.draft).length>0} onClick={publishing.publish} className="min-h-11 rounded-xl bg-seller-accent text-white px-5 py-3 font-semibold disabled:opacity-50">{publishing.status==='publishing'?'Publishing product...':'Publish Product'}</button>}
+      <button type="button" disabled={step===0||locked} onClick={()=>{setError('');setStep(s=>s-1);}} className="min-h-11 inline-flex items-center gap-2 rounded-xl border border-gray-300 px-5 py-3 text-sm font-semibold disabled:opacity-40"><ArrowLeft size={16}/>{t('common.back', 'Back')}</button>
+      {step<2&&<button type="button" disabled={busy} onClick={next} className="min-h-11 inline-flex items-center gap-2 rounded-xl bg-seller-accent text-white px-5 py-3 text-sm font-semibold disabled:opacity-50">{t('common.next', 'Continue')}<ArrowRight size={16}/></button>}
+      {step===2&&<button type="button" disabled={locked||!currentAnalysis(model.draft)} onClick={()=>setStep(3)} className="min-h-11 inline-flex justify-center items-center gap-2 rounded-xl bg-seller-accent text-white px-5 py-3 font-semibold disabled:opacity-50">{t('addProduct.continueReview', 'Continue to Review')}<ArrowRight size={16}/></button>}
+      {step===3&&<button type="button" disabled={locked||publishIssues(model.draft).length>0} onClick={publishing.publish} className="min-h-11 rounded-xl bg-seller-accent text-white px-5 py-3 font-semibold disabled:opacity-50">{publishing.status==='publishing'?t('addProduct.publishing', 'Publishing product...'):t('addProduct.publishButton', 'Publish Product')}</button>}
     </footer>
   </div>;
 }

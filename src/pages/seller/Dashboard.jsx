@@ -18,6 +18,7 @@ import StatCard from '../../components/StatCard';
 import OrderTable from '../../components/OrderTable';
 import TrustBadge from '../../components/TrustBadge';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
+import { translatePersonName } from '../../utils/localizedDisplay';
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -31,7 +32,7 @@ export default function Dashboard() {
         <div>
           <div className="flex items-center gap-2">
             <h1 className="text-xl sm:text-2xl font-bold text-gray-900  tracking-tight">
-              {t('dashboard.welcomeTitle')} {profile.name}!
+              {t('dashboard.welcomeTitle')} {translatePersonName(profile.name, i18n.language)}!
             </h1>
             <span className="hidden sm:inline-block px-2 py-0.5 rounded-full text-xs font-semibold bg-emerald-50 dark:bg-emerald-950/60 text-emerald-700 dark:text-emerald-400 border border-emerald-200 dark:border-emerald-800">
               {t('nav.verifiedBadge')}
@@ -91,7 +92,7 @@ export default function Dashboard() {
         {/* CARD 4: Seller Rating / Trust Score (Purple) */}
         <StatCard
           type="rating"
-          value={profile.trustScore || '4.8'}
+          value={formatNumber(profile.trustScore || 4.8, i18n.language)}
           label={t('dashboard.sellerRating')}
           subtext={t('nav.trustScore')}
           onClick={() => navigate('/seller/verification')}
@@ -132,7 +133,7 @@ export default function Dashboard() {
               {t('dashboard.dispatchNotice')}
             </span>
             <Link to="/orders" className="text-gray-700 dark:text-gray-300 hover:underline font-medium">
-              {t('common.viewAll')} ({orders.length})
+              {t('common.viewAll')} ({formatNumber(orders.length, i18n.language)})
             </Link>
           </div>
         </div>
@@ -152,8 +153,8 @@ export default function Dashboard() {
             </div>
 
             <div className="flex items-baseline gap-2 mb-3">
-              <span className="text-3xl font-black text-gray-900 ">4.8</span>
-              <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">/ 5.0 {t('dashboard.rating')}</span>
+              <span className="text-3xl font-black text-gray-900 ">{formatNumber(4.8, i18n.language)}</span>
+              <span className="text-xs text-gray-400 dark:text-gray-500 font-medium">/ {formatNumber(5.0, i18n.language)} {t('dashboard.rating')}</span>
             </div>
 
             {/* Breakdown meters */}
@@ -161,7 +162,7 @@ export default function Dashboard() {
               <div>
                 <div className="flex justify-between text-[11px] text-gray-500 dark:text-gray-400 mb-1">
                   <span>{t('dashboard.meterIdentity')}</span>
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400">100%</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatNumber(100, i18n.language)}%</span>
                 </div>
                 <div className="w-full h-1.5 bg-seller-muted dark:bg-gray-700 rounded-full overflow-hidden">
                   <div className="h-full bg-emerald-500 rounded-full" style={{ width: '100%' }}></div>
@@ -171,7 +172,7 @@ export default function Dashboard() {
               <div>
                 <div className="flex justify-between text-[11px] text-gray-500 dark:text-gray-400 mb-1">
                   <span>{t('dashboard.meterAuthenticity')}</span>
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400">92%</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatNumber(92, i18n.language)}%</span>
                 </div>
                 <div className="w-full h-1.5 bg-seller-muted dark:bg-gray-700 rounded-full overflow-hidden">
                   <div className="h-full bg-emerald-500 rounded-full" style={{ width: '92%' }}></div>
@@ -181,7 +182,7 @@ export default function Dashboard() {
               <div>
                 <div className="flex justify-between text-[11px] text-gray-500 dark:text-gray-400 mb-1">
                   <span>{t('dashboard.meterOrders')}</span>
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400">95%</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatNumber(95, i18n.language)}%</span>
                 </div>
                 <div className="w-full h-1.5 bg-seller-muted dark:bg-gray-700 rounded-full overflow-hidden">
                   <div className="h-full bg-emerald-500 rounded-full" style={{ width: '95%' }}></div>
@@ -191,7 +192,7 @@ export default function Dashboard() {
               <div>
                 <div className="flex justify-between text-[11px] text-gray-500 dark:text-gray-400 mb-1">
                   <span>{t('dashboard.meterFeedback')}</span>
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400">94%</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatNumber(94, i18n.language)}%</span>
                 </div>
                 <div className="w-full h-1.5 bg-seller-muted dark:bg-gray-700 rounded-full overflow-hidden">
                   <div className="h-full bg-emerald-500 rounded-full" style={{ width: '94%' }}></div>
@@ -201,7 +202,7 @@ export default function Dashboard() {
               <div>
                 <div className="flex justify-between text-[11px] text-gray-500 dark:text-gray-400 mb-1">
                   <span>{t('dashboard.meterCluster')}</span>
-                  <span className="font-bold text-emerald-600 dark:text-emerald-400">88%</span>
+                  <span className="font-bold text-emerald-600 dark:text-emerald-400">{formatNumber(88, i18n.language)}%</span>
                 </div>
                 <div className="w-full h-1.5 bg-seller-muted dark:bg-gray-700 rounded-full overflow-hidden">
                   <div className="h-full bg-emerald-500 rounded-full" style={{ width: '88%' }}></div>

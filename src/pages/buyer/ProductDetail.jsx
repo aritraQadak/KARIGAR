@@ -26,6 +26,17 @@ import { getProductById, PRODUCTS } from '../../data/products';
 import { useBuyer } from '../../context/BuyerContext';
 import { formatCurrency, formatNumber } from '../../utils/formatters';
 import Button from '../../components/Button';
+import {
+  translateState,
+  translateCraftType,
+  translateDistrict,
+  translatePersonName,
+  formatLocalizedNumber,
+  toLocaleDigits,
+  translateCollectionTitle,
+  translateCollectionDescription,
+  translateProductSpec
+} from '../../utils/localizedDisplay.js';
 
 export default function ProductDetail() {
   const { productId } = useParams();
@@ -54,12 +65,12 @@ export default function ProductDetail() {
             <Link className="hover:text-secondary transition-colors" to="/patron">{t('buyer.product.homeNav', 'Home')}</Link>
             <span className="text-outline-variant">/</span>
             <Link className="hover:text-secondary transition-colors" to={`/explore/${product.stateSlug}`}>
-              {product.stateName}
+              {translateState(product.stateName || product.state, i18n.language)}
             </Link>
             <span className="text-outline-variant">/</span>
-            <span className="text-outline">{product.craftLineage}</span>
+            <span className="text-outline">{translateCraftType(product.craftLineage || product.craftType, i18n.language)}</span>
             <span className="text-outline-variant">/</span>
-            <span className="text-primary font-semibold">{product.id.toUpperCase()}</span>
+            <span className="text-primary font-semibold">{toLocaleDigits(product.id.toUpperCase(), i18n.language)}</span>
           </nav>
 
           <div className="hidden md:flex items-center gap-space-xs font-label-sm text-[11px] text-outline uppercase tracking-[0.16em]">
@@ -78,7 +89,7 @@ export default function ProductDetail() {
             <div className="relative bg-white dark:bg-stone-900 rounded-2xl overflow-hidden shadow-xs aspect-[5/4] flex items-center justify-center group cursor-crosshair border border-stone-200/80 dark:border-stone-800">
               <img
                 src={product.images[selectedImageIndex] || product.images[0]}
-                alt={product.name}
+                alt={translateCollectionTitle(product.name, i18n.language)}
                 className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-105"
               />
 
@@ -89,10 +100,10 @@ export default function ProductDetail() {
                 </div>
                 <div className="flex flex-col pr-1">
                   <span className="font-label-sm text-[10px] uppercase tracking-wider text-[#14532D] dark:text-emerald-400 font-bold">
-                    {product.giTagStatus}
+                    {product.giTagStatus === 'GI Certified' ? t('buyer.product.giCertified', 'GI Certified') : (product.giTagStatus === 'Craft Certified' ? t('buyer.product.craftCertified', 'Craft Certified') : product.giTagStatus)}
                   </span>
                   <span className="font-label-sm text-[9px] text-stone-500 dark:text-stone-400 uppercase tracking-wider">
-                    {product.giTagNumber}
+                    {toLocaleDigits(product.giTagNumber, i18n.language)}
                   </span>
                 </div>
               </div>
@@ -154,7 +165,7 @@ export default function ProductDetail() {
             {/* Origin Pill & Badges */}
             <div className="flex flex-wrap items-center gap-2">
               <span className="bg-stone-100 dark:bg-stone-800 text-stone-800 dark:text-stone-200 font-label-sm text-xs uppercase tracking-wider px-3 py-1 rounded-full font-bold">
-                {product.district}
+                {translateDistrict(product.district, i18n.language)}
               </span>
               <span className="bg-emerald-50 dark:bg-emerald-950/40 text-[#14532D] dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/60 font-label-sm text-xs uppercase tracking-wider px-3 py-1 rounded-full font-bold">
                 {t('buyer.product.archivalBatch', 'Archival Batch 2026')}
@@ -164,15 +175,15 @@ export default function ProductDetail() {
             {/* Master Title */}
             <div className="flex flex-col gap-1">
               <h1 className="font-garamond text-3xl sm:text-4xl text-stone-900 dark:text-stone-100 leading-tight font-bold">
-                {product.name}
+                {translateCollectionTitle(product.name, i18n.language)}
               </h1>
               <div className="flex items-center gap-2 mt-1">
                 <span className="font-title-md text-base text-[#C2410C] italic font-semibold">
-                  By {product.artisanName}
+                  {t('buyer.product.by', 'By')} {translatePersonName(product.artisanName, i18n.language)}
                 </span>
                 <span className="w-1.5 h-1.5 rounded-full bg-stone-300 dark:bg-stone-700" />
                 <span className="font-label-sm text-xs uppercase tracking-wider text-[#14532D] dark:text-emerald-400 font-bold">
-                  {product.artisanTitle}
+                  {product.artisanTitle?.includes('•') ? `${product.artisanTitle.split('•')[0]}• ${translateState(product.artisanTitle.split('•')[1].trim(), i18n.language)}` : product.artisanTitle}
                 </span>
               </div>
             </div>
@@ -181,7 +192,7 @@ export default function ProductDetail() {
             <div className="bg-white dark:bg-stone-900 rounded-2xl p-4 flex items-center justify-between border border-stone-200/80 dark:border-stone-800 shadow-xs">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl bg-emerald-50 dark:bg-emerald-950/60 flex items-center justify-center font-bold text-[#14532D] dark:text-emerald-400 font-garamond text-lg border border-emerald-200/60 dark:border-emerald-800/40">
-                  {product.rating ? (product.rating * 20).toFixed(1) : '99.4'}
+                  {formatLocalizedNumber((product.rating ? product.rating * 20 : 99.4).toFixed(1), i18n.language)}
                 </div>
                 <div className="flex flex-col">
                   <div className="flex items-center gap-1 text-amber-500">
@@ -192,7 +203,7 @@ export default function ProductDetail() {
                     <StarHalf className="w-3.5 h-3.5 fill-amber-500" />
                     <span className="font-label-sm text-xs text-stone-900 dark:text-stone-100 ml-1 font-bold">{t('buyer.product.giIntegrityScore', 'GI Integrity Score')}</span>
                   </div>
-                  <span className="font-body-sm text-[11px] text-stone-500 dark:text-stone-400">Validated by {product.reviewsCount || 42} Connoisseurs & Curators</span>
+                  <span className="font-body-sm text-[11px] text-stone-500 dark:text-stone-400">{t('buyer.product.validatedByConnoisseurs', 'Validated by {{count}} Connoisseurs & Curators', { count: formatLocalizedNumber(product.reviewsCount || 42, i18n.language) })}</span>
                 </div>
               </div>
               <button
@@ -382,19 +393,19 @@ export default function ProductDetail() {
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                     <div className="flex flex-col bg-[#FCFAF6] dark:bg-stone-850 p-4 rounded-xl border border-stone-200/60 dark:border-stone-800">
                       <span className="font-label-sm text-[10px] uppercase tracking-wider text-stone-500 dark:text-stone-400 font-medium">{t('buyer.product.dimensions', 'Dimensions')}</span>
-                      <span className="font-title-md text-sm text-stone-900 dark:text-stone-100 mt-1 font-bold">{product.specs?.dimensions || '60" × 40" Inches'}</span>
+                      <span className="font-title-md text-sm text-stone-900 dark:text-stone-100 mt-1 font-bold">{translateProductSpec(product.specs?.dimensions, i18n.language) || '60" × 40" Inches'}</span>
                     </div>
                     <div className="flex flex-col bg-[#FCFAF6] dark:bg-stone-850 p-4 rounded-xl border border-stone-200/60 dark:border-stone-800">
                       <span className="font-label-sm text-[10px] uppercase tracking-wider text-stone-500 dark:text-stone-400 font-medium">{t('buyer.product.baseMaterial', 'Base Material')}</span>
-                      <span className="font-title-md text-sm text-stone-900 dark:text-stone-100 mt-1 font-bold">{product.specs?.material || 'Wild Tussar Silk'}</span>
+                      <span className="font-title-md text-sm text-stone-900 dark:text-stone-100 mt-1 font-bold">{translateProductSpec(product.specs?.material, i18n.language) || 'Wild Tussar Silk'}</span>
                     </div>
                     <div className="flex flex-col bg-[#FCFAF6] dark:bg-stone-850 p-4 rounded-xl border border-stone-200/60 dark:border-stone-800">
                       <span className="font-label-sm text-[10px] uppercase tracking-wider text-stone-500 dark:text-stone-400 font-medium">{t('buyer.product.density', 'Density')}</span>
-                      <span className="font-title-md text-sm text-stone-900 dark:text-stone-100 mt-1 font-bold">{product.specs?.stitchDensity || '180 Stitches/In²'}</span>
+                      <span className="font-title-md text-sm text-stone-900 dark:text-stone-100 mt-1 font-bold">{translateProductSpec(product.specs?.stitchDensity, i18n.language) || '180 Stitches/In²'}</span>
                     </div>
                     <div className="flex flex-col bg-[#FCFAF6] dark:bg-stone-850 p-4 rounded-xl border border-stone-200/60 dark:border-stone-800">
                       <span className="font-label-sm text-[10px] uppercase tracking-wider text-stone-500 dark:text-stone-400 font-medium">{t('buyer.product.craftTime', 'Crafting Time')}</span>
-                      <span className="font-title-md text-sm text-stone-900 dark:text-stone-100 mt-1 font-bold">{product.specs?.embroideryTime || '180 Days'}</span>
+                      <span className="font-title-md text-sm text-stone-900 dark:text-stone-100 mt-1 font-bold">{translateProductSpec(product.specs?.embroideryTime, i18n.language) || '180 Days'}</span>
                     </div>
                   </div>
                 </div>
@@ -436,8 +447,8 @@ export default function ProductDetail() {
                   />
                   <div className="absolute bottom-0 inset-x-0 bg-gradient-to-t from-stone-900/90 to-transparent p-5 text-white">
                     <span className="font-label-sm text-[10px] uppercase tracking-wider text-emerald-300 font-bold">{t('buyer.product.masterArtisan', 'Master Artisan')}</span>
-                    <div className="font-garamond text-2xl font-bold">{product.artisanName}</div>
-                    <div className="text-xs opacity-90">{product.district}</div>
+                    <div className="font-garamond text-2xl font-bold">{translatePersonName(product.artisanName, i18n.language)}</div>
+                    <div className="text-xs opacity-90">{translateDistrict(product.district, i18n.language)}</div>
                   </div>
                 </div>
               </div>
@@ -479,7 +490,7 @@ export default function ProductDetail() {
                     {t('buyer.product.certTitle', 'Certificate of Sovereign Provenance')}
                   </h3>
                   <p className="font-label-sm text-xs uppercase tracking-wider text-[#C2410C] font-semibold">
-                    {t('buyer.product.actInfo', 'Government of India GI Protection Act')} • Specimen #{product.giTagNumber}
+                    {t('buyer.product.actInfo', 'Government of India GI Protection Act')} • Specimen #{toLocaleDigits(product.giTagNumber, i18n.language)}
                   </p>
                 </div>
                 <div className="h-[1px] w-full bg-stone-200 dark:bg-stone-700" />
@@ -490,11 +501,11 @@ export default function ProductDetail() {
                   </div>
                   <div>
                     <span className="font-label-sm text-[10px] uppercase tracking-wider text-stone-500 dark:text-stone-400 block">{t('buyer.product.clusterOrigin', 'Cluster of Origin')}</span>
-                    <span className="font-bold text-stone-900 dark:text-stone-100 text-sm">{product.district}</span>
+                    <span className="font-bold text-stone-900 dark:text-stone-100 text-sm">{translateDistrict(product.district, i18n.language)}</span>
                   </div>
                   <div>
                     <span className="font-label-sm text-[10px] uppercase tracking-wider text-stone-500 dark:text-stone-400 block">{t('buyer.product.masterArtisan', 'Master Artisan')}</span>
-                    <span className="font-bold text-stone-900 dark:text-stone-100 text-sm">{product.artisanName}</span>
+                    <span className="font-bold text-stone-900 dark:text-stone-100 text-sm">{translatePersonName(product.artisanName, i18n.language)}</span>
                   </div>
                   <div>
                     <span className="font-label-sm text-[10px] uppercase tracking-wider text-stone-500 dark:text-stone-400 block">{t('buyer.product.materialPurity', 'Material Purity')}</span>
@@ -547,11 +558,11 @@ export default function ProductDetail() {
               <FileCheck className="w-12 h-12 text-[#14532D] dark:text-emerald-400 mx-auto" />
               <h3 className="font-garamond text-2xl text-stone-900 dark:text-stone-100 font-bold">{t('buyer.product.provenanceLedger', 'Sovereign Provenance Ledger')}</h3>
               <p className="text-xs text-stone-600 dark:text-stone-400">
-                Certificate Specimen #{product.giTagNumber} issued for {product.name} crafted by {product.artisanName}.
+                {t('buyer.product.certModalSummary', 'Certificate Specimen #{{giTag}} issued for {{name}} crafted by {{artisan}}.', { giTag: toLocaleDigits(product.giTagNumber, i18n.language), name: translateCollectionTitle(product.name, i18n.language), artisan: translatePersonName(product.artisanName, i18n.language) })}
               </p>
               <div className="p-4 bg-[#FCFAF6] dark:bg-stone-850 rounded-xl text-left font-mono text-[11px] space-y-1.5 text-stone-800 dark:text-stone-200 border border-stone-200/60 dark:border-stone-800">
                 <div>{t('buyer.product.ledgerHash', 'HASH: 0x8F92A1...921C')}</div>
-                <div>ORIGIN: {product.district}</div>
+                <div>{t('buyer.product.originLabel', 'ORIGIN')}: {translateDistrict(product.district, i18n.language)}</div>
                 <div className="text-[#14532D] dark:text-emerald-400 font-semibold">{t('buyer.product.escrowStatus', 'ESCROW STATUS: IMPOUNDED UNTIL DELIVERY')}</div>
               </div>
               <button

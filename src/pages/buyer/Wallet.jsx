@@ -2,7 +2,7 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Wallet as WalletIcon, ShieldCheck, ArrowDownRight, ArrowUpRight, Award, Lock } from 'lucide-react';
-import { formatCurrency } from '../../utils/formatters';
+import { formatCurrency, toLocaleDigits } from '../../utils/formatters';
 
 export default function Wallet() {
   const { t, i18n } = useTranslation();
@@ -65,7 +65,7 @@ export default function Wallet() {
               <span>{t('buyer.wallet.guarantee', '100% Direct Payout Protocol')}</span>
             </div>
             <div className="font-headline-sm text-headline-sm text-primary-fixed font-bold">
-              {t('buyer.wallet.disbursedAmount', '₹ 4.8 Cr+')}
+              {toLocaleDigits(t('buyer.wallet.disbursedAmount', '₹ 4.8 Cr+'), i18n.language)}
             </div>
             <p className="text-body-sm text-secondary-fixed text-xs">
               {t('buyer.wallet.totalDisbursed', 'Disbursed directly to national awardees and artisan cooperatives nationwide.')}
@@ -90,14 +90,14 @@ export default function Wallet() {
                     <div className="font-title-md text-title-md font-semibold text-on-surface">
                       {tItem.isLock ? t('buyer.wallet.escrowLocked', 'Escrow Locked') : t('buyer.wallet.escrowDisbursed', 'Escrow Disbursed to Artisan')}
                     </div>
-                    <div className="text-body-sm text-on-surface-variant text-xs">{tItem.description}</div>
+                    <div className="text-body-sm text-on-surface-variant text-xs">{toLocaleDigits(tItem.description, i18n.language)}</div>
                   </div>
                 </div>
                 <div className="text-right sm:text-right w-full sm:w-auto">
                   <div className="font-title-lg text-title-lg font-bold text-on-surface">
                     {formatCurrency(tItem.amount, i18n.language)}
                   </div>
-                  <div className="text-xs text-outline">{tItem.date}</div>
+                  <div className="text-xs text-outline">{toLocaleDigits(tItem.date, i18n.language)}</div>
                 </div>
               </div>
             ))}

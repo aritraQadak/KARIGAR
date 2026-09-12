@@ -4,8 +4,16 @@ import { ArrowRight, MapPin, Palette, Users } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { STATE_STORIES, stateArtwork } from "../data/heritage";
 import { useArtisanDirectory } from "../hooks/useArtisanDirectory";
+import {
+  translateState,
+  translateCategory,
+  translateCraftType,
+  translatePersonName,
+  formatLocalizedNumber
+} from "../utils/localizedDisplay.js";
+
 export default function HeritageHero({ state, products = [] }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { artisans } = useArtisanDirectory();
   const sellers = artisans.filter((a) => a.stateSlug === state.slug);
   const [headline, quote] = STATE_STORIES[state.slug] || [
@@ -37,13 +45,13 @@ export default function HeritageHero({ state, products = [] }) {
       <div className="heritage-copy">
         <div className="heritage-heading">
           <p className="heritage-eyebrow">
-            {state.name} ·{" "}
+            {translateState(state.name, i18n.language)} ·{" "}
             {state.crafts
               .slice(0, 2)
-              .map((c) => c.category)
+              .map((c) => translateCategory(c.category, i18n.language))
               .join(" & ")}
           </p>
-          <h1>{state.name}</h1>
+          <h1>{translateState(state.name, i18n.language)}</h1>
           <p className="heritage-subtitle">
             {t(`buyer.premium.states.${state.slug}.headline`, headline)}
           </p>
@@ -55,7 +63,7 @@ export default function HeritageHero({ state, products = [] }) {
               <Icon size={23} strokeWidth={1.5} />
               <div>
                 <span>{label}</span>
-                <strong>{count}</strong>
+                <strong>{formatLocalizedNumber(count, i18n.language)}</strong>
               </div>
             </div>
           ))}
@@ -87,7 +95,7 @@ export default function HeritageHero({ state, products = [] }) {
           </span>
           <h2>{spotlight.name}</h2>
           <p>
-            {spotlight.craftLineage} · {spotlight.artisanName}
+            {translateCraftType(spotlight.craftLineage, i18n.language)} · {translatePersonName(spotlight.artisanName, i18n.language)}
           </p>
           <ArrowRight size={22} />
         </Link>

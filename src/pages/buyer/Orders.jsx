@@ -2,7 +2,8 @@ import React from 'react';
 import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { Package, Truck, ShieldCheck, Award, ArrowRight, ExternalLink } from 'lucide-react';
-import { formatCurrency, formatNumber } from '../../utils/formatters';
+import { formatCurrency, formatNumber, toLocaleDigits } from '../../utils/formatters';
+import { translateCraftType, translateState, translatePersonName, translateCollectionTitle } from '../../utils/localizedDisplay';
 
 export default function Orders() {
   const { t, i18n } = useTranslation();
@@ -70,12 +71,12 @@ export default function Orders() {
                     <Package className="w-4 h-4" />
                   </div>
                   <span className="font-title-md text-base font-bold text-stone-900 dark:text-stone-100">
-                    {t('buyer.orders.orderNo', 'Ledger No')}: {order.id}
+                    {t('buyer.orders.orderNo', 'Ledger No')}: {toLocaleDigits(order.id, i18n.language)}
                   </span>
-                  <span className="text-xs text-stone-500 dark:text-stone-400 font-body-sm">({order.date})</span>
+                  <span className="text-xs text-stone-500 dark:text-stone-400 font-body-sm">({toLocaleDigits(order.date, i18n.language)})</span>
                 </div>
                 <span className={`px-3.5 py-1 rounded-full font-label-sm text-xs uppercase tracking-wider font-bold shadow-xs ${order.statusColor}`}>
-                  {order.status}
+                  {order.status === 'In Transit' ? t('orderTable.inTransit', 'In Transit') : order.status === 'Delivered & Escrow Released' ? t('orderTable.delivered', 'Delivered') : order.status}
                 </span>
               </div>
 
@@ -88,13 +89,13 @@ export default function Orders() {
                   />
                   <div className="space-y-1">
                     <span className="font-label-sm text-[11px] uppercase tracking-wider text-[#C2410C] font-bold">
-                      {order.craft} • {order.state}
+                      {translateCraftType(order.craft, i18n.language)} • {translateState(order.state, i18n.language)}
                     </span>
                     <h3 className="font-garamond text-xl text-stone-900 dark:text-stone-100 font-bold">
-                      {order.productName}
+                      {translateCollectionTitle(order.productName, i18n.language)}
                     </h3>
                     <div className="text-body-sm text-xs text-stone-600 dark:text-stone-400">
-                      {t('buyer.orders.artisan', 'Master Artisan')}: <span className="font-semibold text-stone-900 dark:text-stone-100">{order.artisanName}</span>
+                      {t('buyer.orders.artisan', 'Master Artisan')}: <span className="font-semibold text-stone-900 dark:text-stone-100">{translatePersonName(order.artisanName, i18n.language)}</span>
                     </div>
                   </div>
                 </div>
@@ -108,7 +109,7 @@ export default function Orders() {
                   </div>
                   <div className="flex items-center justify-end gap-1.5 text-[11px] text-stone-500 dark:text-stone-400 font-label-sm">
                     <Award className="w-3.5 h-3.5 text-[#14532D] dark:text-emerald-400" />
-                    <span>{t('buyer.orders.giMark', 'GI Certificate')}: {order.giTag}</span>
+                    <span>{t('buyer.orders.giMark', 'GI Certificate')}: {toLocaleDigits(order.giTag, i18n.language)}</span>
                   </div>
                 </div>
               </div>
