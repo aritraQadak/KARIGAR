@@ -1,4 +1,5 @@
 import React from 'react';
+import MediaAuthenticityStep from './MediaAuthenticityStep.jsx';
 import MediaPreview from './MediaPreview.jsx';
 import { currentAnalysis } from '../../utils/craftVerification.js';
 import { CATEGORIES } from '../../utils/craftVerification.js';
@@ -19,7 +20,8 @@ export default function ReviewPublishStep({draft,inputs,onEdit,busy}) {
     </div>
     <div><h3 className="font-semibold mb-2">Product Showcase Video</h3>{draft.media.productVideo?<MediaPreview media={draft.media.productVideo}/>:<p className="text-sm text-gray-500">Not provided</p>}</div>
     <div><h3 className="font-semibold mb-2">Making Process</h3>{draft.media.processVideo?<><MediaPreview media={draft.media.processVideo}/><p className="text-sm text-emerald-800 mt-2">{draft.verification?.result?.live_capture&&currentAnalysis(draft)?'Captured through KARIGAR':'Uploaded process evidence'}</p></>:<p className="text-sm text-gray-500">Not provided</p>}</div>
-    <div className="flex flex-wrap gap-3">{['Edit Media','Edit Product Details','Review Analysis'].map((label,index)=><button type="button" key={label} disabled={busy} onClick={()=>onEdit(index)} className="min-h-11 rounded-xl border px-4 py-3 text-sm disabled:opacity-50">{label}</button>)}</div>
+    <MediaAuthenticityStep model={{draft}} readOnly/>
+    <div className="flex flex-wrap gap-3">{['Edit Media','Review Media Authenticity','Edit Product Details','Review Analysis'].map((label,index)=><button type="button" key={label} disabled={busy} onClick={()=>onEdit(index)} className="min-h-11 rounded-xl border px-4 py-3 text-sm disabled:opacity-50">{label}</button>)}</div>
     {publishIssues(draft).length>0&&<ul role="status" className="rounded-xl bg-seller-accent-soft p-4 text-sm space-y-2">{publishIssues(draft).map(issue=><li key={issue}>{issue}</li>)}</ul>}
   </section>;
 }

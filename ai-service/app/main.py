@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.routes.capture import router as capture_router
 from app.routes.voice import router as voice_router
+from app.routes.authenticity import router as authenticity_router
 from app.services.voice_service import load_voice_config
 from app.routes.verification import router
 
@@ -21,6 +22,7 @@ app.add_middleware(
 app.include_router(router)
 app.include_router(capture_router)
 app.include_router(voice_router)
+app.include_router(authenticity_router)
 
 
 @app.get("/health")

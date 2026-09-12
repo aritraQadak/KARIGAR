@@ -33,6 +33,17 @@ function karigarAuthPlugin() {
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    proxy: {
+      '/ai-service': {
+        target: 'http://127.0.0.1:8000',
+        changeOrigin: true,
+        rewrite: path => path.replace(/^\/ai-service/, ''),
+        timeout: 125000,
+        proxyTimeout: 125000,
+      },
+    },
+  },
   plugins: [
     react(),
     tailwindcss(),

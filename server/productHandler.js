@@ -3,6 +3,7 @@ import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { randomUUID } from 'node:crypto';
 import { mkdir, writeFile, unlink } from 'node:fs/promises';
+import { verifyMediaEligibility } from './mediaEligibility.js';
 
 const MEDIA_DIR=path.resolve(path.dirname(fileURLToPath(import.meta.url)),'../public/uploads/products');
 const MAX_BODY=252*1024*1024;
@@ -61,7 +62,7 @@ async function multipart(req) {
   for await(const chunk of req){size+=chunk.length;if(size>MAX_BODY)throw new ProductError('Product upload is too large.',413);chunks.push(chunk);}
   return new Request('http://localhost/products',{method:'POST',headers:{'Content-Type':req.headers['content-type']},body:Buffer.concat(chunks)}).formData();
 }
-export async function handleProducts(req,res,{prisma,user,mediaDir=MEDIA_DIR}) {
+export async function handleProducts(req,res,{prisma,user,mediaDir=MEDIA_DIR,verifyMedia=verifyMediaEligibility}) {
   const send=(status,data)=>{res.statusCode=status;res.setHeader('Content-Type','application/json');res.setHeader('Cache-Control','no-store');res.end(JSON.stringify(data));};
   if(user.role!=='ARTISAN'||!user.isActive)return send(403,{error:'An active artisan account is required.'});
   const written=[];
@@ -87,7 +88,7 @@ export async function handleProducts(req,res,{prisma,user,mediaDir=MEDIA_DIR}) {
       const inferred={mp4:'video/mp4',webm:'video/webm',mov:'video/quicktime',avi:'video/x-msvideo'};
       const mime=aliases[file.type]||(!file.type||file.type==='application/octet-stream'?inferred[file.name.split('.').pop().toLowerCase()]:file.type);
       const buffer=Buffer.from(await file.arrayBuffer()),ext=validateMediaBytes(buffer,mime||'',kind),name=`${randomUUID()}.${ext}`;
-      pending.push({name,buffer});return `/uploads/products/${name}`;
+      pending.push({name,buffer,kind});return `/uploads/products/${name}`;
     }
     const imageUrls=[];for(const image of images)imageUrls.push(await prepare(image,'photo'));
     const showcase=form.get('product_video'),process=form.get('process_video');
@@ -96,6 +97,9 @@ export async function handleProducts(req,res,{prisma,user,mediaDir=MEDIA_DIR}) {
     const media={images:imageUrls,primaryImageIndex:primary,productVideo:showcase?await prepare(showcase,'video'):null,
       processVideo:process?await prepare(process,'video'):null,processSource:process?source:null};
     evidence.live_capture=!!process&&source==='live_capture'&&evidence.live_capture;
+    let eligible;
+    try {eligible=await verifyMedia(pending);} catch {throw new ProductError('Media eligibility could not be checked. Please retry later.',503);}
+    if(!eligible)throw new ProductError('Every uploaded file needs a current likely camera-captured result. Return to Media Authenticity Check.');
     await mkdir(mediaDir,{recursive:true});
     for(const item of pending){const target=path.join(mediaDir,item.name);await writeFile(target,item.buffer,{flag:'wx'});written.push(target);}
     const row=await prisma.product.create({data:{artisanId:user.id,publishKey:key,title:details.title,category:details.category,

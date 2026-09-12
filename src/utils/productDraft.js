@@ -4,7 +4,7 @@ export const IMAGE_BYTES = 10 * 1024 * 1024;
 export const VIDEO_BYTES = 100 * 1024 * 1024;
 export const IMAGE_ACCEPT = 'image/jpeg,image/png,image/webp';
 export const VIDEO_ACCEPT = '.mp4,.webm,.mov,.avi';
-export const STEPS = ['Media & Craft Evidence', 'Product Details', 'KARIGAR Verification', 'Review & Publish'];
+export const STEPS = ['Media & Craft Evidence', 'Media Authenticity Check', 'Product Details', 'KARIGAR Verification', 'Review & Publish'];
 export function emptyDraft() {
   return { media: { productImages: [], primaryImageIndex: 0, productVideo: null, processVideo: null },
     details: { title: '', description: '', category: '', materials: [], price: '', region: '',
@@ -44,6 +44,13 @@ export function removePhoto(media, index) {
 export function setPrimary(media, index) {
   if (index < 0 || index >= media.productImages.length) return media;
   return { ...media, primaryImageIndex: index };
+}
+export function replaceMediaEntry(media, previewUrl, replacement) {
+  let found=false;
+  const swap=entry=>{if(entry?.previewUrl!==previewUrl)return entry;found=true;return replacement;};
+  const next={...media,productImages:media.productImages.map(swap),productVideo:swap(media.productVideo),processVideo:swap(media.processVideo)};
+  if(!found)throw new Error('This file was already removed.');
+  return next;
 }
 export class PreviewUrls {
   constructor(urlApi = URL) { this.api = urlApi; this.urls = new Set(); }

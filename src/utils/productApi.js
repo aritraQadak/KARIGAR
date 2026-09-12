@@ -2,8 +2,10 @@ import { isCraftCategory } from '../constants/craftCategories.js';
 import { safeFetch, API_BASE_URL } from './api.js';
 import { listingMetadata } from './productDraft.js';
 import { currentAnalysis } from './craftVerification.js';
+import { mediaEligibility } from './mediaAuthenticity.js';
 export function publishIssues(draft) {
   const issues=[],d=draft.details;
+  const eligibility=mediaEligibility(draft.media);if(eligibility)issues.push(eligibility);
   if(!draft.media.productImages[draft.media.primaryImageIndex])issues.push('Add a primary product photo in Edit Media.');
   if(!d.title.trim()||!isCraftCategory(d.category))issues.push('Add a title and choose a craft category in Edit Product Details.');
   if(!Number.isFinite(Number(d.price))||Number(d.price)<=0)issues.push('Enter a positive price in Edit Product Details.');

@@ -1,7 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { emptyDraft, PreviewUrls, inspectMedia, validateMedia, appendPhotos, removePhoto, setPrimary } from '../../utils/productDraft.js';
+import { emptyDraft, PreviewUrls, inspectMedia, validateMedia, appendPhotos, removePhoto, setPrimary, replaceMediaEntry } from '../../utils/productDraft.js';
 import { analysisSnapshot, requestAnalysis } from '../../utils/craftVerification.js';
 import { applyVoiceResult } from '../../utils/voiceApi.js';
+import { detectMedia } from '../../utils/mediaAuthenticity.js';
 
 export default function useProductDraft() {
   const [draft, setDraft] = useState(emptyDraft);
@@ -37,6 +38,19 @@ export default function useProductDraft() {
     commit(prev => ({ ...prev, media: kind === 'photo' ? removePhoto(prev.media,index) : { ...prev.media,[key]:null } }));
     if (entry) urls.release(entry.previewUrl);
   }
+  async function replaceMedia(old, file) {
+    const media=current.current.media;
+    const kind=media.productImages.some(p=>p.previewUrl===old.previewUrl)?'photo':media.productVideo?.previewUrl===old.previewUrl?'showcase':'process';
+    validateMedia(file,kind);
+    const previewUrl=urls.create(file),generation=lifecycle.current.generation;
+    try {
+      const metadata=await inspectMedia(file,kind,previewUrl);
+      if(generation!==lifecycle.current.generation)throw new Error('The product page was closed.');
+      const replacement={file,previewUrl,source:'upload',captureReceipt:null,...metadata};
+      commit(prev=>({...prev,media:replaceMediaEntry(prev.media,old.previewUrl,replacement)}));
+      urls.release(old.previewUrl);
+    } catch(error) {urls.release(previewUrl);throw error;}
+  }
   async function analyze() {
     if(current.current.verification?.status==='running')return;
     const inputs=analysisSnapshot(current.current),generation=lifecycle.current.generation;
@@ -48,6 +62,19 @@ export default function useProductDraft() {
       if(generation===lifecycle.current.generation)commit(prev=>({...prev,verification:{status:'error',inputs,error:error.message}}));
     }
   }
-  return { draft, analyze, addMedia, remove, applyVoice: result => commit(prev => ({...applyVoiceResult(prev,result),verification:prev.verification})), primary: index => commit(prev => ({ ...prev, media:setPrimary(prev.media,index) })),
+  async function detect(entry) {
+    if(entry.authenticity?.status==='running')return;
+    const generation=lifecycle.current.generation;
+    function update(authenticity) {
+      commit(prev=>({...prev,media:{...prev.media,
+        productImages:prev.media.productImages.map(p=>p.file===entry.file?{...p,authenticity}:p),
+        productVideo:prev.media.productVideo?.file===entry.file?{...prev.media.productVideo,authenticity}:prev.media.productVideo,
+        processVideo:prev.media.processVideo?.file===entry.file?{...prev.media.processVideo,authenticity}:prev.media.processVideo}}));
+    }
+    update({status:'running'});
+    const result=await detectMedia(entry.file);
+    if(generation===lifecycle.current.generation)update(result);
+  }
+  return { draft, replaceMedia, detect, analyze, addMedia, remove, applyVoice: result => commit(prev => ({...applyVoiceResult(prev,result),verification:prev.verification})), primary: index => commit(prev => ({ ...prev, media:setPrimary(prev.media,index) })),
     details: (key,value) => commit(prev => ({ ...prev, details:{...prev.details,[key]:value} })) };
 }

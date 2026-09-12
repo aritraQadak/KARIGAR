@@ -1,7 +1,10 @@
 import { safeFetch } from './api.js';
 
-// Development endpoint. For deployment, use an HTTPS AI endpoint with restricted CORS.
-export const AI_SERVICE_URL = 'http://127.0.0.1:8000';
+// Development requests share the page origin, including Vite fallback ports.
+// Production can supply an HTTPS AI endpoint with restricted CORS.
+export const AI_SERVICE_URL = (import.meta.env?.VITE_AI_SERVICE_URL ||
+  (import.meta.env?.DEV && typeof window !== 'undefined'
+    ? `${window.location.origin}/ai-service` : 'http://127.0.0.1:8000')).replace(/\/+$/, '');
 async function aiFetch(url, options) {
   try { return await safeFetch(url, options); }
   catch (error) {

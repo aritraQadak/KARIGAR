@@ -5,8 +5,8 @@ import { emptyDraft, materialsArray, listingMetadata, verificationInputs, valida
 import { capturePhoto, requestCamera, stopCamera } from './cameraMedia.js';
 
 const photo = name => ({file:new File(['image'],name,{type:'image/png'}),previewUrl:`blob:${name}`,source:'upload'});
-test('four-step draft starts empty with normalized fields, no demo selection',()=>{
-  const draft=emptyDraft();assert.equal(STEPS.length,4);
+test('five-step draft starts empty with normalized fields, no demo selection',()=>{
+  const draft=emptyDraft();assert.equal(STEPS.length,5);
   assert.deepEqual(draft.media.productImages,[]);assert.equal(draft.media.productVideo,null);assert.equal(draft.media.processVideo,null);
   assert.equal(draft.verification,null);assert.equal(verificationInputs(draft).product_image,null);
   assert.deepEqual(draft.details,{title:'',description:'',category:'',materials:[],price:'',region:'',dimensions:'',craft_technique:'',stock:'',giTag:''});
