@@ -5,6 +5,11 @@ import fs from 'fs';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import { handleProducts } from './productHandler.js';
+import {
+  createOrder,
+  getBuyerOrders,
+  confirmTestPayment
+} from './orderHandler.js';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -737,6 +742,48 @@ export async function handleAuthRequest(req, res) {
       return jsonResponse(200, {
         success: true,
         message: 'Logged out successfully'
+      });
+    }
+
+        // -------------------------------------------------------------
+    // ORDER & PAYMENT ROUTES
+    // -------------------------------------------------------------
+
+    // POST /api/orders
+    if (pathname === '/api/orders' && method === 'POST') {
+      const body = await parseBody();
+
+      return createOrder({
+        req,
+        res,
+        prisma,
+        body
+      });
+    }
+
+    // GET /api/orders
+    if (pathname === '/api/orders' && method === 'GET') {
+      return getBuyerOrders({
+        req,
+        res,
+        prisma
+      });
+    }
+
+    // POST /api/orders/:id/payment/confirm
+    // TEST PAYMENT ONLY — does not move real money.
+    const paymentConfirmMatch = pathname.match(
+      /^\/api\/orders\/([^/]+)\/payment\/confirm$/
+    );
+
+    if (paymentConfirmMatch && method === 'POST') {
+      const orderId = paymentConfirmMatch[1];
+
+      return confirmTestPayment({
+        req,
+        res,
+        prisma,
+        orderId
       });
     }
 

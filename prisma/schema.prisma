@@ -8,7 +8,9 @@ datasource db {
 }
 
 model User {
-  products Product[]
+  products    Product[]
+  buyerOrders Order[] @relation("BuyerOrders")
+
   id       String  @id @default(cuid())
   fullName String
   email    String  @unique
@@ -50,6 +52,75 @@ model Product {
   mediaJson      String
   evidenceJson   String
   createdAt      DateTime @default(now())
+
+  orderItems OrderItem[]
+
   @@unique([artisanId, publishKey])
   @@index([artisanId, createdAt])
+}
+
+enum OrderStatus {
+  PAYMENT_PENDING
+  ESCROW_HELD
+  PROCESSING
+  SHIPPED
+  DELIVERED
+  DISPUTED
+  RELEASED
+  REFUNDED
+  CANCELLED
+}
+
+enum EscrowStatus {
+  PENDING
+  HELD
+  RELEASED
+  DISPUTED
+  REFUNDED
+}
+
+model Order {
+  id                  String      @id @default(cuid())
+  orderNumber         String      @unique
+  buyerId             String
+  buyer               User        @relation("BuyerOrders", fields: [buyerId], references: [id])
+  totalAmount         Float
+  paymentMethod       String
+  status              OrderStatus @default(PAYMENT_PENDING)
+  shippingAddressJson String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  items  OrderItem[]
+  escrow EscrowPayment?
+}
+
+model OrderItem {
+  id        String  @id @default(cuid())
+  orderId   String
+  order     Order   @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  productId String
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+  unitPrice Float
+}
+
+model EscrowPayment {
+  id            String       @id @default(cuid())
+  orderId       String       @unique
+  order         Order        @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  amount        Float
+  method        String
+  status        EscrowStatus @default(PENDING)
+  transactionId String?
+
+  fundedAt    DateTime?
+  deliveredAt DateTime?
+  releaseAt   DateTime?
+  releasedAt  DateTime?
+  disputedAt  DateTime?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
