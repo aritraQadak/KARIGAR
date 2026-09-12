@@ -1,14 +1,13 @@
 import React, { useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import {
   ShieldCheck,
   Truck,
-  BadgeCheck,
   Lock,
   ArrowRight,
   CheckCircle2,
-  Wallet
+  CreditCard
 } from 'lucide-react';
 import { useBuyer } from '../../context/BuyerContext';
 import { useAuth } from '../../context/AuthContext';
@@ -20,7 +19,6 @@ export default function Checkout() {
   const { t, i18n } = useTranslation();
   const { cart, cartTotal, artisanDirectTotal, clearCart } = useBuyer();
   const { user, token } = useAuth();
-  const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     fullName: user?.fullName || '',
@@ -33,6 +31,13 @@ export default function Checkout() {
     paymentMethod: 'escrow_upi'
   });
 
+  const [cardData, setCardData] = useState({
+    cardNumber: '',
+    cardholderName: '',
+    expiry: '',
+    cvv: ''
+  });
+
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [orderComplete, setOrderComplete] = useState(false);
   const [shippingError, setShippingError] = useState('');
@@ -40,7 +45,49 @@ export default function Checkout() {
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
+
+    setFormData((prev) => ({
+      ...prev,
+      [name]: value
+    }));
+  };
+
+  const handleCardInputChange = (e) => {
+    const { name, value } = e.target;
+
+    let formattedValue = value;
+
+    if (name === 'cardNumber') {
+      formattedValue = value
+        .replace(/\D/g, '')
+        .slice(0, 16)
+        .replace(/(.{4})/g, '$1 ')
+        .trim();
+    }
+
+    if (name === 'expiry') {
+      formattedValue = value
+        .replace(/\D/g, '')
+        .slice(0, 4);
+
+      if (formattedValue.length >= 3) {
+        formattedValue =
+          formattedValue.slice(0, 2) +
+          '/' +
+          formattedValue.slice(2);
+      }
+    }
+
+    if (name === 'cvv') {
+      formattedValue = value
+        .replace(/\D/g, '')
+        .slice(0, 3);
+    }
+
+    setCardData((prev) => ({
+      ...prev,
+      [name]: formattedValue
+    }));
   };
 
   const handlePlaceOrder = async () => {
@@ -63,13 +110,59 @@ export default function Checkout() {
     }
 
     if (!token) {
-      setShippingError('Please sign in again before placing your order.');
+      setShippingError(
+        'Please sign in again before placing your order.'
+      );
       return;
     }
 
     if (!cart.length) {
       setShippingError('Your cart is empty.');
       return;
+    }
+
+    /*
+     * Demo card validation.
+     *
+     * IMPORTANT:
+     * These card details are NOT sent to the backend and are NOT stored.
+     * They exist only to make the hackathon payment UI realistic.
+     */
+    if (formData.paymentMethod === 'escrow_card') {
+      const cleanCardNumber = cardData.cardNumber.replace(/\s/g, '');
+
+      if (
+        cleanCardNumber.length !== 16 ||
+        !/^\d{16}$/.test(cleanCardNumber)
+      ) {
+        setShippingError(
+          'Enter a valid 16-digit demo card number.'
+        );
+        return;
+      }
+
+      if (!cardData.cardholderName.trim()) {
+        setShippingError(
+          'Enter the cardholder name.'
+        );
+        return;
+      }
+
+      if (
+        !/^\d{2}\/\d{2}$/.test(cardData.expiry)
+      ) {
+        setShippingError(
+          'Enter the card expiry date in MM/YY format.'
+        );
+        return;
+      }
+
+      if (!/^\d{3}$/.test(cardData.cvv)) {
+        setShippingError(
+          'Enter a valid 3-digit CVV.'
+        );
+        return;
+      }
     }
 
     setShippingError('');
@@ -83,7 +176,7 @@ export default function Checkout() {
           'Content-Type': 'application/json'
         },
         body: JSON.stringify({
-          items: cart.map(item => ({
+          items: cart.map((item) => ({
             productId: item.product.id,
             quantity: item.quantity
           })),
@@ -103,9 +196,17 @@ export default function Checkout() {
       const order = orderResponse.order;
 
       if (!order?.id) {
-        throw new Error('Order was created but no order ID was returned.');
+        throw new Error(
+          'Order was created but no order ID was returned.'
+        );
       }
 
+      /*
+       * TEST PAYMENT CONFIRMATION
+       *
+       * This marks the escrow record as HELD in the demo database.
+       * It does NOT charge a real card or move real money.
+       */
       const paymentResponse = await safeFetch(
         `/api/orders/${order.id}/payment/confirm`,
         {
@@ -120,7 +221,9 @@ export default function Checkout() {
       const confirmedOrder = paymentResponse.order;
 
       if (!confirmedOrder) {
-        throw new Error('Payment confirmation did not return the order.');
+        throw new Error(
+          'Payment confirmation did not return the order.'
+        );
       }
 
       setReceipt({
@@ -132,6 +235,7 @@ export default function Checkout() {
       clearCart();
     } catch (error) {
       console.error('Checkout error:', error);
+
       setShippingError(
         error?.message ||
           'We could not complete your payment. Please try again.'
@@ -150,11 +254,17 @@ export default function Checkout() {
           </div>
 
           <div className="font-label-sm text-label-sm uppercase tracking-[0.2em] text-secondary font-bold">
-            {t('buyer.checkout.successBadge', 'Escrow Held')}
+            {t(
+              'buyer.checkout.successBadge',
+              'Escrow Held'
+            )}
           </div>
 
           <h1 className="font-headline-md text-headline-md text-on-surface">
-            {t('buyer.checkout.successTitle', 'Acquisition Order Placed Successfully!')}
+            {t(
+              'buyer.checkout.successTitle',
+              'Acquisition Order Placed Successfully!'
+            )}
           </h1>
 
           <p className="font-body-md text-body-md text-on-surface-variant leading-relaxed">
@@ -167,8 +277,13 @@ export default function Checkout() {
           <div className="bg-surface-container p-space-md space-y-1 text-left">
             <div className="flex justify-between font-label-sm text-label-sm text-outline uppercase">
               <span>
-                {t('buyer.checkout.orderNumber', 'Order Ledger ID')}:
+                {t(
+                  'buyer.checkout.orderNumber',
+                  'Order Ledger ID'
+                )}
+                :
               </span>
+
               <span className="font-mono text-on-surface font-bold">
                 #{receipt?.id}
               </span>
@@ -182,6 +297,7 @@ export default function Checkout() {
                 )}
                 :
               </span>
+
               <span className="text-secondary font-bold">
                 {formatCurrency(
                   receipt?.artisanTotal || 0,
@@ -238,6 +354,7 @@ export default function Checkout() {
                 'Browse Guild Masterworks'
               )}
             </span>
+
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
@@ -248,20 +365,27 @@ export default function Checkout() {
   return (
     <div className="w-full bg-surface py-space-2xl px-space-md lg:px-space-4xl min-h-[80vh]">
       <div className="max-w-[1440px] mx-auto space-y-space-2xl">
+
         {shippingError && (
-          <p role="alert" className="checkout-validation">
+          <p
+            role="alert"
+            className="checkout-validation"
+          >
             {shippingError}
           </p>
         )}
 
-        {/* Header Title */}
+        {/* Header */}
         <div className="border-b border-outline-variant/40 pb-space-lg">
           <div className="flex items-center gap-space-xs text-outline font-label-sm text-label-sm uppercase tracking-[0.14em] mb-1">
             <Link
               to="/cart"
               className="hover:text-secondary transition-colors"
             >
-              {t('buyer.checkout.cartLink', 'Cart')}
+              {t(
+                'buyer.checkout.cartLink',
+                'Cart'
+              )}
             </Link>
 
             <span>/</span>
@@ -283,9 +407,11 @@ export default function Checkout() {
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-space-2xl items-start">
-          {/* Left Shipping & Payment Details (7 Cols) */}
+
+          {/* LEFT SIDE */}
           <div className="lg:col-span-7 space-y-space-xl">
-            {/* Section 1: Dispatch Address */}
+
+            {/* SHIPPING */}
             <div className="bg-surface-container-lowest p-space-xl shadow-sm border border-outline-variant/30 space-y-space-md">
               <div className="flex items-center gap-space-xs border-b border-outline-variant/30 pb-space-xs">
                 <Truck className="w-5 h-5 text-secondary" />
@@ -299,12 +425,17 @@ export default function Checkout() {
               </div>
 
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-space-md">
+
                 <div>
                   <label
                     htmlFor="shipping-fullName"
                     className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1"
                   >
-                    {t('buyer.checkout.fullName', 'Full Name')} *
+                    {t(
+                      'buyer.checkout.fullName',
+                      'Full Name'
+                    )}{' '}
+                    *
                   </label>
 
                   <input
@@ -322,7 +453,11 @@ export default function Checkout() {
                     htmlFor="shipping-email"
                     className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1"
                   >
-                    {t('buyer.checkout.email', 'Email Address')} *
+                    {t(
+                      'buyer.checkout.email',
+                      'Email Address'
+                    )}{' '}
+                    *
                   </label>
 
                   <input
@@ -384,7 +519,11 @@ export default function Checkout() {
                     htmlFor="shipping-state"
                     className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1"
                   >
-                    {t('buyer.checkout.state', 'State')} *
+                    {t(
+                      'buyer.checkout.state',
+                      'State'
+                    )}{' '}
+                    *
                   </label>
 
                   <input
@@ -402,7 +541,11 @@ export default function Checkout() {
                     htmlFor="shipping-pincode"
                     className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1"
                   >
-                    {t('buyer.checkout.pincode', 'Pincode')} *
+                    {t(
+                      'buyer.checkout.pincode',
+                      'Pincode'
+                    )}{' '}
+                    *
                   </label>
 
                   <input
@@ -420,7 +563,11 @@ export default function Checkout() {
                     htmlFor="shipping-mobile"
                     className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1"
                   >
-                    {t('buyer.checkout.mobile', 'Mobile Number')} *
+                    {t(
+                      'buyer.checkout.mobile',
+                      'Mobile Number'
+                    )}{' '}
+                    *
                   </label>
 
                   <input
@@ -432,11 +579,13 @@ export default function Checkout() {
                     className="w-full bg-surface-container-low border border-outline-variant/60 px-space-md py-2 font-body-md text-on-surface focus:outline-none focus:border-secondary"
                   />
                 </div>
+
               </div>
             </div>
 
-            {/* Section 2: Sovereign Escrow Payment Gateways */}
+            {/* PAYMENT */}
             <div className="bg-surface-container-lowest p-space-xl shadow-sm border border-outline-variant/30 space-y-space-md">
+
               <div className="flex items-center gap-space-xs border-b border-outline-variant/30 pb-space-xs">
                 <ShieldCheck className="w-5 h-5 text-secondary" />
 
@@ -449,6 +598,8 @@ export default function Checkout() {
               </div>
 
               <div className="space-y-space-sm">
+
+                {/* UPI */}
                 <label
                   className={`flex items-start gap-space-sm p-space-md border cursor-pointer transition-colors ${
                     formData.paymentMethod === 'escrow_upi'
@@ -460,7 +611,10 @@ export default function Checkout() {
                     type="radio"
                     name="paymentMethod"
                     value="escrow_upi"
-                    checked={formData.paymentMethod === 'escrow_upi'}
+                    checked={
+                      formData.paymentMethod ===
+                      'escrow_upi'
+                    }
                     onChange={handleInputChange}
                     className="mt-1 text-secondary accent-secondary"
                   />
@@ -482,45 +636,185 @@ export default function Checkout() {
                   </div>
                 </label>
 
-                <label
-                  className={`flex items-start gap-space-sm p-space-md border cursor-pointer transition-colors ${
+                {/* CARD */}
+                <div
+                  className={`border transition-colors ${
                     formData.paymentMethod === 'escrow_card'
                       ? 'border-secondary bg-surface-container-low'
                       : 'border-outline-variant/40 bg-surface'
                   }`}
                 >
-                  <input
-                    type="radio"
-                    name="paymentMethod"
-                    value="escrow_card"
-                    checked={formData.paymentMethod === 'escrow_card'}
-                    onChange={handleInputChange}
-                    className="mt-1 text-secondary accent-secondary"
-                  />
+                  <label className="flex items-start gap-space-sm p-space-md cursor-pointer">
 
-                  <div>
-                    <div className="font-title-md text-title-md text-on-surface font-semibold">
-                      {t(
-                        'buyer.checkout.cardTitle',
-                        'Credit / Debit Card (Insured Trade)'
-                      )}
+                    <input
+                      type="radio"
+                      name="paymentMethod"
+                      value="escrow_card"
+                      checked={
+                        formData.paymentMethod ===
+                        'escrow_card'
+                      }
+                      onChange={handleInputChange}
+                      className="mt-1 text-secondary accent-secondary"
+                    />
+
+                    <div className="flex-1">
+                      <div className="flex items-center gap-2 font-title-md text-title-md text-on-surface font-semibold">
+                        <CreditCard className="w-5 h-5 text-secondary" />
+
+                        {t(
+                          'buyer.checkout.cardTitle',
+                          'Credit / Debit Card (Insured Trade)'
+                        )}
+                      </div>
+
+                      <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
+                        {t(
+                          'buyer.checkout.cardDesc',
+                          'Demo card payment flow. No real card charge is processed.'
+                        )}
+                      </p>
                     </div>
+                  </label>
 
-                    <p className="font-body-sm text-body-sm text-on-surface-variant mt-0.5">
-                      {t(
-                        'buyer.checkout.cardDesc',
-                        'Test card payment flow. No real card charge is processed in this demo.'
-                      )}
-                    </p>
-                  </div>
-                </label>
+                  {/* CARD DETAILS — ONLY WHEN CARD IS SELECTED */}
+                  {formData.paymentMethod ===
+                    'escrow_card' && (
+                    <div className="px-space-md pb-space-md pt-0">
+
+                      <div className="border-t border-outline-variant/30 pt-space-md space-y-space-md">
+
+                        <div className="flex items-center gap-2 text-secondary font-label-sm uppercase tracking-wider">
+                          <Lock className="w-4 h-4" />
+
+                          <span>
+                            Demo Card Details
+                          </span>
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="card-number"
+                            className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1"
+                          >
+                            Card Number *
+                          </label>
+
+                          <input
+                            type="text"
+                            id="card-number"
+                            name="cardNumber"
+                            inputMode="numeric"
+                            autoComplete="off"
+                            placeholder="1234 5678 9012 3456"
+                            value={cardData.cardNumber}
+                            onChange={
+                              handleCardInputChange
+                            }
+                            className="w-full bg-surface border border-outline-variant/60 px-space-md py-2.5 font-body-md text-on-surface tracking-wider focus:outline-none focus:border-secondary"
+                          />
+                        </div>
+
+                        <div>
+                          <label
+                            htmlFor="cardholder-name"
+                            className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1"
+                          >
+                            Cardholder Name *
+                          </label>
+
+                          <input
+                            type="text"
+                            id="cardholder-name"
+                            name="cardholderName"
+                            autoComplete="off"
+                            placeholder="NAME ON CARD"
+                            value={
+                              cardData.cardholderName
+                            }
+                            onChange={
+                              handleCardInputChange
+                            }
+                            className="w-full bg-surface border border-outline-variant/60 px-space-md py-2.5 font-body-md text-on-surface uppercase focus:outline-none focus:border-secondary"
+                          />
+                        </div>
+
+                        <div className="grid grid-cols-2 gap-space-md">
+
+                          <div>
+                            <label
+                              htmlFor="card-expiry"
+                              className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1"
+                            >
+                              Expiry *
+                            </label>
+
+                            <input
+                              type="text"
+                              id="card-expiry"
+                              name="expiry"
+                              inputMode="numeric"
+                              autoComplete="off"
+                              placeholder="MM/YY"
+                              value={
+                                cardData.expiry
+                              }
+                              onChange={
+                                handleCardInputChange
+                              }
+                              className="w-full bg-surface border border-outline-variant/60 px-space-md py-2.5 font-body-md text-on-surface focus:outline-none focus:border-secondary"
+                            />
+                          </div>
+
+                          <div>
+                            <label
+                              htmlFor="card-cvv"
+                              className="block font-label-sm text-label-sm uppercase tracking-wider text-outline mb-1"
+                            >
+                              CVV *
+                            </label>
+
+                            <input
+                              type="password"
+                              id="card-cvv"
+                              name="cvv"
+                              inputMode="numeric"
+                              autoComplete="off"
+                              placeholder="•••"
+                              maxLength={3}
+                              value={cardData.cvv}
+                              onChange={
+                                handleCardInputChange
+                              }
+                              className="w-full bg-surface border border-outline-variant/60 px-space-md py-2.5 font-body-md text-on-surface tracking-widest focus:outline-none focus:border-secondary"
+                            />
+                          </div>
+
+                        </div>
+
+                        <div className="p-space-sm bg-surface-container text-[11px] text-outline leading-relaxed">
+                          <strong className="text-on-surface">
+                            Demo only:
+                          </strong>{' '}
+                          No real card payment is processed.
+                          Card details are used only for
+                          this checkout demonstration and
+                          are not sent to the server.
+                        </div>
+
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
 
-          {/* Right Summary Panel (5 Cols) */}
+          {/* RIGHT SIDE */}
           <div className="lg:col-span-5 space-y-space-md">
+
             <div className="bg-surface-container-lowest p-space-xl shadow-md border border-outline-variant/40 space-y-space-md">
+
               <h3 className="font-title-lg text-title-lg text-on-surface border-b border-outline-variant/30 pb-space-sm font-semibold">
                 {t(
                   'buyer.checkout.itemsOverview',
@@ -529,18 +823,24 @@ export default function Checkout() {
               </h3>
 
               <div className="space-y-space-sm max-h-60 overflow-y-auto pr-1">
+
                 {cart.map((item) => (
                   <div
                     key={item.product.id}
                     className="flex justify-between items-center text-body-sm font-body-sm"
                   >
                     <div className="min-w-0 pr-2">
+
                       <div className="font-semibold text-on-surface truncate">
                         {item.product.name}
                       </div>
 
                       <div className="text-[11px] text-outline">
-                        {t('buyer.checkout.qty', 'Qty')}:{' '}
+                        {t(
+                          'buyer.checkout.qty',
+                          'Qty'
+                        )}
+                        :{' '}
                         {formatNumber(
                           item.quantity,
                           i18n.language
@@ -555,18 +855,20 @@ export default function Checkout() {
 
                     <span className="font-semibold text-on-surface flex-shrink-0">
                       {formatCurrency(
-                        item.product.price * item.quantity,
+                        item.product.price *
+                          item.quantity,
                         i18n.language
                       )}
                     </span>
                   </div>
                 ))}
+
               </div>
 
               <div className="h-[1px] bg-outline-variant/40"></div>
 
-              {/* Total & Direct Breakdown */}
               <div className="space-y-space-xs font-body-sm">
+
                 <div className="flex justify-between text-on-surface-variant">
                   <span>
                     {t(
@@ -592,7 +894,10 @@ export default function Checkout() {
                   </span>
 
                   <span className="text-secondary font-semibold">
-                    {t('buyer.checkout.free', 'FREE')}
+                    {t(
+                      'buyer.checkout.free',
+                      'FREE'
+                    )}
                   </span>
                 </div>
 
@@ -611,11 +916,13 @@ export default function Checkout() {
                     )}
                   </span>
                 </div>
+
               </div>
 
               <div className="h-[1px] bg-outline-variant/40"></div>
 
               <div className="flex justify-between items-baseline">
+
                 <span className="font-title-lg text-title-lg text-on-surface font-semibold">
                   {t(
                     'buyer.checkout.totalAmount',
@@ -629,6 +936,7 @@ export default function Checkout() {
                     i18n.language
                   )}
                 </span>
+
               </div>
 
               <Button
@@ -650,6 +958,7 @@ export default function Checkout() {
                       'Authorize Sovereign Escrow'
                     )}
               </Button>
+
             </div>
           </div>
         </div>
