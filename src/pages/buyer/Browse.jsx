@@ -1,10 +1,12 @@
-import { CRAFT_CATEGORIES,normalizeCraftCategory } from '../../constants/craftCategories.js';
-import React, { useState } from 'react';
+import { CRAFT_CATEGORIES, normalizeCraftCategory } from '../../constants/craftCategories.js';
+import React, { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Search } from 'lucide-react';
 import { useTranslation } from 'react-i18next';
 import { PRODUCTS } from '../../data/products';
 import { artisanPortrait } from '../../data/demoImages';
+import { getCraftImage, craftCategoryMap, getCraftCategory } from '../../constants/craftImageMap.js';
+import { normalizeState } from '../../data/heritage.js';
 import { useArtisanDirectory } from '../../hooks/useArtisanDirectory';
 import CraftCard from '../../components/CraftCard';
 
@@ -14,16 +16,77 @@ export default function Browse({ makers = false }) {
   const [query, setQuery] = useState('');
   const [state, setState] = useState('');
   const [craft, setCraft] = useState('');
-  const items = makers ? artisans : PRODUCTS;
+
+  const normalize = (value = "") => String(value || "").trim().toLowerCase();
+
+  const collectionItems = useMemo(() => {
+    if (makers) return artisans || [];
+    const catalogArtisans = new Set(
+      PRODUCTS.map((p) => `${(p.artisanName || "")?.toLowerCase()}|${(p.stateName || "")?.toLowerCase()}`)
+    );
+    const artisanPieces = (artisans || [])
+      .filter((a) => !catalogArtisans.has(`${(a.fullName || a.name || "")?.toLowerCase()}|${(a.state || "")?.toLowerCase()}`))
+      .map((a) => {
+        const cType = a.craftType || 'Traditional Craft';
+        const pCat = getCraftCategory(cType);
+        const img = getCraftImage(cType);
+        return {
+          id: `artisan-piece-${a.id || a.fullName}`,
+          artisanId: a.id,
+          name: `${cType} Masterpiece`,
+          craftType: cType,
+          craftCategory: pCat,
+          craftLineage: cType,
+          state: a.state,
+          stateName: a.state,
+          stateSlug: a.stateSlug || normalizeState(a.state),
+          district: a.district,
+          artisanName: a.fullName || a.name,
+          artisanTitle: `Master Artisan • ${a.state}`,
+          price: 18000,
+          images: [img],
+          description: `Authentic handcrafted ${cType} by master artisan ${a.fullName || a.name} from ${a.district ? a.district + ', ' : ''}${a.state}.`,
+          rating: 4.9,
+          reviewsCount: 18,
+          isFeatured: false,
+        };
+      });
+    return [...PRODUCTS, ...artisanPieces];
+  }, [makers, artisans]);
+
+  const items = collectionItems;
   const stateName = item => makers ? item.state : item.stateName;
-  const craftName = item => normalizeCraftCategory(makers ? item.craftType : item.craftCategory);
+
+  const getParentCategory = item => {
+    const rawCraft = makers ? item.craftType : (item.craftType || item.craftCategory || item.craftLineage);
+    return craftCategoryMap[rawCraft] || getCraftCategory(rawCraft) || normalizeCraftCategory(rawCraft);
+  };
+
   const states = [...new Set(items.map(stateName).filter(Boolean))].sort();
   const crafts = CRAFT_CATEGORIES;
-  const results = items.filter(item =>
-    (!state || stateName(item) === state) && (!craft || craftName(item) === craft) &&
-    [item.name, stateName(item), craftName(item), item.artisanName, item.district, item.craftLineage]
-      .filter(Boolean).join(' ').toLocaleLowerCase().includes(query.trim().toLocaleLowerCase())
-  );
+
+  const results = items.filter(item => {
+    if (state && stateName(item) !== state) return false;
+    if (craft && craft !== 'All crafts' && craft !== 'all') {
+      const parentCat = getParentCategory(item);
+      if (normalize(parentCat) !== normalize(craft)) return false;
+    }
+    if (query.trim()) {
+      const q = query.trim().toLowerCase();
+      const text = [
+        item.name,
+        stateName(item),
+        getParentCategory(item),
+        item.artisanName,
+        item.district,
+        item.craftLineage,
+        item.craftType
+      ].filter(Boolean).join(' ').toLowerCase();
+      if (!text.includes(q)) return false;
+    }
+    return true;
+  });
+
   const reset = () => { setQuery(''); setState(''); setCraft(''); };
   return (
     <section className="premium-section browse-directory">
@@ -49,7 +112,15 @@ export default function Browse({ makers = false }) {
       <div className={makers ? 'maker-grid directory-makers' : 'craft-grid'}>
         {results.map(item => makers ? (
           <article className="maker-card" key={item.id}>
-            <img className="maker-demo-portrait" src={artisanPortrait(item)} alt="Artisan demo portrait" loading="lazy" />
+            <img
+              className="maker-demo-portrait"
+              src={encodeURI(getCraftImage(item.craftType))}
+              alt={item.craftType || "Artisan craft"}
+              loading="lazy"
+              onError={(e) => {
+                e.currentTarget.src = "/demo_image/default.jpg";
+              }}
+            />
             <div><small>{[item.district, item.state].filter(Boolean).join(', ')}</small><h3>{item.name}</h3><p>{item.craftType}</p>
               {item.products.length ? <div className="maker-work-links">{item.products.map(product => <Link key={product.id} to={`/product/${product.id}`}>{product.name} <ArrowRight size={14} /></Link>)}</div> : <span className="maker-coming-soon">{t('buyer.premium.craftsComingSoon', 'Craft listings coming soon')}</span>}
             </div>

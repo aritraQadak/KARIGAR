@@ -4,6 +4,7 @@ import { Heart, Plus, Check, ImageOff } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { useBuyer } from "../context/BuyerContext";
 import { formatCurrency } from "../utils/formatters";
+import { getCraftImage } from "../constants/craftImageMap.js";
 export default function CraftCard({ product }) {
   const { t, i18n } = useTranslation();
   const { addToCart, isSaved, toggleSaveItem, cart } = useBuyer();
@@ -20,7 +21,7 @@ export default function CraftCard({ product }) {
             </span>
           ) : (
             <img
-              src={product.images[0]}
+              src={encodeURI(product.images?.[0] || getCraftImage(product.craftType || product.craftLineage))}
               alt={product.name}
               loading="lazy"
               onError={() => setFailed(true)}

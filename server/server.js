@@ -24,8 +24,6 @@ const MIME_TYPES = {
   '.jpeg': 'image/jpeg',
   '.mov': 'video/quicktime',
   '.avi': 'video/x-msvideo',
-  '.jpg': 'image/jpeg',
-  '.jpeg': 'image/jpeg',
   '.webp': 'image/webp',
   '.svg': 'image/svg+xml',
   '.ico': 'image/x-icon',

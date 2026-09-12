@@ -1,4 +1,4 @@
-import { artisanPortrait } from '../data/demoImages';
+import { artisanPortrait, getCraftImage } from '../data/demoImages';
 import React, { useState, useRef, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
@@ -26,7 +26,7 @@ export default function SellerProfileDropdown() {
 
   const displayName = user?.fullName || profile.name || t('nav.verifiedBadge');
   const displayEmail = user?.email || profile.email || '';
-  const displayAvatar = artisanPortrait(user || profile);
+  const displayAvatar = encodeURI(user?.avatarUrl || getCraftImage(user?.craftType || profile?.craftType || profile?.craft));
   const initials = getInitials(displayName);
 
   // Close dropdown on outside click
@@ -75,6 +75,9 @@ export default function SellerProfileDropdown() {
               src={displayAvatar}
               alt={displayName}
               className="w-9 h-9 sm:w-10 sm:h-10 rounded-full object-cover ring-2 ring-gray-100 dark:ring-gray-700 shadow-2xs"
+              onError={(e) => {
+                e.currentTarget.src = "/demo_image/default.jpg";
+              }}
             />
           ) : (
             <div className="w-9 h-9 sm:w-10 sm:h-10 rounded-full bg-emerald-700 text-white font-bold text-xs flex items-center justify-center ring-2 ring-gray-100 dark:ring-gray-700 shadow-2xs">

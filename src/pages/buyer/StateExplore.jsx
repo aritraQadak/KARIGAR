@@ -1,5 +1,6 @@
 import { CRAFT_CATEGORIES,normalizeCraftCategory } from '../../constants/craftCategories.js';
 import { artisanPortrait } from '../../data/demoImages';
+import { getCraftImage } from '../../constants/craftImageMap.js';
 import React, { useMemo, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
@@ -220,7 +221,15 @@ function StateCollection({ stateSlug }) {
           <div className="maker-grid">
             {sellers.map((a) => (
               <article key={a.id} className="maker-card">
-                <img className="maker-demo-portrait" src={artisanPortrait(a)} alt="Artisan demo portrait" loading="lazy" />
+                <img
+                  className="maker-demo-portrait"
+                  src={encodeURI(getCraftImage(a.craftType))}
+                  alt={a.craftType || "Artisan craft"}
+                  loading="lazy"
+                  onError={(e) => {
+                    e.currentTarget.src = "/demo_image/default.jpg";
+                  }}
+                />
                 <div>
                   <small>{a.district || a.state}</small>
                   <h3>{a.name}</h3>

@@ -1,4 +1,4 @@
-import { artisanPortrait } from '../../data/demoImages';
+import { artisanPortrait, getCraftImage } from '../../data/demoImages';
 import React, { useState, useRef } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -156,11 +156,14 @@ export default function Profile() {
           {/* Profile Picture with Change Photo option */}
           <div className="flex flex-col items-center gap-2">
             <div className="relative flex-shrink-0">
-              {artisanPortrait(user) ? (
+              {user ? (
                 <img
-                  src={artisanPortrait(user)}
-                  alt={user.fullName || 'Artisan'}
+                  src={user?.avatarUrl || encodeURI(getCraftImage(user?.craftType))}
+                  alt={user?.craftType || user?.fullName || 'Artisan'}
                   className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl object-cover ring-4 ring-emerald-50 dark:ring-emerald-950/60 shadow-md"
+                  onError={(e) => {
+                    e.currentTarget.src = "/demo_image/default.jpg";
+                  }}
                 />
               ) : (
                 <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-seller-accent text-white font-bold text-3xl flex items-center justify-center ring-4 ring-emerald-50 dark:ring-emerald-950/60 shadow-md select-none">
@@ -248,6 +251,18 @@ export default function Profile() {
                 {user?.craftType || notProvided}
               </span>
             </div>
+            {user?.craftType && (
+              <div className="w-full h-32 sm:h-36 overflow-hidden rounded-xl my-2 border border-gray-100 dark:border-gray-700/60 shadow-xs">
+                <img
+                  src={encodeURI(getCraftImage(user.craftType))}
+                  alt={user.craftType}
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "/demo_image/default.jpg";
+                  }}
+                />
+              </div>
+            )}
             <div>
               <span className="text-gray-500 dark:text-gray-400 block">{t('profile.yearsOfExperience', 'Years of Experience')}</span>
               <span className="font-semibold text-gray-900 dark:text-gray-100 text-sm">

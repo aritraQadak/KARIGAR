@@ -1,5 +1,8 @@
-import { categoryImage, artisanPortrait } from './demoImages';
+import { categoryImage, artisanPortrait } from './demoImages.js';
 import i18n from '../i18n/i18n.js';
+import { DEMO_ARTISANS } from '../../prisma/artisanData.js';
+import { getCraftCategory, getCraftImage } from '../constants/craftImageMap.js';
+import { normalizeState } from './heritage.js';
 
 /**
  * KARIGAR Masterwork Products Catalog
@@ -523,7 +526,64 @@ for (const product of PRODUCTS) {
 }
 
 export function getProductById(id) {
-  return PRODUCTS.find(p => p.id === id);
+  const direct = PRODUCTS.find(p => p.id === id);
+  if (direct) return direct;
+
+  if (id && (id.startsWith('artisan-piece-') || id.startsWith('artisan-'))) {
+    const rawId = id.replace(/^artisan-(piece-)?/, '');
+    const artisan = DEMO_ARTISANS.find(
+      a => a.id === rawId || 
+           a.fullName?.toLowerCase() === rawId.toLowerCase() || 
+           a.email?.toLowerCase() === rawId.toLowerCase() ||
+           String(a.id) === rawId
+    ) || DEMO_ARTISANS.find(
+      a => rawId.includes(a.fullName?.toLowerCase().replace(/[^a-z0-9]+/g, '-'))
+    );
+
+    if (artisan) {
+      const cType = artisan.craftType;
+      const img = getCraftImage(cType);
+      return {
+        id,
+        name: `${cType} Masterpiece`,
+        stateSlug: normalizeState(artisan.state),
+        stateName: artisan.state,
+        craftType: cType,
+        craftCategory: getCraftCategory(cType),
+        craftLineage: cType,
+        artisanName: artisan.fullName,
+        artisanTitle: `Master Artisan • ${artisan.yearsOfExperience || 15}+ Years Experience`,
+        artisanAvatar: `/images/demo/male.jpeg`,
+        price: 18000,
+        artisanSharePercent: 90,
+        artisanShareAmount: 16200,
+        platformFeeAmount: 900,
+        clusterFundAmount: 900,
+        giTagStatus: 'Craft Certified',
+        giTagNumber: artisan.giTagNumber || 'Registered Masterwork',
+        district: artisan.district,
+        images: [img],
+        description: `Authentic handcrafted ${cType} created by master artisan ${artisan.fullName} from ${artisan.district ? artisan.district + ', ' : ''}${artisan.state}.`,
+        specs: {
+          dimensions: 'Craft Standard Dimensions',
+          material: 'Locally sourced authentic materials',
+          stitchDensity: 'Handcrafted traditional technique',
+          embroideryTime: 'Handmade by master artisan',
+          dyeType: 'Natural artisanal process'
+        },
+        longStory: {
+          englishTitle: `${cType} of ${artisan.state}`,
+          englishText: `Handcrafted in ${artisan.district || artisan.state} by master artisan ${artisan.fullName}, representing centuries of living heritage and authentic tradition.`,
+          bengaliTitle: `${artisan.state}-এর ${cType}`,
+          bengaliText: `কারিগর ${artisan.fullName}-এর হাতে তৈরি ঐতিহ্যবাহী শিল্পকর্ম।`
+        },
+        rating: 4.9,
+        reviewsCount: 18,
+        isFeatured: false
+      };
+    }
+  }
+  return null;
 }
 
 export function getProductsByState(stateSlug) {

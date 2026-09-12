@@ -1,5 +1,5 @@
 import { useTheme } from '../../context/ThemeContext';
-import { artisanPortrait } from '../../data/demoImages';
+import { artisanPortrait, getCraftImage } from '../../data/demoImages';
 import React, { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import {
@@ -95,9 +95,12 @@ export default function Settings() {
 
           <div className="flex items-center gap-4">
             <img
-              src={artisanPortrait(profile)}
-              alt={profile.name}
+              src={encodeURI(getCraftImage(formData.craft || profile?.craftType || profile?.craft))}
+              alt={formData.craft || profile.name}
               className="w-16 h-16 rounded-full object-cover border-2 border-seller-accent shadow-xs"
+              onError={(e) => {
+                e.currentTarget.src = "/demo_image/default.jpg";
+              }}
             />
             <div>
               <h4 className="text-sm font-bold text-gray-900 ">{formData.name}</h4>

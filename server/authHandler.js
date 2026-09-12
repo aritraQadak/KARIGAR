@@ -10,6 +10,10 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const UPLOADS_DIR = path.resolve(__dirname, '..', 'public', 'uploads', 'avatars');
 
+if (!process.env.DATABASE_URL) {
+  process.env.DATABASE_URL = 'file:./dev.db';
+}
+
 const prisma = new PrismaClient();
 const JWT_SECRET = process.env.JWT_SECRET || 'karigar_secret_jwt_artisan_2026_key';
 const JWT_EXPIRES_IN = '7d';

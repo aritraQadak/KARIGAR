@@ -1,12 +1,13 @@
-import { CRAFT_CATEGORIES,normalizeCraftCategory } from '../../constants/craftCategories.js';
+import { CRAFT_CATEGORIES, normalizeCraftCategory } from '../../constants/craftCategories.js';
 import { artisanPortrait } from '../../data/demoImages';
-import React, { useEffect, useRef, useState } from "react";
+import { getCraftImage, craftCategoryMap, getCraftCategory } from '../../constants/craftImageMap.js';
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { ArrowRight, Search, X } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { PRODUCTS } from "../../data/products";
 import { STATES_CRAFTS } from "../../data/statesCrafts";
-import { stateArtwork } from "../../data/heritage";
+import { stateArtwork, normalizeState } from "../../data/heritage";
 import { useArtisanDirectory } from "../../hooks/useArtisanDirectory";
 import CraftCard from "../../components/CraftCard";
 export default function Home() {
@@ -27,13 +28,69 @@ export default function Home() {
     return () => preference.removeEventListener("change", apply);
   }, []);
   const categories = CRAFT_CATEGORIES;
-  const filtered = PRODUCTS.filter(
-    (p) =>
-      (category === "all" || normalizeCraftCategory(p.craftCategory) === category) &&
-      `${p.name} ${p.artisanName} ${p.stateName} ${p.craftLineage}`
-        .toLowerCase()
-        .includes(query.toLowerCase()),
-  );
+
+  const normalize = (value = "") => String(value || "").trim().toLowerCase();
+
+  const collectionItems = useMemo(() => {
+    const catalogArtisans = new Set(
+      PRODUCTS.map((p) => `${(p.artisanName || "")?.toLowerCase()}|${(p.stateName || "")?.toLowerCase()}`)
+    );
+    const artisanPieces = (artisans || [])
+      .filter((a) => !catalogArtisans.has(`${(a.fullName || a.name || "")?.toLowerCase()}|${(a.state || "")?.toLowerCase()}`))
+      .map((a) => {
+        const cType = a.craftType || 'Traditional Craft';
+        const pCat = getCraftCategory(cType);
+        const img = getCraftImage(cType);
+        return {
+          id: `artisan-piece-${a.id || a.fullName}`,
+          artisanId: a.id,
+          name: `${cType} Masterpiece`,
+          craftType: cType,
+          craftCategory: pCat,
+          craftLineage: cType,
+          state: a.state,
+          stateName: a.state,
+          stateSlug: a.stateSlug || normalizeState(a.state),
+          district: a.district,
+          artisanName: a.fullName || a.name,
+          artisanTitle: `Master Artisan • ${a.state}`,
+          price: 18000,
+          images: [img],
+          description: `Authentic handcrafted ${cType} by master artisan ${a.fullName || a.name} from ${a.district ? a.district + ', ' : ''}${a.state}.`,
+          rating: 4.9,
+          reviewsCount: 18,
+          isFeatured: false,
+        };
+      });
+    return [...PRODUCTS, ...artisanPieces];
+  }, [artisans]);
+
+  const filtered = useMemo(() => {
+    return collectionItems.filter((item) => {
+      if (category !== "all" && category !== "All crafts") {
+        const craft = item.craftType || item.craftCategory || item.craftLineage;
+        const parentCategory =
+          craftCategoryMap[craft] ||
+          getCraftCategory(craft) ||
+          normalizeCraftCategory(craft);
+
+        if (normalize(parentCategory) !== normalize(category)) {
+          return false;
+        }
+      }
+
+      if (query.trim()) {
+        const q = query.trim().toLowerCase();
+        const text = `${item.name || ''} ${item.artisanName || ''} ${item.stateName || ''} ${item.craftLineage || ''} ${item.craftType || ''} ${item.district || ''}`.toLowerCase();
+        if (!text.includes(q)) {
+          return false;
+        }
+      }
+
+      return true;
+    });
+  }, [collectionItems, category, query]);
+  const previewCollections = Array.isArray(filtered) ? filtered.slice(0, 8) : [];
   const states = [...STATES_CRAFTS].sort(
     (a, b) => Number(!!stateArtwork(b.slug)) - Number(!!stateArtwork(a.slug)),
   );
@@ -194,11 +251,11 @@ export default function Home() {
           ))}
         </div>
         <div className="craft-grid">
-          {filtered.map((p) => (
+          {previewCollections.map((p) => (
             <CraftCard key={p.id} product={p} />
           ))}
         </div>
-        {!filtered.length && (
+        {!previewCollections.length && (
           <div className="premium-empty">
             <h3>{t("buyer.premium.noCrafts", "No crafts found")}</h3>
             <button
@@ -230,7 +287,15 @@ export default function Home() {
         <div className="maker-grid">
           {artisans.slice(0, 8).map((a) => (
             <article key={a.id} className="maker-card">
-              <img className="maker-demo-portrait" src={artisanPortrait(a)} alt="Artisan demo portrait" loading="lazy" />
+              <img
+                className="maker-demo-portrait"
+                src={encodeURI(getCraftImage(a.craftType))}
+                alt={a.craftType || "Artisan craft"}
+                loading="lazy"
+                onError={(e) => {
+                  e.currentTarget.src = "/demo_image/default.jpg";
+                }}
+              />
               <div>
                 <small>{a.state}</small>
                 <h3>{a.name}</h3>
